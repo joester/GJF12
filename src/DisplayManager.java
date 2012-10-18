@@ -41,11 +41,12 @@ public class DisplayManager
 		
 		init();
 		
-
+		renderSprites("PNG", "one.png");
 		
 		while(!Display.isCloseRequested()){
 			
 			renderBack();
+			
 			
 			movieLoop();
 			
@@ -72,14 +73,11 @@ public class DisplayManager
 		while(totTime - startTime < 5000){
 			long timePassed = System.currentTimeMillis() - totTime;
 			totTime += timePassed;
-			anime.updateFrame(timePassed);
+			anime.updateFrame(totTime);
 			
 			Display.update();
 			
-			try{
-				Thread.sleep(20);
-			}
-			catch(Exception e){}
+			
 		}
 	}
 	
@@ -116,6 +114,7 @@ public class DisplayManager
 			
 		}
 		anime.addFrame(t, 300);
+		t.bind();
 		
 	}
 	
