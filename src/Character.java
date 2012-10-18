@@ -56,7 +56,7 @@ Set<Body> bodies = new HashSet<Body>();
 		
 	}
 	
-	//ARCHIE GOGOGO!
+
 	public void input()
 	{
 		
@@ -118,9 +118,9 @@ Set<Body> bodies = new HashSet<Body>();
 		return hP;
 	}
 	
-	public void getHit(Character c)
+	public void modifyHealth(int deltaHealth)
 	{
-		hP -= c.damage;
+		hP += deltaHealth;
 		
 	}
 	
@@ -141,11 +141,6 @@ Set<Body> bodies = new HashSet<Body>();
 		damage = baseDamage;
 		range = baseRange;
 		itemName = null;
-	}
-	
-	public void attack(Character c)
-	{
-		c.getHit(this);
 	}
 	
 	public void pickUpAux(Auxillary i)
