@@ -1,9 +1,13 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
+
 
 import javax.imageio.ImageIO;
+import org.jbox2d.dynamics.*;
+import org.jbox2d.collision.shapes.*;
+import org.jbox2d.common.Vec2;
 
 
 public class Character {
@@ -21,18 +25,65 @@ public String itemName;
 public String aux;
 public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
 BufferedImage img = null;
+GameWorld gameWorld = new GameWorld();
+Set<Body> bodies = new HashSet<Body>();
 
 	public Character(String n, int p, int h)
 	{
-		name=n;
+		name = n;
 		maxHealth = h;
 		hP = h;
 		damage = 5;
-		healthRegen= 1;
+		healthRegen = 1;
 		winsNeeded = p;
 		itemName = null;
 		aux = null;
 	}
+	
+	public void render()
+	{
+		for (Body body : bodies)
+		{
+			if (body.getType() == BodyType.KINEMATIC)
+			{
+				glPushMatrix();
+				Vec2 bodyPosition = body.getPosition().mul(30);
+				glTranslatef(bodyPosition.x, bodyPosition.y, 0);
+				glPopMatrix();
+				
+			}
+		}
+		
+	}
+	
+	//ARCHIE GOGOGO!
+	public void input()
+	{
+		
+	}
+	
+	public void collisionLogic()
+	{
+		gameWorld.getWorld().step(1/60f, 8, 3);
+	}
+	
+	public void createCollisionBox()
+	{
+		BodyDef boxDef = new BodyDef();
+		boxDef.position.set(0, 0);  // change coordinates
+		boxDef.type = BodyType.KINEMATIC;
+		PolygonShape boxShape = new PolygonShape();
+		boxShape.setAsBox(40, 40); // change size
+		Body box = gameWorld.getWorld().createBody(boxDef);
+		FixtureDef boxFixture = new FixtureDef();
+		boxFixture.density = 1;
+		boxFixture.shape = boxShape;
+		box.createFixture(boxFixture);
+		bodies.add(box);	
+		
+		
+	}
+	
 	public void whatever(BufferedImage i, int w, int h)
 	{
 		// divide width of the BufferedImage by the wdth set by parameter to get number of rows. do same for height/columns. 
@@ -69,7 +120,7 @@ BufferedImage img = null;
 	
 	public void getHit(Character c)
 	{
-		hP = hP - c.damage;
+		hP -= c.damage;
 		
 	}
 	
@@ -80,7 +131,7 @@ BufferedImage img = null;
 	
 	public void pickupitem(Items i)
 	{
-		damage= i.damage;
+		damage = i.damage;
 		range = i.range;
 		itemName = i.name;
 	}
