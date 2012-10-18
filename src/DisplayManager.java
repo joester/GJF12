@@ -1,7 +1,7 @@
 package GameJam;
 
 
-import java.awt.Image;
+//import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,44 +20,34 @@ public class DisplayManager
 	Texture texture;
 	List<Box> boxes = new ArrayList<Box>(2);
 	Random r = new Random();
+	Animation anime = new Animation();
+	ArrayList<Texture> textures = new ArrayList<Texture>(2);
 	
-	public void addsBoxes(){
-		boxes.add(new Box(r.nextInt(590), r.nextInt(430)));
-		boxes.add(new Box(r.nextInt(590), r.nextInt(430)));
-	}
+	
+	
+	
+	
 	
 	public void start(){
 		try{
 			Display.setDisplayMode(new DisplayMode(640, 480));
 			Display.setTitle("MouseX: " + Mouse.getX() + " MouseY: " + (480 - Mouse.getY() - 1));
 			Display.create();
+			
 		}
 		catch(Exception ex){
 			System.exit(0);
 		}
 		
 		init();
-		addsBoxes();
-		//float red = r.nextFloat();
-		//float blue = r.nextFloat();
-		//float green = r.nextFloat();
 		
-		int index = 0;
+
 		
 		while(!Display.isCloseRequested()){
 			
 			renderBack();
 			
-			for(Box box : boxes){
-				box.draw();
-				box.checkSelected();
-				if(box.selected){
-					Display.setTitle("Something selected");
-					index = boxes.indexOf(box);
-				}
-			}
-			
-			boxes.get(index).move();
+			movieLoop();
 			
 			
 			glPopMatrix();
@@ -73,6 +63,24 @@ public class DisplayManager
 		glLoadIdentity();
 		glOrtho(0, 640, 480, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
+	}
+	
+	public void movieLoop(){
+		long startTime = System.currentTimeMillis();
+		long totTime = startTime;
+		
+		while(totTime - startTime < 5000){
+			long timePassed = System.currentTimeMillis() - totTime;
+			totTime += timePassed;
+			anime.updateFrame(timePassed);
+			
+			Display.update();
+			
+			try{
+				Thread.sleep(20);
+			}
+			catch(Exception e){}
+		}
 	}
 	
 	public void renderBack(){
@@ -97,6 +105,24 @@ public class DisplayManager
 			glVertex2f(0, 480 + (480 / 16) + 1);
 		glEnd();
 	}
+	
+	public void renderSprites(String ext, String filename){
+		Texture t = null;
+		try{
+			t = TextureLoader.getTexture("PNG",
+				ResourceLoader.getResourceAsStream("/res/" + filename));
+		}
+		catch(Exception e){
+			
+		}
+		anime.addFrame(t, 300);
+		
+	}
+	
+	
+	
+	
+	
 	
 	public class Box{
 		int x, y;
@@ -145,6 +171,8 @@ public class DisplayManager
 			}
 			
 		}
+		
+		
 		
 	}
 	
