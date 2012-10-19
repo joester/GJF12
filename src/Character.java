@@ -1,35 +1,45 @@
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 
-import javax.imageio.ImageIO;
-import org.jbox2d.dynamics.*;
-import org.jbox2d.collision.shapes.*;
-import org.jbox2d.common.Vec2;
+public class Character extends Entity{
+	
+	public int maxHealth;  
+	public int hP;
+	public int damage;
+	public int healthRegen;
+	public int wins;
+	public int baseDamage;
+	//public int winsNeeded;
+	
+	public String name;
+	public String itemName;
+	public String aux;
+	
+	public double range;
+	public double baseRange;
+	
+	public Image charImg = null;
+	
+	/**
+	 public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
+	 BufferedImage img = null;
+	 GameWorld gameWorld = new GameWorld();
+	 Set<Body> bodies = new HashSet<Body>();
+	 **/
 
 
-public class Character {
-public int maxHealth;  
-public int hP;
-public int damage;
-public int healthRegen;
-public String name;
-public int baseDamage;
-public double range;
-public double baseRange;
-public int wins;
-public int winsNeeded;
-public String itemName;
-public String aux;
-public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
-BufferedImage img = null;
-GameWorld gameWorld = new GameWorld();
-Set<Body> bodies = new HashSet<Body>();
-
-	public Character(String n, int p, int h)
+	public Character(int x,int y, String imageLocation)
 	{
+			super(x,y, imageLocation);
+			
+			//Place holder numbers
+			hP = 20;
+			baseDamage = 2;
+			wins = 0;	
+	/**
 		name = n;
 		maxHealth = h;
 		hP = h;
@@ -38,7 +48,11 @@ Set<Body> bodies = new HashSet<Body>();
 		winsNeeded = p;
 		itemName = null;
 		aux = null;
+	 */
 	}
+
+	
+/**
 	
 	public void render()
 	{
@@ -51,21 +65,12 @@ Set<Body> bodies = new HashSet<Body>();
 				glTranslatef(bodyPosition.x, bodyPosition.y, 0);
 				glPopMatrix();
 				
-			}
-		}
-		
-	}
-	
+			} } }
 
 	public void input()
-	{
-		
-	}
-	
+	{}
 	public void collisionLogic()
-	{
-		gameWorld.getWorld().step(1/60f, 8, 3);
-	}
+	{gameWorld.getWorld().step(1/60f, 8, 3);}
 	
 	public void createCollisionBox()
 	{
@@ -79,11 +84,8 @@ Set<Body> bodies = new HashSet<Body>();
 		boxFixture.density = 1;
 		boxFixture.shape = boxShape;
 		box.createFixture(boxFixture);
-		bodies.add(box);	
-		
-		
+		bodies.add(box);		
 	}
-	
 	public void whatever(BufferedImage i, int w, int h)
 	{
 		// divide width of the BufferedImage by the wdth set by parameter to get number of rows. do same for height/columns. 
@@ -104,14 +106,10 @@ Set<Body> bodies = new HashSet<Body>();
 			img = ImageIO.read(new File(s));
 		}
 		catch(IOException e)
-		{
-			
-		}
+		{}
 	}
-	public String getName()
-	{
-		return name;
-	}
+	**/
+
 
 	public int gethP()
 	{
