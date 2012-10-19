@@ -7,16 +7,18 @@ public abstract class Entity{
 	protected Rectangle hitBox;
 	protected int xCoord;
 	protected int yCoord;
+	protected String imagePath;
 
 	public Entity(int x, int y, String imageLocation){
 		xCoord = x;
 		yCoord = y;
-		try {
-			image = new Image(imageLocation);
+		imagePath = imageLocation;
+		/**try {
+			image = new Image(imagePath);
 		} catch (SlickException e) {
 			System.out.println("Image not found for " + this.getClass());
 			e.printStackTrace();
-		}
+		}**/
 	}
 	
 	public void setHitBox(int x, int y){
@@ -24,7 +26,7 @@ public abstract class Entity{
 	}
 	
 	public void setHitBox(Rectangle hitbox){
-		this.hitBox = hitBox;
+		this.hitBox = hitbox;
 	}
 	
 	public Rectangle getHitBox(){
@@ -42,5 +44,12 @@ public abstract class Entity{
 	
 	public int getY(){
 		return yCoord;
+	}
+	
+	public Image getImage(){
+		return image;
+	}
+	public String getImagePath(){
+		return imagePath;
 	}
 }
