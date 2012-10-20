@@ -27,15 +27,19 @@ public void whatever(BufferedImage i, int w, int h)
 		}
 	}
 }
-public void imageReciever(String s)
-{
-	try 
+	public void imageReciever(String s)
 	{
-		img = ImageIO.read(new File(s));
-	}
-	catch(IOException e)
-	{
+		try 
+		{
+			img = ImageIO.read(new File(s));
+		}
+		catch(IOException e)
+		{
 		
+		}
 	}
-}
+	public void use()
+	{
+	
+	}
 }
