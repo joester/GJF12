@@ -15,9 +15,10 @@ public class Character extends Entity{
 	//public int winsNeeded;
 	
 	public String name;
-	public String itemName;
-	public String aux;
-	
+	public boolean hasItem;
+	public Items item;
+	public Auxillary aux;
+	public boolean hasAux;
 	public double range;
 	public double baseRange;
 	
@@ -34,7 +35,8 @@ public class Character extends Entity{
 	public Character(int x,int y, String imageLocation)
 	{
 			super(x,y, imageLocation);
-			
+			hasAux = false;
+			hasItem = false;
 			//Place holder numbers
 			hP = 20;
 			baseDamage = 2;
@@ -53,24 +55,8 @@ public class Character extends Entity{
 
 	
 /**
-	
-	public void render()
-	{
-		for (Body body : bodies)
-		{
-			if (body.getType() == BodyType.KINEMATIC)
-			{
-				glPushMatrix();
-				Vec2 bodyPosition = body.getPosition().mul(30);
-				glTranslatef(bodyPosition.x, bodyPosition.y, 0);
-				glPopMatrix();
-				
-			} } }
+ * 
 
-	public void input()
-	{}
-	public void collisionLogic()
-	{gameWorld.getWorld().step(1/60f, 8, 3);}
 	
 	public void createCollisionBox()
 	{
@@ -86,28 +72,8 @@ public class Character extends Entity{
 		box.createFixture(boxFixture);
 		bodies.add(box);		
 	}
-	public void whatever(BufferedImage i, int w, int h)
-	{
-		// divide width of the BufferedImage by the wdth set by parameter to get number of rows. do same for height/columns. 
-		int rows = i.getWidth(null) / w;
-		int columns = i.getHeight(null) / h;
-		for(int x = 0; x < rows; x++)
-		{
-			for(int y = 0; y < columns; y++)
-			{
-				pics.add(i.getSubimage(x*w, y*h, w, h));
-			}
-		}
-	}
-	public void imageReciever(String s)
-	{
-		try 
-		{
-			img = ImageIO.read(new File(s));
-		}
-		catch(IOException e)
-		{}
-	}
+	
+	
 	**/
 
 
@@ -131,26 +97,48 @@ public class Character extends Entity{
 	{
 		damage = i.damage;
 		range = i.range;
-		itemName = i.name;
+		item= i;
+		hasItem = true;
 	}
 	
+	public void pickupAux(Auxillary a)
+	{
+		aux = a;
+		hasAux = true;
+	}
 	public void dropitem()
 	{
 		damage = baseDamage;
 		range = baseRange;
-		itemName = null;
+		item = null;
+		hasItem = false;
 	}
-	
-	public void pickUpAux(Auxillary i)
+	public String useAux()
 	{
-		aux = i.name;
+		if (hasAux= true)
+				{
+					aux.use();
+					hasAux = false;
+					aux = null;
+					return "";
+				}
+		else
+		{
+			return "No Auxillary";
+		}
 	}
 	
-	public void useAux()
+	public void attack()
 	{
-		
+		if (hasItem)
+		{
+		item.use();
+		}
+		else
+		{
+			//TODO write basic attack code, unknown values for now. 
+			
+		}
 	}
-	
-	
 	
 }
