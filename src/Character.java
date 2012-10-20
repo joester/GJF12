@@ -3,34 +3,72 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
+//import org.newdawn.slick.tests.xml.Entity;
 
 public class Character extends Entity{
 	
 public int maxHealth, hP, damage, healthRegen, baseDamage;  
-public String name, itemName, aux;
+public String name, itemName, auxName;
 public double range, baseRange;
 boolean hasDX = false;
 public int[] controls = new int[4];
+boolean hasAux, hasItem;
+Item item;
+int wins;
+int x, y;
+int xVelocity, yVelocity;
+String imageLocation;
+boolean isMovingUp;
+boolean isMovingRight;
+boolean isMovingLeft;
+boolean isMovingDown;
+Auxillary auxItem;
 
 //GameWorld gameWorld = new GameWorld();
 //Set<Body> bodies = new HashSet<Body>();
 
 
-	public Character(String n, int h)
+	public Character(int x, int y, String imageLocation, String name, int maxHealth)
 	{
-		super(0, 0, "/res/Untitled.png");
-		name = n;
-		maxHealth = h;
-		hP = h;
+		super(x,y, imageLocation);
+		hasAux = false;
+		hasItem = false;
+		//Place holder numbers
+		hP = 20;
+		baseDamage = 2;
+		wins = 0;	
+			
+		super.setHitBox(x, y, 40, 40);
+		hitBox = getHitBox();
+		item = null;
+		
+		this.name = name;
+		this.maxHealth = maxHealth;
+		hP = maxHealth;
 		damage = 5;
 		healthRegen = 1;
 		itemName = null;
-		aux = null;
+		auxName = null;
+		
+	}
+	public void update()
+	{
+		x += xVelocity;
+		y += yVelocity;
+		getRectangle().setBounds(x, y, getRectangle().getWidth(), getRectangle().getHeight());
+		
 	}
 	
 	public void setMove(boolean isMoving){
 		hasDX = isMoving;
 	}
+	
+	public Rectangle getRectangle()
+	{
+		return hitBox;
+	}
+
 	
 	public void setControls(int left, int up, int right, int down){
 		controls[0] = left;
@@ -71,12 +109,15 @@ public int[] controls = new int[4];
 	   return damage;
 	}
 	
-	public void pickupitem(Items i)
+	public void pickupitem(Item item)
 	{
-		damage = i.damage;
-		range = i.range;
-		itemName = i.name;
+		damage = item.damage;
+		range = item.range;
+		itemName = item.name;
+		this.item = item;
+		hasItem = true;
 	}
+	
 	
 	public void dropitem()
 	{
@@ -85,31 +126,123 @@ public int[] controls = new int[4];
 		itemName = null;
 	}
 	
-	public void pickUpAux(Auxillary i)
-	{
-		aux = i.name;
-	}
+	public void pickUpAux(Auxillary auxItem)
+	{}
 	
 	public void useAux()
 	{
-		
-	}	
-	
-	@Override
-	public void init(GameContainer gc) throws SlickException
+		auxName = auxItem.name;
+		if (hasAux == true)
+			{
+				auxName.use();
+				hasAux = false;
+				auxName = null;
+			}
+	}
+
+	public void attack()
 	{
-		renderEnt("/res/Untitled.png", 128, 128);
-		addFrame("/res/Untitled2.png", 128, 128);
+		if (hasItem)
+		{
+			//item.use();
+		}
+
 	}
 	
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException
+	public void determineDirection()
 	{
-		if(hasDX){
-			a.draw(xCoord, yCoord, 64, 64);
+		if (xVelocity > 0)
+		{
+			//Moving UP-RIGHT
+			if (yVelocity > 0)
+			{
+				isMovingUp = true;
+				isMovingRight = true;
+				isMovingLeft = false;
+				isMovingDown = false;
+			}
+			
+			//Moving DOWN-RIGHT
+			else if (yVelocity < 0)
+			{
+				isMovingUp = false;
+				isMovingRight = true;			
+				isMovingLeft = false;
+				isMovingDown = true;
+			}
+			
+			//Moving ONLY Right
+			else
+			{
+				isMovingUp = false;
+				isMovingRight = true;			
+				isMovingLeft = false;
+				isMovingDown = false;
+			}
+			
+		
 		}
-		else{
-			a.getCurrentFrame().draw(xCoord, yCoord, 64, 64);
+		
+		else if (xVelocity < 0)
+		{
+			//Moving UP-LEFT
+			if (yVelocity > 0)
+			{
+				isMovingUp = true;
+				isMovingRight = true;
+				isMovingLeft = false;
+				isMovingDown = false;
+			}
+			
+			//Moving DOWN-LEFT
+			else if (yVelocity < 0)
+			{
+				isMovingUp = false;
+				isMovingRight = false;			
+				isMovingLeft = true;
+				isMovingDown = true;
+			}
+			
+			//Moving ONLY Left
+			else
+			{
+				isMovingUp = false;
+				isMovingRight = false;			
+				isMovingLeft = true;
+				isMovingDown = false;
+			}
+			
+		}
+		
+		//xVelocity = 0
+		else
+		{
+			//Moving only UP
+			if (yVelocity > 0)
+			{
+				isMovingUp = true;
+				isMovingRight = false;			
+				isMovingLeft = false;
+				isMovingDown = false;
+			}
+			
+			//Moving only DOWN
+			else if (yVelocity < 0)
+			{
+				isMovingUp = false;
+				isMovingRight = false;			
+				isMovingLeft = false;
+				isMovingDown = true;
+			}
+			
+			//NOT MOVING
+			else
+			{
+				isMovingUp = false;
+				isMovingRight = false;			
+				isMovingLeft = false;
+				isMovingDown = false;
+			}
 		}
 		
 	}
