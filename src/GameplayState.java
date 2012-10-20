@@ -1,3 +1,5 @@
+
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -19,19 +21,17 @@ public class GameplayState extends BasicGameState {
 	
 	//Collision Testing
 	
-	/*
+	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 		throws SlickException
 	{
-		
-		player = new Character("Bob", 1);
-		player2 = new Character("Joe", 2);
+		player = new Character(30, 30, "/assets/jump-spritesheet.png", "name", 4, 4, 1);
+		player2 = new Character(60, 60, "/assets/stand-spritesheet.png", "name", 4, 3, 1);
 		player.init(gc);
 		player.setControls(Input.KEY_A, Input.KEY_W, Input.KEY_D, Input.KEY_S);
 		player2.init(gc);
 		player2.setControls(Input.KEY_LEFT, Input.KEY_UP, Input.KEY_RIGHT, Input.KEY_DOWN);
-		
 	}
 
 	@Override
@@ -40,7 +40,6 @@ public class GameplayState extends BasicGameState {
 	{
 		player.render(gc, g);
 		player2.render(gc, g);
-		
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class GameplayState extends BasicGameState {
 		
 		
 	}
-	*/
+	
 
 	@Override
 	public int getID()
@@ -71,30 +70,4 @@ public class GameplayState extends BasicGameState {
 		return stateID;
 	}
 
-
-	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)
-		throws SlickException
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
-		throws SlickException
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
-		throws SlickException
-	{
-		// TODO Auto-generated method stub
-		
-	}
 }
