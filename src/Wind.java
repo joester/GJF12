@@ -10,7 +10,6 @@ public class Wind extends Item
 	public Wind(int x, int y, String i)
 	{
 		super( x,  y,  i);
-		damage = 5;
 		damage = 1;
 		range = 4;
 		speed = .2;

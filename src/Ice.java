@@ -9,7 +9,6 @@ public class Ice extends Item
 	public Ice(int x, int y, String i)
 	{
 		super( x,  y,  i);
-		damage = 5;
 		damage = 2;
 		range = 2;
 		speed = .01;

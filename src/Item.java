@@ -6,17 +6,22 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 
-public class Item {
+public class Item extends Entity {
 
-public double range;
+public double range, speed, startUpTime, reloadTime;
 public int damage; 
 public String name;
+public boolean dropChance;
 public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
 BufferedImage img = null;
 
-  public Item ()
+  public Item (int x, int y, String itemImage)
   {
-	  
+	  //constructs the image at coord and finds file path
+	  super (x,y, itemImage);
+	 
+	  //Sets the hit box
+	  super.setHitBox(x, y);
   }
   public void whatever(BufferedImage i, int w, int h)
 	{

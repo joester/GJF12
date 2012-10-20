@@ -9,7 +9,6 @@ public class Fire extends Item
 	public Fire(int x, int y, String i)
 	{
 		super( x,  y,  i);
-		damage = 5;
 		damage = 3;
 		range = 100;
 		speed = 1;

@@ -9,7 +9,6 @@ public class Lightning extends Item
 	public Lightning(int x, int y, String i)
 	{
 		super( x,  y,  i);
-		damage = 5;
 		damage = 2;
 		range = 1;
 		speed = .1;
