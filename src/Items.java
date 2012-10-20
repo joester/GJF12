@@ -6,16 +6,19 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 
-public class Items {
+public class Items extends Entity {
 
 public double range;
 public int damage; 
 public String name;
 public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
 BufferedImage img = null;
+protected int xCoord;
+protected int yCoord;
 
-  public Items ()
+  public Items (int x, int y, String imageLocation)
   {
+	  super( x, y, imageLocation);
 	  
   }
   public void whatever(BufferedImage i, int w, int h)
