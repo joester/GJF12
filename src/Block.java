@@ -10,10 +10,11 @@ public class Block extends MapEntity {
 	
 	}
 
+	
 	public void destroyBlock() throws SlickException
 	{
-		image.destroy();
 		blockType  = BlockType.Passible;
+		image = null;
 	}
 
 	public boolean isLethal(){
