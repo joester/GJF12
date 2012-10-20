@@ -25,7 +25,7 @@ public abstract class Entity{
 	}
 	
 	public void setHitBox(int x, int y){
-		hitBox = new Rectangle(0,0,x,y);
+		hitBox = new Rectangle(image.getWidth(), image.getHeight() ,x,y);
 	}
 	
 	public void setHitBox(Rectangle hitbox){
@@ -60,10 +60,14 @@ public abstract class Entity{
 	{
 		// TODO Auto-generated method stub	
 	}
-	public void renderChar(String str, int width, int height) throws SlickException{
+	public void renderEnt(String str, int width, int height) throws SlickException{
 		Image img = new Image(str);
 		SpriteSheet sheet = new SpriteSheet(img, width, height);
 		a = new Animation(sheet, 300);
 		a.addFrame(new Image(str), 300);
+	}
+	public void addFrame(String str, int width, int height) throws SlickException{
+		Image img = new Image(str);
+		a.addFrame(img, 300);
 	}
 }

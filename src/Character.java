@@ -1,81 +1,59 @@
-
-import org.newdawn.slick.Image;
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
-
 
 public class Character extends Entity{
 	
-	public int maxHealth;  
-	public int hP;
-	public int damage;
-	public int healthRegen;
-	public int wins;
-	public int baseDamage;
-	//public int winsNeeded;
-	
-	public String name;
-	public boolean hasItem;
-	public Items item;
-	public Auxillary aux;
-	public boolean hasAux;
-	public double range;
-	public double baseRange;
-	
-	public Image charImg = null;
-	
-	/**
-	 public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
-	 BufferedImage img = null;
-	 GameWorld gameWorld = new GameWorld();
-	 Set<Body> bodies = new HashSet<Body>();
-	 **/
+public int maxHealth, hP, damage, healthRegen, baseDamage;  
+public String name, itemName, aux;
+public double range, baseRange;
+boolean hasDX = false;
+public int[] controls = new int[4];
+
+//GameWorld gameWorld = new GameWorld();
+//Set<Body> bodies = new HashSet<Body>();
 
 
-	public Character(int x,int y, String imageLocation)
+	public Character(String n, int h)
 	{
-			super(x,y, imageLocation);
-			hasAux = false;
-			hasItem = false;
-			//Place holder numbers
-			hP = 20;
-			baseDamage = 2;
-			wins = 0;	
-	/**
+		super(0, 0, "/res/Untitled.png");
 		name = n;
 		maxHealth = h;
 		hP = h;
 		damage = 5;
 		healthRegen = 1;
-		winsNeeded = p;
 		itemName = null;
 		aux = null;
-	 */
 	}
-
 	
-/**
- * 
-
+	public void setMove(boolean isMoving){
+		hasDX = isMoving;
+	}
 	
-	public void createCollisionBox()
+	public void setControls(int left, int up, int right, int down){
+		controls[0] = left;
+		controls[1] = up;
+		controls[2] = right;
+		controls[3] = down;
+	}
+	
+	
+	
+	public Animation getAnimation(){
+		return a;
+	}
+	
+	public void setX(int DX, int delta){
+		xCoord += DX * 0.05 * delta;
+	}
+	
+	
+	public String getName()
 	{
-		BodyDef boxDef = new BodyDef();
-		boxDef.position.set(0, 0);  // change coordinates
-		boxDef.type = BodyType.KINEMATIC;
-		PolygonShape boxShape = new PolygonShape();
-		boxShape.setAsBox(40, 40); // change size
-		Body box = gameWorld.getWorld().createBody(boxDef);
-		FixtureDef boxFixture = new FixtureDef();
-		boxFixture.density = 1;
-		boxFixture.shape = boxShape;
-		box.createFixture(boxFixture);
-		bodies.add(box);		
+		return name;
 	}
-	
-	
-	**/
-
 
 	public int gethP()
 	{
@@ -97,48 +75,71 @@ public class Character extends Entity{
 	{
 		damage = i.damage;
 		range = i.range;
-		item= i;
-		hasItem = true;
+		itemName = i.name;
 	}
 	
-	public void pickupAux(Auxillary a)
-	{
-		aux = a;
-		hasAux = true;
-	}
 	public void dropitem()
 	{
 		damage = baseDamage;
 		range = baseRange;
-		item = null;
-		hasItem = false;
-	}
-	public String useAux()
-	{
-		if (hasAux= true)
-				{
-					aux.use();
-					hasAux = false;
-					aux = null;
-					return "";
-				}
-		else
-		{
-			return "No Auxillary";
-		}
+		itemName = null;
 	}
 	
-	public void attack()
+	public void pickUpAux(Auxillary i)
 	{
-		if (hasItem)
-		{
-		item.use();
-		}
-		else
-		{
-			//TODO write basic attack code, unknown values for now. 
-			
-		}
+		aux = i.name;
 	}
 	
+	public void useAux()
+	{
+		
+	}	
+	
+	@Override
+	public void init(GameContainer gc) throws SlickException
+	{
+		renderEnt("/res/Untitled.png", 128, 128);
+		addFrame("/res/Untitled2.png", 128, 128);
+	}
+	
+	@Override
+	public void render(GameContainer gc, Graphics g) throws SlickException
+	{
+		if(hasDX){
+			a.draw(xCoord, yCoord, 64, 64);
+		}
+		else{
+			a.getCurrentFrame().draw(xCoord, yCoord, 64, 64);
+		}
+		
+	}
+
+	@Override
+	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
+	{
+		Input input = new Input(delta);
+		if(input.isKeyDown(controls[0])){
+			xCoord -= .5 * delta;
+			hasDX = true;
+		}
+		if(input.isKeyDown(controls[1])){
+			yCoord -= .5 * delta;
+			hasDX = true;
+		}
+		if(input.isKeyDown(controls[2])){
+			xCoord += .5 * delta;
+			hasDX = true;
+		}
+		if(input.isKeyDown(controls[3])){
+			yCoord += .5 * delta;
+			hasDX = true;
+		}
+		for(int i : controls){
+			if(input.isKeyDown(i)){
+				hasDX = true;
+				break;
+			}
+			hasDX = false;
+		}
+	}
 }
