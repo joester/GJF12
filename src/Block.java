@@ -9,12 +9,15 @@ public class Block extends MapEntity {
 		blockType = b;
 	}
 	
+
+	//Only use when block is Destructible
 	public void destroyBlock() throws SlickException
 	{
 		blockType  = BlockType.Passible;
 		image = null;
 	}
-
+	
+	//checks on what type the blocks are.
 	public boolean isLethal(){
 		
 		if(blockType == BlockType.Lethal)
@@ -52,4 +55,3 @@ public class Block extends MapEntity {
 			return false;
 	}
   }
-
