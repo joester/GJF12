@@ -23,8 +23,9 @@ int xCoord, yCoord, jumpHeight;
 int xVelocity, yVelocity;
 String imageLocation;
 boolean isMovingUp, isMovingRight, isMovingLeft, isMovingDown;
-boolean punched, jumped, hasHelp;
+boolean punched, hasHelp;
 boolean[] isMoving = {isMovingUp, isMovingRight, isMovingLeft, isMovingDown};
+boolean jumpAvailable;
 Auxillary auxItem;
 ArrayList<Animation> animationSet = new ArrayList<Animation>();
 long helpTimer;
@@ -269,7 +270,7 @@ long startTime = System.nanoTime();
 			
 		}
 		if(hasDX){
-			if(jumped){
+			if(!jumpAvailable){
 				animationSet.get(1).draw(xCoord, yCoord);
 			}
 			else{
@@ -279,7 +280,7 @@ long startTime = System.nanoTime();
 		if(hasHelp){
 			g.drawRect(xCoord, yCoord, 10, 10);
 		}
-		jumped = false;
+		jumpAvailable = true;
 		punched = false;
 		hasDX = true;
 	}
@@ -294,7 +295,7 @@ long startTime = System.nanoTime();
 		if(input.isKeyDown(controls[1])){
 			yCoord -= jumpHeight * delta;
 			hasDX = false;
-			jumped = true;
+			jumpAvailable = false;
 		}
 		if(input.isKeyDown(controls[2])){
 			xCoord += .5 * delta;

@@ -100,29 +100,34 @@ public class GameWorld
 			{
 				if (b.getBlockType() == BlockType.Lethal)
 				{
+					c.hitBox = null;
 					listOfCharacters.remove(c);
 				}
-				
 				if (c.getRectangle().intersects(b.getRectangle()))
 					{
-						 if (c.isMovingUp)
+						 if (c.isMovingUp && b.getBlockType() == BlockType.Passable)
 						 {
 							//do nothing 						
+						 }
+						 
+						 else
+						 {
+							 c.yVelocity = 0;
 						 }
 						 
 						 if (c.isMovingDown)
 						 {
 							 c.jumpAvailable = true;
-							 c.lockDownMovement();
+							 c.yVelocity = 0;
 						 }
 						 
 						 if (c.isMovingLeft)
 						 {
-							 c.lockLeftMovement();
+							 c.xVelocity = 0;
 						 }
 						 if (c.isMovingRight)
 						 {
-							 c.lockRightMovement();
+							 c.xVelocity = 0;
 						 }
 						 
 					}

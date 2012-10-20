@@ -1,3 +1,3 @@
 public enum BlockType {
-	Impassible, Lethal, Crate, Passible;
+	Impassable, Lethal, Crate, Passable;
 }

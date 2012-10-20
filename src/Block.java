@@ -19,13 +19,18 @@ public class Block extends MapEntity {
 	//Only use when block is Destructible
 	public void destroyBlock() throws SlickException
 	{
-		blockType  = BlockType.Passible;
+		blockType  = BlockType.Passable;
 		image = null;
 	}
 	
 	public BlockType getBlockType()
 	{
 		return blockType;
+	}
+	
+	public Rectangle getRectangle()
+	{
+		return hitBox;
 	}
 	
 	//checks on what type the blocks are.
