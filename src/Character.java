@@ -243,10 +243,10 @@ long startTime = System.nanoTime();
 	@Override
 	public void init(GameContainer gc) throws SlickException{
 		Image[] i = new Image[4];
-		i[0] = new Image("/assets/stand-0.png");
+		i[0] = (new Image("/assets/stand-0.png")).getFlippedCopy(true, false);
 		i[1] = new Image("/assets/jump-spritesheet.png");
 		i[2] = new Image("/assets/stand-spritesheet.png");
-		i[3] = new Image("/assets/punch-spritesheet.png");
+		i[3] = new Image("/assets/punch-spritesheet.png").getFlippedCopy(true, false);
 		int[] cols = {1, 4, 3, 2};
 		int count = 0;
 		for(Image img : i){
@@ -259,7 +259,6 @@ long startTime = System.nanoTime();
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		
 		if(!hasDX){
 			if(punched){
 				animationSet.get(3).draw(xCoord, yCoord);
