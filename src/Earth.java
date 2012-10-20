@@ -1,5 +1,5 @@
 
-public class Earth extends Items
+public class Earth extends Item
 {
 	/*
 	 * Weapon Chart

@@ -1,5 +1,5 @@
 
-public class Wind extends Items
+public class Wind extends Item
 {
 /*
  * 	Damage Range Animation Speed Drop Startup, Reload 

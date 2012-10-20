@@ -1,5 +1,5 @@
 
-public class Lightning extends Items
+public class Lightning extends Item
 {
 /*
  *	Damage Range Animation Speed Drop Startup, Reload  

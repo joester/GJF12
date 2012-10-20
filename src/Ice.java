@@ -1,5 +1,5 @@
 
-public class Ice extends Items
+public class Ice extends Item
 {
 /*
  * Damage Range Animation Speed Drop Startup, 

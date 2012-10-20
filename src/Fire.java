@@ -1,5 +1,5 @@
 
-public class Fire extends Items
+public class Fire extends Item
 {
 	/*
 	 * Damage Range Animation Speed Drop Startup, 

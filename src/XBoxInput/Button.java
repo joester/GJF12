@@ -1,3 +1,5 @@
+package XBoxInput;
+
 public enum Button{
 	A(0),
 	B(1),

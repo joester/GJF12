@@ -20,6 +20,17 @@ public class GameWorld
 	List<Block> listOfBlocks = new ArrayList<Block>();
 	List<Projectile> listOfProjectiles = new ArrayList<Projectile>();
 	List<Character> listOfCharacters = new ArrayList<Character>();
+	List<Item> listOfItems = new ArrayList<Item>();
+	List<Item> itemsOnMap = new ArrayList<Item>();
+	
+	
+	listOfItems.add(new Earth());
+	listOfItems.add(new Fire());
+	listOfItems.add(new Ice());
+	listOfItems.add(new Lightning());
+	listOfItems.add(new Wind());
+	
+	
 	Map map;
 		
 	public void init() throws IOException 
@@ -124,14 +135,18 @@ public class GameWorld
 				if (c.getRectangle().intersects(p.getRectangle()))
 				{			
 					c.modifyHealth(-p.damage);
-					p.destroy();
+					listOfProjectiles.remove(p);
 				}
 			}
 		}
+	}
+	
+	
 		
 	public void update()
 	{
 		checkForCollisions();
+		spawnItems();
 		
 		for (Block b : listOfBlocks)
 		{
@@ -149,6 +164,23 @@ public class GameWorld
 			
 		}
 		
+	}
+	
+	public Item chooseRandomItem()
+	{
+		return listOfItems.get((int)(listOfItems.size() * Math.random()));
+	}
+	
+	public void spawnItems()
+	{
+		for (Block block : listOfBlocks)
+		{
+			if(block.getBlockType() == BlockType.Crate && Math.random() < .2)
+			{
+				Item toBeSpawned = chooseRandomItem();
+				itemsOnMap.add(toBeSpawned);
+			}
+		}
 	}
 
 	public void addBlock(Block block){
