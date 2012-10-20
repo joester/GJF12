@@ -1,5 +1,9 @@
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 public abstract class Entity{
@@ -7,18 +11,17 @@ public abstract class Entity{
 	protected Rectangle hitBox;
 	protected int xCoord;
 	protected int yCoord;
-	protected String imagePath;
+	protected Animation a;
 
 	public Entity(int x, int y, String imageLocation){
 		xCoord = x;
 		yCoord = y;
-		imagePath = imageLocation;
-		/**try {
-			image = new Image(imagePath);
+		try {
+			image = new Image(imageLocation);
 		} catch (SlickException e) {
 			System.out.println("Image not found for " + this.getClass());
 			e.printStackTrace();
-		}**/
+		}
 	}
 	
 	public void setHitBox(int x, int y){
@@ -26,7 +29,7 @@ public abstract class Entity{
 	}
 	
 	public void setHitBox(Rectangle hitbox){
-		this.hitBox = hitbox;
+		this.hitBox = hitBox;
 	}
 	
 	public Rectangle getHitBox(){
@@ -45,11 +48,22 @@ public abstract class Entity{
 	public int getY(){
 		return yCoord;
 	}
-	
-	public Image getImage(){
-		return image;
+	public void render(GameContainer arg0, Graphics arg1) throws SlickException
+	{
+		// TODO Auto-generated method stub
 	}
-	public String getImagePath(){
-		return imagePath;
+	public void init(GameContainer arg0) throws SlickException
+	{
+		// TODO Auto-generated method stub
+	}
+	public void update(GameContainer arg0, int arg1) throws SlickException, InterruptedException
+	{
+		// TODO Auto-generated method stub	
+	}
+	public void renderChar(String str, int width, int height) throws SlickException{
+		Image img = new Image(str);
+		SpriteSheet sheet = new SpriteSheet(img, width, height);
+		a = new Animation(sheet, 300);
+		a.addFrame(new Image(str), 300);
 	}
 }
