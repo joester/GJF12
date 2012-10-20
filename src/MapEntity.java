@@ -32,4 +32,8 @@ public abstract class MapEntity extends Entity {
 	public BlockType getBlockType(){
 		return blockType;
 	}
+
+	public int getNumberOfPlayers(){
+		return 0;
+	}
 }
