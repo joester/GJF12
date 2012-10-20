@@ -1,0 +1,20 @@
+Each sprite is 54 pixels wide and 119 pixels high
+
+----------
+
+Stand - Order of animation
+
+1 - 2 - 3 - 2 - loop
+
+----------
+
+Punch - Order of animation
+
+Stand1 - 1 - 2 - 1 - Stand1
+
+
+----------
+
+Jump - Order of animation
+
+Stand1 - 1 - 2 - 3 - 4 - 3 - 1 - Stand1
