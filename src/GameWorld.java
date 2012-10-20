@@ -1,7 +1,10 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.opengl.*;
 import org.newdawn.slick.util.*;
 import org.jbox2d.collision.*;
@@ -14,21 +17,46 @@ public class GameWorld
 	Texture background;
 	World gameWorld = new World(new Vec2(0, -9.8f), false);
 	
-	public void init() throws IOException {	 
-
-	background = TextureLoader.getTexture("JPEG", ResourceLoader.getResourceAsStream("assets/background.jpeg"));
-
+	List<Block> listOfBlocks = new ArrayList<Block>();
+	List<Projectile> listOfProjectiles = new ArrayList<Projectile>();
+	List<Character> listOfCharacters = new ArrayList<Character>();
+	Map map;
+		
+	public void init() throws IOException 
+	{	 
+	background = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream
+			(getMap().getBackgroundFileLocation()));
 	}
 	
-	public static void main (String[] args) {
+	public static void main (String[] args) 
+	{
 		GameWorld gameworld = new GameWorld();
 		gameworld.start();
-
-		}
+	}
+	
+	public Map getMap()
+	{
+		return map;
+	}
 	
 	public World getWorld()
 	{
 		return gameWorld;
+	}
+	
+	public List<Block> getListOfBlocks()
+	{
+		return listOfBlocks;
+	}
+	
+	public List<Projectile> getListOfProjectiles()
+	{
+		return listOfProjectiles;
+	}
+	
+	public List<Character> getListOfCharacters()
+	{
+		return listOfCharacters;
 	}
 	
 	public void start()
@@ -53,21 +81,78 @@ public class GameWorld
 		Display.destroy();
 	}
 
-public void collision()
-{
-	
-}
-
-public void draw()
-{
-
-}
-
-public void update()
-{
-	draw();	
-}
+	public void checkForCollisions()
+	{
+		//checking for character's collision with blocks
+		for (Character c : listOfCharacters)
+		{
+			for (Block b : listOfBlocks)
+			{
+				if (b.getBlockType() == BlockType.Lethal)
+				{
+					listOfCharacters.remove(c);
+				}
+				if (c.getRectangle().instersects(b.getRectangle()))
+					{
+						 if (c.isMovingUp)
+						 {
+							//do nothing 						
+						 }
+						 if (c.isMovingDown)
+						 {
+							 c.jumpAvailable = true;
+							 c.lockDownMovement();
+						 }
+						 
+						 if (c.isMovingLeft)
+						 {
+							 c.lockLeftMovement();
+						 }
+						 if (c.isMovingRight)
+						 {
+							 c.lockRightMovement();
+						 }
+					}
+				
+			}
+		}
 		
+		for (Character c : listOfCharacters)
+		{
+			for (Projectile p : listOfProjectiles)
+			{
+				if (c.getRectangle().intersects(p.getRectangle()))
+				{			
+					c.modifyHealth(-p.damage);
+					p.destroy();
+				}
+			}
+		}
+		
+	public void update()
+	{
+		checkForCollisions();
+		
+		for (Block b : listOfBlocks)
+		{
+			b.update();
+		}
+		
+		for (Projectile p : listOfProjectiles)
+		{
+			p.update();	
+		}
+		
+		for (Character c: listOfCharacters)
+		{
+			c.update();
+			
+		}
+		
+	}
 
+	public void addBlock(Block block){
+		listOfBlocks.add(block);
+	}
 }
 

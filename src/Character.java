@@ -13,7 +13,7 @@ public String name, itemName, auxName;
 public double range, baseRange;
 boolean hasDX = false;
 public int[] controls = new int[4];
-boolean hasAux, hasItem;
+boolean hasAuxItem, hasItem;
 Item item;
 int wins;
 int x, y;
@@ -32,10 +32,10 @@ Auxillary auxItem;
 	public Character(int x, int y, String imageLocation, String name, int maxHealth)
 	{
 		super(x,y, imageLocation);
-		hasAux = false;
+		hasAuxItem = false;
 		hasItem = false;
 		//Place holder numbers
-		hP = 20;
+		hP = 100;
 		baseDamage = 2;
 		wins = 0;	
 			
@@ -80,13 +80,8 @@ Auxillary auxItem;
 	
 	
 	public Animation getAnimation(){
-		return a;
-	}
-	
-	public void setX(int DX, int delta){
-		xCoord += DX * 0.05 * delta;
-	}
-	
+		return animation;
+	}	
 	
 	public String getName()
 	{
@@ -100,8 +95,7 @@ Auxillary auxItem;
 	
 	public void modifyHealth(int deltaHealth)
 	{
-		hP += deltaHealth;
-		
+		hP += deltaHealth;		
 	}
 	
 	public int getDamage()
@@ -127,16 +121,18 @@ Auxillary auxItem;
 	}
 	
 	public void pickUpAux(Auxillary auxItem)
-	{}
+	{
+		this.auxItem = auxItem;
+		hasAuxItem = true;
+	}
 	
 	public void useAux()
 	{
-		auxName = auxItem.name;
-		if (hasAux == true)
+		if (hasAuxItem == true)
 			{
-				auxName.use();
-				hasAux = false;
-				auxName = null;
+				auxItem.use();
+				hasAuxItem = false;
+				auxItem = null;
 			}
 	}
 

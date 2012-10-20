@@ -1,12 +1,16 @@
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 
 
 public class Block extends MapEntity {
 	
-	public Block(int x, int y,String imageLocation, BlockType b) {
-		super(x, y,imageLocation);
+	Rectangle hitBox;
+	
+	public Block(int x, int y, String imageLocation, BlockType b, Rectangle hitBox) {
+		super(x, y,imageLocation);		
 		blockType = b;
+		this.hitBox = hitBox;
 	}
 	
 
@@ -17,41 +21,32 @@ public class Block extends MapEntity {
 		image = null;
 	}
 	
+	public BlockType getBlockType()
+	{
+		return blockType;
+	}
+	
 	//checks on what type the blocks are.
-	public boolean isLethal(){
-		
-		if(blockType == BlockType.Lethal)
-			return true;
-		else
-			return false;
+	public boolean isLethal(){		
+		return blockType == BlockType.Lethal;
 	}
 	
 	public boolean isPassible(){
 		
-		if(blockType == BlockType.Passible)
-			return true;
-		else
-			return false;
-	}
-	public boolean isImpassible(){
-		
-		if(blockType == BlockType.Impassible)
-			return true;
-		else
-			return false;
+		return blockType == BlockType.Passible;
 	}
 	
-	public boolean isPlatform(){
+	public boolean isImpassible(){
 		
-		if(blockType == BlockType.Platform)
-			return true;
-		else
-			return false;
+		return blockType == BlockType.Impassible;
 	}
+	
+	public boolean isPlatform(){		
+		return blockType == BlockType.Platform;
+	}
+	
 	public boolean isDestructible(){
-		if(blockType == BlockType.Destructible)
-			return true;
-		else
-			return false;
+		return blockType == BlockType.Destructible;
+
 	}
   }

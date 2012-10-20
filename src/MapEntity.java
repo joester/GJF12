@@ -4,7 +4,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 
 public abstract class MapEntity extends Entity {
-	public final int blockSize = 84;
+	public static final int BLOCKSIZE = 84;
 	protected Rectangle hitBox;
 	protected BlockType blockType;
 	
