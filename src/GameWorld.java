@@ -4,6 +4,7 @@ import java.util.List;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.opengl.*;
 import org.newdawn.slick.util.*;
@@ -35,14 +36,35 @@ public class GameWorld
 		
 	public void init() throws IOException 
 	{	 
-	background = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream
+		background = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream
 			(getMap().getBackgroundFileLocation()));
+		loadSounds();
 	}
 	
 	public static void main (String[] args) 
 	{
+		
 		GameWorld gameworld = new GameWorld();
 		gameworld.start();
+	}
+	
+	public void loadSounds()
+	{
+		Sound punchHit1 = new Sound("assets/SFX/punch1Final.mp3");
+		Sound punchHit2 = new Sound("assets/SFX/punch2Final.mp3");
+		Sound punchHit3 = new Sound("assets/SFX/punch3Final.mp3");
+		Sound punchMiss1 = new Sound("assets/SFX/punchMiss1Final.mp3");
+		Sound punchMiss2 = new Sound("assets/SFX/punchMiss2Final.mp3");
+		Sound punchMiss3 = new Sound("assets/SFX/punchMiss3Final.mp3");
+		Sound bonesCrack = new Sound("assets/SFX/bonesCrackFinal.mp3");
+		Sound breakCrate = new Sound("assets/SFX/breakCrateFinal.mp3");
+		Sound clockBell = new Sound("assets/SFX/clockBellFinal.mp3");
+		Sound rockHammer = new Sound("assets/SFX/rockHammerFinal.mp3");
+		Sound run = new Sound("assets/SFX/runFinal.mp3");
+		Sound shock = new Sound("assets/SFX/shockFinal.mp3");
+		Sound spikes = new Sound("assets/SFX/spikesFall.mp3");
+		Sound ice = new Sound("assets/SFX/iceFinal.mp3");
+		
 	}
 	
 	public Map getMap()
