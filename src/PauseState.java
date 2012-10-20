@@ -11,7 +11,7 @@ public class PauseState extends BasicGameState
 {
 	
 	Image pauseMenu = null;
-	
+	private final String ST_CONTINUE = "CONTINUE";
 	int stateID = -1;
 	
 	public PauseState(int stateID){
@@ -30,7 +30,7 @@ public class PauseState extends BasicGameState
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 		throws SlickException
 	{
-		
+		g.drawString(ST_CONTINUE, gc.getWidth() / 2, gc.getHeight() / 3);
 		
 	}
 

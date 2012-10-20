@@ -1,5 +1,5 @@
-import java.util.ArrayList;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -17,8 +17,8 @@ public class MainMenu extends BasicGameState
 	
 	int stateID = -1;
 	Image background = null;
-	Image startGameOption = null;
-	Image exitOption = null;
+	InputButton startGameOption = null;
+	InputButton exitOption = null;
 	
 	float startGameScale = 1;
 	float exitScale = 1;
@@ -35,16 +35,22 @@ public class MainMenu extends BasicGameState
 		 Image spst = new Image("/res/submitbuttonScreenshot.png");
 		 SpriteSheet sheet = new SpriteSheet(spst, 105, 67);
 		 anime = new Animation(sheet, 1);
-		 startGameOption = anime.getImage(0);
-		 exitOption = anime.getImage(1);
+		 startGameOption = new InputButton(0, 0, anime.getImage(0), gc);
+		 exitOption = new InputButton(0, 0, anime.getImage(1), gc);
+		 startGameOption.setXpos();
+		 exitOption.setXpos();
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
     	background.draw(0, 0, 1);
-    	startGameOption.draw((gc.getWidth() / 2) - startGameOption.getWidth() / 2, 
+    	/*
+    	startGameOption.getImage().draw(startGameOption.xPos, 
     		gc.getHeight() / 3, 1);
-    	exitOption.draw((gc.getWidth() / 2) - exitOption.getWidth() / 2,
+    	exitOption.getImage().draw(exitOption.xPos,
     		2 * gc.getHeight()/ 3, 1);
+    		*/
+
+    	g.drawString("START", (gc.getWidth() / 2) - 30 / 2, gc.getHeight() / 3);
     	
     }
  
@@ -54,7 +60,17 @@ public class MainMenu extends BasicGameState
     	if(input.isKeyDown(Input.KEY_ENTER)){
     		sbg.enterState(DisplayManager.GAMEPLAYSTATE);
     	}
-    	
+    	/*
+    	if(startGameOption.withinBounds(input)){
+    		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+    			sbg.enterState(DisplayManager.GAMEPLAYSTATE);
+    		}
+    	}
+    	if(exitOption.withinBounds(input)){
+    		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+    			System.exit(0);
+    		}
+    	}
+    	*/
     }
-	
 }
