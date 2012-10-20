@@ -30,14 +30,14 @@ public class MainMenu extends BasicGameState
 		return stateID;
 	}
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		 background = new Image("/res/randomTex.jpg");
-		 Image spst = new Image("/res/submitbuttonScreenshot.png");
-		 SpriteSheet sheet = new SpriteSheet(spst, 105, 67);
-		 anime = new Animation(sheet, 1);
-		 startGameOption = new InputButton(0, 0, anime.getImage(0), gc);
-		 exitOption = new InputButton(0, 0, anime.getImage(1), gc);
-		 startGameOption.setXpos();
-		 exitOption.setXpos();
+		 background = new Image("/assets/background.jpg");
+		 //Image spst = new Image("/res/submitbuttonScreenshot.png");
+		 //SpriteSheet sheet = new SpriteSheet(spst, 105, 67);
+		 //anime = new Animation(sheet, 1);
+		 //startGameOption = new InputButton(0, 0, anime.getImage(0), gc);
+		 //exitOption = new InputButton(0, 0, anime.getImage(1), gc);
+		 //startGameOption.setXpos();
+		 //exitOption.setXpos();
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -48,8 +48,6 @@ public class MainMenu extends BasicGameState
     	exitOption.getImage().draw(exitOption.xPos,
     		2 * gc.getHeight()/ 3, 1);
     		*/
-
-    	g.drawString("START", (gc.getWidth() / 2) - 30 / 2, gc.getHeight() / 3);
     	
     }
  

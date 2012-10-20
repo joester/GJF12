@@ -19,10 +19,12 @@ public class GameplayState extends BasicGameState {
 	
 	//Collision Testing
 	
+	/*
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 		throws SlickException
 	{
+		
 		player = new Character("Bob", 1);
 		player2 = new Character("Joe", 2);
 		player.init(gc);
@@ -60,11 +62,39 @@ public class GameplayState extends BasicGameState {
 		
 		
 	}
+	*/
 
 	@Override
 	public int getID()
 	{
 		// TODO Auto-generated method stub
 		return stateID;
+	}
+
+
+	@Override
+	public void init(GameContainer arg0, StateBasedGame arg1)
+		throws SlickException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
+		throws SlickException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
+		throws SlickException
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }
