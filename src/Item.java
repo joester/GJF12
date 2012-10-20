@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 
 
 public class Item extends Entity {
@@ -60,5 +63,28 @@ String fileLocation;
 		{
 			
 		}
+	}
+	
+
+	@Override
+	public void render(GameContainer arg0, Graphics arg1) throws SlickException
+	{
+		image.draw(xCoord, yCoord);
+		
+	}
+
+	@Override
+	public void init(GameContainer arg0) throws SlickException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(GameContainer arg0, int arg1) throws SlickException,
+		InterruptedException
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,5 +1,3 @@
-
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -45,6 +43,7 @@ public class GameplayState extends BasicGameState {
 	{
 		player.render(gc, g);
 		player2.render(gc, g);
+		gw.render(gc, g);
 	}
 
 	@Override
