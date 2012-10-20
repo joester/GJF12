@@ -13,6 +13,7 @@ public abstract class Entity{
 	protected int yCoord;
 	protected Animation a;
 
+	
 	public Entity(int x, int y, String imageLocation){
 		xCoord = x;
 		yCoord = y;
@@ -29,7 +30,7 @@ public abstract class Entity{
 	}
 	
 	public void setHitBox(Rectangle hitbox){
-		this.hitBox = hitBox;
+		this.hitBox = hitbox;
 	}
 	
 	public Rectangle getHitBox(){
