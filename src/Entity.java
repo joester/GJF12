@@ -49,18 +49,12 @@ public abstract class Entity{
 	public int getY(){
 		return yCoord;
 	}
-	public void render(GameContainer arg0, Graphics arg1) throws SlickException
-	{
-		// TODO Auto-generated method stub
-	}
-	public void init(GameContainer arg0) throws SlickException
-	{
-		// TODO Auto-generated method stub
-	}
-	public void update(GameContainer arg0, int arg1) throws SlickException, InterruptedException
-	{
-		// TODO Auto-generated method stub	
-	}
+	public abstract void render(GameContainer arg0, Graphics arg1) throws SlickException;
+	
+	public abstract void init(GameContainer arg0) throws SlickException;
+	
+	public abstract void update(GameContainer arg0, int arg1) throws SlickException, InterruptedException;
+	
 	public void renderEnt(String str, int width, int height) throws SlickException{
 		Image img = new Image(str);
 		SpriteSheet sheet = new SpriteSheet(img, width, height);

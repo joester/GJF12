@@ -13,11 +13,16 @@ public class GameplayState extends BasicGameState {
 	
 	Character player = null;
 	Character player2 = null;
+	GameWorld gw = null;
 	
 	public GameplayState(int stateID){
 		this.stateID = stateID;
 	}
 
+	
+	public void setGameWorld(GameWorld gw){
+		this.gw = gw;
+	}
 	
 	//Collision Testing
 	
@@ -51,13 +56,10 @@ public class GameplayState extends BasicGameState {
 		if(input.isKeyDown(Input.KEY_P)){
 			sbg.enterState(DisplayManager.PAUSESTATE);
 		}
-		try{
-			player.update(gc, delta);
-			player2.update(gc, delta);
-		}
-		catch(InterruptedException intE){
-			System.exit(0);
-		}
+		
+		gw.update(gc, delta);
+		
+		
 		
 		
 	}

@@ -4,6 +4,10 @@ import java.util.List;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.opengl.*;
@@ -15,29 +19,24 @@ import org.jbox2d.dynamics.World;
 public class GameWorld
 {
 	
-	Texture background;
 	World gameWorld = new World(new Vec2(0, -9.8f), false);
 	
 	List<Block> listOfBlocks = new ArrayList<Block>();
+	List<Platform> listOfPlatforms = new ArrayList<Platform>();
 	List<Projectile> listOfProjectiles = new ArrayList<Projectile>();
 	List<Character> listOfCharacters = new ArrayList<Character>();
 	List<Item> listOfItems = new ArrayList<Item>();
 	List<Item> itemsOnMap = new ArrayList<Item>();
 	
-	
-	listOfItems.add(new Earth(0, 0, "arg"));
-	listOfItems.add(new Fire(0,0, "arg"));
-	listOfItems.add(new Ice());
-	listOfItems.add(new Lightning());
-	listOfItems.add(new Wind());
-	
-	
 	Map map;
 		
 	public void init() throws IOException 
 	{	 
-		background = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream
-			(getMap().getBackgroundFileLocation()));
+		listOfItems.add(new Earth());
+		listOfItems.add(new Fire());
+		listOfItems.add(new Ice());
+		listOfItems.add(new Lightning());
+		listOfItems.add(new Wind());
 		loadSounds();
 	}
 	
@@ -45,7 +44,6 @@ public class GameWorld
 	{
 		
 		GameWorld gameworld = new GameWorld();
-		gameworld.start();
 	}
 	
 	public void loadSounds()
@@ -92,27 +90,6 @@ public class GameWorld
 		return listOfCharacters;
 	}
 	
-	public void start()
-	{		
-		try
-		{
-			Display.setDisplayMode(new DisplayMode(1000,600));
-			Display.setFullscreen(false);
-			Display.create();
-		}
-		catch (LWJGLException e)
-		{
-			e.printStackTrace();
-		}
-	
-	while (!Display.isCloseRequested()) {
-
-		// render OpenGL here
-
-		Display.update();
-		}
-		Display.destroy();
-	}
 
 	public void checkForCollisions()
 	{
@@ -125,12 +102,14 @@ public class GameWorld
 				{
 					listOfCharacters.remove(c);
 				}
-				if (c.getRectangle().instersects(b.getRectangle()))
+				
+				if (c.getRectangle().intersects(b.getRectangle()))
 					{
 						 if (c.isMovingUp)
 						 {
 							//do nothing 						
 						 }
+						 
 						 if (c.isMovingDown)
 						 {
 							 c.jumpAvailable = true;
@@ -145,7 +124,9 @@ public class GameWorld
 						 {
 							 c.lockRightMovement();
 						 }
+						 
 					}
+			
 				
 			}
 		}
@@ -165,19 +146,14 @@ public class GameWorld
 	
 	
 		
-	public void update()
+	public void update(GameContainer gc, int delta)
 	{
 		checkForCollisions();
 		spawnItems();
 		
-		for (Block b : listOfBlocks)
-		{
-			b.update();
-		}
-		
 		for (Projectile p : listOfProjectiles)
 		{
-			p.update();	
+			p.update(gc, delta);	
 		}
 		
 		for (Character c: listOfCharacters)
@@ -185,7 +161,28 @@ public class GameWorld
 			c.update();
 			
 		}
+		for(Platform plat : listOfPlatforms){
+			plat.update(gc, delta);
+		}
 		
+	}
+	
+	public void render(GameContainer gc, Graphics g){
+		for(Block b: listOfBlocks){
+			try{
+				b.render(gc, g);
+			}
+			catch(NullPointerException ex){
+				listOfBlocks.remove(b);
+			}
+		}
+		for(Projectile p : listOfProjectiles){
+			p.render(gc, g);
+			
+		}
+		for(Platform plat : listOfPlatforms){
+			plat.render(gc, g);
+		}
 	}
 	
 	public Item chooseRandomItem()
@@ -210,5 +207,6 @@ public class GameWorld
 	public void addBlock(Block block){
 		listOfBlocks.add(block);
 	}
+
 }
 

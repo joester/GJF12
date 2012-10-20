@@ -1,3 +1,5 @@
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -39,6 +41,32 @@ public class Block extends MapEntity {
 	public boolean isImpassible(){
 		
 		return blockType == BlockType.Impassible;
+	}
+	
+	public Rectangle getRectangle(){
+		return hitBox;
+	}
+
+
+	@Override
+	public void render(GameContainer arg0, Graphics arg1)
+	{
+		image.draw(xCoord, yCoord, 1);	
+	}
+
+
+	@Override
+	public void init(GameContainer arg0) throws SlickException
+	{
+		
+	}
+
+
+	@Override
+	public void update(GameContainer gc, int delta)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
   }
