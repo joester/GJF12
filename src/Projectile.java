@@ -1,7 +1,10 @@
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 
-public class Projectile
+public class Projectile extends Entity
 {
 	int xSpawnLocation;
 	int ySpawnLocation;
@@ -17,6 +20,7 @@ public class Projectile
 	public Projectile (int xSpawnLocation, int ySpawnLocation, int xVelocity, int yVelocity,
 						int maxRange, Rectangle hitBox)
 	{
+		super(xSpawnLocation, ySpawnLocation, "hello");
 		this.xSpawnLocation = xSpawnLocation;
 		this.xCurrentLocation = xSpawnLocation;
 		this.ySpawnLocation = ySpawnLocation;
@@ -32,7 +36,8 @@ public class Projectile
 		return hitBox;
 	}
 	
-	public void update()
+	@Override
+	public void update(GameContainer gc, int delta)
 	{
 		//update projectile's location
 		xCurrentLocation += xVelocity;
@@ -47,11 +52,26 @@ public class Projectile
 	}
 	
 	
+	
 	//used to determine if the projectile has reached its maximum range
 	public double getDistanceTravelled()
 	{
 		return Math.sqrt(Math.pow((xCurrentLocation - xSpawnLocation), 2) +
 						 Math.pow((yCurrentLocation - ySpawnLocation), 2));
+	}
+
+	@Override
+	public void render(GameContainer gc, Graphics g)
+	{
+		image.draw(xCoord, yCoord);
+		
+	}
+
+	@Override
+	public void init(GameContainer gc)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 	
 		
