@@ -24,8 +24,8 @@ public class GameWorld
 	List<Item> itemsOnMap = new ArrayList<Item>();
 	
 	
-	listOfItems.add(new Earth());
-	listOfItems.add(new Fire());
+	listOfItems.add(new Earth(0, 0, "arg"));
+	listOfItems.add(new Fire(0,0, "arg"));
 	listOfItems.add(new Ice());
 	listOfItems.add(new Lightning());
 	listOfItems.add(new Wind());
@@ -178,6 +178,8 @@ public class GameWorld
 			if(block.getBlockType() == BlockType.Crate && Math.random() < .2)
 			{
 				Item toBeSpawned = chooseRandomItem();
+				toBeSpawned.setX(block.getX());
+				toBeSpawned.setY(block.getY());
 				itemsOnMap.add(toBeSpawned);
 			}
 		}

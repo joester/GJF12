@@ -14,14 +14,28 @@ public String name;
 public boolean dropChance;
 public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
 BufferedImage img = null;
+public int xLocation;
+public int yLocation;
+String fileLocation;
 
-  public Item (int x, int y, String itemImage)
-  {
-	  //constructs the image at coord and finds file path
-	  super (x,y, itemImage);
-	 
+  public Item (int x, int y, String fileLocation)
+  {	 
+	  super(x, y, fileLocation);
 	  //Sets the hit box
-	  super.setHitBox(x, y);
+	  super.setHitBox(x, y);	  
+	  xLocation = x;
+	  yLocation = y;
+	  this.fileLocation = fileLocation;
+  }
+  
+  public void setX(int x)
+  {
+	  xLocation = x;
+  }
+  
+  public void setY(int y)
+  {
+	  yLocation = y;
   }
   public void whatever(BufferedImage i, int w, int h)
 	{

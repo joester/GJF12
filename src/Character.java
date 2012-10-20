@@ -59,6 +59,7 @@ long startTime = System.nanoTime();
 		//aux = null;
 		//aux = null;
 		auxName = null;
+		jumpAvailable = true;
 		
 		this.numRows = numRows;
 		this.numCols = numCols;
