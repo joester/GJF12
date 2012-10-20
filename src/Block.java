@@ -7,9 +7,7 @@ public class Block extends MapEntity {
 	public Block(int x, int y,String imageLocation, BlockType b) {
 		super(x, y,imageLocation);
 		blockType = b;
-	
 	}
-
 	
 	public void destroyBlock() throws SlickException
 	{
@@ -43,6 +41,12 @@ public class Block extends MapEntity {
 	public boolean isPlatform(){
 		
 		if(blockType == BlockType.Platform)
+			return true;
+		else
+			return false;
+	}
+	public boolean isDestructible(){
+		if(blockType == BlockType.Destructible)
 			return true;
 		else
 			return false;
