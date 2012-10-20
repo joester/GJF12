@@ -40,13 +40,5 @@ public class Block extends MapEntity {
 		
 		return blockType == BlockType.Impassible;
 	}
-	
-	public boolean isPlatform(){		
-		return blockType == BlockType.Platform;
-	}
-	
-	public boolean isDestructible(){
-		return blockType == BlockType.Destructible;
 
-	}
   }
