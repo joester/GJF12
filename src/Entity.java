@@ -11,7 +11,7 @@ public abstract class Entity{
 	protected Rectangle hitBox;
 	protected int xCoord;
 	protected int yCoord;
-	protected Animation a;
+	protected Animation animation;
 
 	
 	public Entity(int x, int y, String imageLocation){
@@ -64,11 +64,15 @@ public abstract class Entity{
 	public void renderEnt(String str, int width, int height) throws SlickException{
 		Image img = new Image(str);
 		SpriteSheet sheet = new SpriteSheet(img, width, height);
-		a = new Animation(sheet, 300);
-		a.addFrame(new Image(str), 300);
+		animation = new Animation(sheet, 300);
+		animation.addFrame(new Image(str), 300);
+	}
+	public void renderEnt(Image img, int width, int height) throws SlickException{
+		SpriteSheet sheet = new SpriteSheet(img, width, height);
+		animation = new Animation(sheet, 300);
 	}
 	public void addFrame(String str, int width, int height) throws SlickException{
 		Image img = new Image(str);
-		a.addFrame(img, 300);
+		animation.addFrame(img, 300);
 	}
 }
