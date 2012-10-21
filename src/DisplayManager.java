@@ -21,7 +21,7 @@ public class DisplayManager extends StateBasedGame
 	public static void main(String args[]) throws SlickException{
 		AppGameContainer app = 
 			new AppGameContainer(new DisplayManager("Hello"));
-		app.setDisplayMode(1000, 1000, false);
+		app.setDisplayMode(1280, 720, false);
 		app.setTargetFrameRate(60);
 		app.start();
 	}

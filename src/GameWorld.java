@@ -162,8 +162,8 @@ public class GameWorld
 		
 	public void update(GameContainer gc, int delta)
 	{
-		checkForCollisions();
-		spawnItems();
+		//checkForCollisions();
+		//spawnItems();
 		
 		for (Projectile p : listOfProjectiles)
 		{
