@@ -30,7 +30,7 @@ public class LavaMap extends Map
 		addBlock(4,7,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
 		addBlock(5,7,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
 		addBlock(6,7,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
-		addBlock(7,7,"/assets/Art/Stages/Volcano/lava.png",BlockType.Impassable);
+		addBlock(7,7,"/assets/Art/Stages/Volcano/lava.png",BlockType.Lethal);
 		addBlock(8,9,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
 		addBlock(4,3,"/assets/Art/Stages/Volcano/crate.png",BlockType.Crate);
 		addBlock(4,4,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
@@ -53,7 +53,7 @@ public class LavaMap extends Map
 		addBlock(8,7,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
 		addBlock(9,7,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
 		addBlock(10,7,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
-		addBlock(11,7,"/assets/Art/Stages/Volcano/lava.png",BlockType.Impassable);
+		addBlock(11,7,"/assets/Art/Stages/Volcano/lava.png",BlockType.Lethal);
 		addBlock(12,7,"/assets/Art/Stages/Volcano/lava.png",BlockType.Lethal);
 		addBlock(13,7,"/assets/Art/Stages/Volcano/lava.png",BlockType.Lethal);
 		addBlock(14,7,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
