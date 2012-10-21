@@ -53,7 +53,10 @@ public abstract class Entity{
 	
 	public abstract void init(GameContainer arg0) throws SlickException;
 	
-	public abstract void update(GameContainer arg0, int arg1) throws SlickException, InterruptedException;
+	public void update(GameContainer arg0, int arg1) throws SlickException, InterruptedException
+	{
+		getHitBox().setBounds(xCoord, yCoord, getHitBox().getWidth(), getHitBox().getHeight());
+	}
 	
 	public void renderEnt(String str, int width, int height) throws SlickException{
 		Image img = new Image(str);

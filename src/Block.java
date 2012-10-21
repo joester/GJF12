@@ -64,10 +64,9 @@ public class Block extends MapEntity {
 
 
 	@Override
-	public void update(GameContainer gc, int delta)
+	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
-		// TODO Auto-generated method stub
-		
+		super.update(gc, delta);		
 	}
 
   }

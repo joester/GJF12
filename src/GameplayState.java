@@ -49,8 +49,7 @@ public class GameplayState extends BasicGameState {
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta)
-		throws SlickException
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{
 		
 		Input input = new Input(delta);
@@ -58,7 +57,15 @@ public class GameplayState extends BasicGameState {
 			sbg.enterState(DisplayManager.PAUSESTATE);
 		}
 		
-		gw.update(gc, delta);
+		try
+		{
+			gw.update(gc, delta);
+		}
+		catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 

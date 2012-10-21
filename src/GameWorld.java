@@ -101,6 +101,8 @@ public class GameWorld
 				{
 					listOfCharacters.remove(c);
 				}
+				System.out.println(c);
+				System.out.println(b);
 				System.out.println(c.getRectangle());
 				System.out.println(b.getRectangle());
 				if (c.getRectangle().intersects(b.getRectangle()))
@@ -158,9 +160,9 @@ public class GameWorld
 	
 	
 		
-	public void update(GameContainer gc, int delta)
+	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
-		//checkForCollisions();
+		checkForCollisions();
 		//spawnItems();
 		
 		for (Projectile p : listOfProjectiles)

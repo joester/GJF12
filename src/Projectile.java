@@ -1,5 +1,6 @@
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 
@@ -36,8 +37,9 @@ public class Projectile extends Entity
 	}
 	
 	@Override
-	public void update(GameContainer gc, int delta)
+	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
+		super.update(gc, delta);
 		//update projectile's location
 		xCurrentLocation += xVelocity;
 		yCurrentLocation += yVelocity;

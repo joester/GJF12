@@ -30,6 +30,7 @@ Auxillary auxItem;
 ArrayList<Animation> animationSet = new ArrayList<Animation>();
 long helpTimer;
 long startTime = System.nanoTime();
+Rectangle hitBox;
 
 //GameWorld gameWorld = new GameWorld();
 //Set<Body> bodies = new HashSet<Body>();
@@ -45,7 +46,7 @@ long startTime = System.nanoTime();
 		baseDamage = 2;
 		wins = 0;
 		helpTimer = 5000000000L;
-		//super.setHitBox(x, y, 40, 40);
+		super.setHitBox(84, 84);
 		hitBox = getHitBox();
 		item = null;
 		
@@ -55,25 +56,13 @@ long startTime = System.nanoTime();
 		damage = 5;
 		healthRegen = 1;
 		itemName = null;
-		//aux = null;
-		//aux = null;
 		auxName = null;
 		jumpAvailable = true;
 		
 		this.numRows = numRows;
 		this.numCols = numCols;
-	}
-	
-	
-	
-	public void update()
-	{
-		xCoord += xVelocity;
-		yCoord += yVelocity;
-		getRectangle().setBounds(xCoord, yCoord, getRectangle().getWidth(), getRectangle().getHeight());
 		
 	}
-	
 	
 	public void setMove(boolean isMoving){
 		hasDX = isMoving;
@@ -290,6 +279,7 @@ long startTime = System.nanoTime();
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
+		super.update(gc, delta);
 		Input input = new Input(delta);
 		if(input.isKeyDown(controls[0])){
 			xCoord -= .5 * delta;

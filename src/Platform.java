@@ -28,9 +28,9 @@ public class Platform extends MapEntity{
 	}
 
 	@Override
-	public void update(GameContainer gc, int delta)
+	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
-		xCoord += Math.sin(Math.toRadians(delta)) * distance;
-		
+		super.update(gc, delta);	
+		xCoord += Math.sin(Math.toRadians(delta)) * distance;	
 	}
 }
