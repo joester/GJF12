@@ -13,14 +13,12 @@ public class GameplayState extends BasicGameState {
 	Character player2 = null;
 	GameWorld gw = null;
 	
-	public GameplayState(int stateID){
+	public GameplayState(int stateID, GameWorld gw){
 		this.stateID = stateID;
+		this.gw = gw;
 	}
 
 	
-	public void setGameWorld(GameWorld gw){
-		this.gw = gw;
-	}
 	
 	//Collision Testing
 	
@@ -57,10 +55,6 @@ public class GameplayState extends BasicGameState {
 		}
 		
 		gw.update(gc, delta);
-		
-		
-		
-		
 	}
 	
 
