@@ -15,9 +15,4 @@ public class Fire extends Item
 		startUpTime = .01;
 		reloadTime = .9;
 	}
-	
-	public void use()
-	{
-		Projectile fireball = new Projectile(xCoord, yCoord, xVelocity, yVelocity, range, hitBox);
-	}
 }

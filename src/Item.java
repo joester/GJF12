@@ -89,4 +89,9 @@ String fileLocation;
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public Projectile use()
+	{
+		return(new Projectile(xCoord, yCoord, xVelocity, yVelocity, range, hitBox));
+	}
 }

@@ -17,9 +17,4 @@ public class Wind extends Item
 		startUpTime = .01;
 		reloadTime = 1;
 	}
-	
-	public void use()
-	{
-		Projectile wind = new Projectile(xCoord, yCoord, xVelocity, yVelocity, range, hitBox);
-	}
 }

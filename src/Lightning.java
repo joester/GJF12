@@ -15,11 +15,5 @@ public class Lightning extends Item
 		dropChance = false;
 		startUpTime = .01;
 		reloadTime = .01;
-	}
-	public void use()
-	{
-		//not final
-		Projectile lightningBolt = new Projectile(xCoord, yCoord, xVelocity, yVelocity, range, hitBox);
-	}
-	
+	}	
 }
