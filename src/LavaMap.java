@@ -58,6 +58,7 @@ public class LavaMap extends Map
 		addBlock(14,7,"/assets/Art/Stages/Volcano/submerged-left.png",BlockType.Impassable);
 		addBlock(12,6,"/assets/Art/Stages/Volcano/platform.png",BlockType.Passable);
 		addBlock(11,4,"/assets/Art/Stages/Volcano/platform.png",BlockType.Passable);
+		addBlock(14, 2,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable );
 
 
 	}
