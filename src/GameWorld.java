@@ -1,9 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -30,21 +27,23 @@ public class GameWorld
 	
 	Map map;
 		
-	public void init() throws IOException 
+	public void init() throws IOException, SlickException 
 	{	 
+		/*
 		listOfItems.add(new Earth());
 		listOfItems.add(new Fire());
 		listOfItems.add(new Ice());
 		listOfItems.add(new Lightning());
 		listOfItems.add(new Wind());
+		*/
 		loadSounds();
 	}
 	
-	public static void main (String[] args) 
-	{
+	//public static void main (String[] args) 
+	//{
 		
-		GameWorld gameworld = new GameWorld();
-	}
+	//	GameWorld gameworld = new GameWorld();
+	//}
 	
 	public void loadSounds() throws SlickException
 	{
