@@ -305,6 +305,12 @@ Rectangle hitBox;
 			xVelocity = 0;
 			currentAnimation = animationSet.get(2);
 		}
+		if(yVelocity != 0){
+			yCoord += .5 * delta * yVelocity;
+			this.getHitBox().setY(yCoord);
+			yVelocity = 0;
+			currentAnimation = animationSet.get(2);
+		}
 		else if(input.isKeyDown(controls[1])){
 			
 			currentAnimation = animationSet.get(1);
@@ -315,11 +321,11 @@ Rectangle hitBox;
 			
 		}
 		else if(input.isKeyDown(controls[2])){
-			xCoord += .5 * delta;
+			//xCoord += .5 * delta;
 			currentAnimation = animationSet.get(2);
 		}
 		else if(input.isKeyDown(controls[3])){
-			yCoord += .5 * delta;
+			//yCoord += .5 * delta;
 			currentAnimation = animationSet.get(2);
 			
 		}

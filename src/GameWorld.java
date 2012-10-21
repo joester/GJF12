@@ -97,7 +97,7 @@ public class GameWorld
 		//checking for character's collision with blocks
 		for (Character c : listOfCharacters){
 			for (Block b : listOfBlocks){
-				Rectangle r = new Rectangle(c.xCoord + c.xVelocity, c.yCoord + c.yVelocity, c.getRectangle().getWidth(), c.getRectangle().getHeight());
+				Rectangle r = new Rectangle(c.xCoord + c.xVelocity*5, c.yCoord + c.yVelocity*5, c.getRectangle().getWidth(), c.getRectangle().getHeight());
 				if (r.intersects(b.getRectangle())){					
 					if (b.getBlockType() == BlockType.Lethal){
 						System.out.println("died");
