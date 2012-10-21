@@ -8,14 +8,15 @@ import org.lwjgl.input.Controllers;
 
 public class ControllerManager{
 	private boolean[][] buttonWasPressed;
+	private final float DEFAULT_DEAD_ZONE = .75f;
 
 	public ControllerManager(){
 		try {
 			Controllers.create();
 			for(int i = 0; i < Controllers.getControllerCount(); i++){
 				Controller c = Controllers.getController(i);
-				c.setXAxisDeadZone(.75f);
-				c.setYAxisDeadZone(.75f);
+				c.setXAxisDeadZone(DEFAULT_DEAD_ZONE);
+				c.setYAxisDeadZone(DEFAULT_DEAD_ZONE);
 			}
 			//for each button for each controller
 			buttonWasPressed = new boolean[getControllerCount()][Controllers.getController(0).getButtonCount()];
@@ -65,8 +66,22 @@ public class ControllerManager{
 	public ControllerEvent getInput(int controllerIndex){
 		Controller c = Controllers.getController(controllerIndex);
 		ControllerEvent ce = new ControllerEvent();
-		ce.setXAxis(c.getXAxisValue());
-		ce.setYAxis(c.getYAxisValue());
+		if(ce.getXAxisValue() < -0.75 && ce.getYAxisValue() > -0.75 && ce.getYAxisValue() < 0.75) {
+			ce.setDirection(Direction.LEFT);
+		}
+
+		if(ce.getXAxisValue() > 0.75 && ce.getYAxisValue() > -0.75 && ce.getYAxisValue() < 0.75) {
+			ce.setDirection(Direction.RIGHT);
+
+		}
+		if(ce.getYAxisValue() < -0.75 && ce.getXAxisValue() > -0.75 && ce.getXAxisValue() < 0.75) {
+			ce.setDirection(Direction.UP);
+
+		}
+		if(ce.getYAxisValue() > 0.75 && ce.getXAxisValue() > -0.75 && ce.getXAxisValue() < 0.75) {
+			ce.setDirection(Direction.DOWN);
+
+		}
 		for(Button button: Button.values()){
 			if(c.isButtonPressed(button.buttonID)){
 				if(!buttonWasPressed[controllerIndex][button.buttonID]){

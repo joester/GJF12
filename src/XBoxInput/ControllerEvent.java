@@ -6,6 +6,7 @@ public class ControllerEvent {
 	private Button button;
 	private float xAxisValue;
 	private float yAxisValue;
+	private Direction direction;
 	
 	public ControllerEvent(Button button, float xAxisValue, float yAxisValue){
 		this.button = button;
@@ -57,4 +58,14 @@ public class ControllerEvent {
 	public boolean getButtonState(Button button){
 		return buttonStates.get(button.buttonID);
 	}
+
+	public void setDirection(Direction dir) {
+		direction = dir;
+	}
+	
+	public Direction getDirection() {
+		return direction;
+	}
+	
+	
 }
