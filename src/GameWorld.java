@@ -6,8 +6,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.World;
 
 public class GameWorld
 {

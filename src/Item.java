@@ -10,9 +10,11 @@ import org.newdawn.slick.SlickException;
 
 
 public class Item extends Entity {
-
-public double range, speed, startUpTime, reloadTime;
-public int damage; 
+public int range;
+public double speed, startUpTime, reloadTime;
+public int damage;
+public int xVelocity;
+public int yVelocity;
 public String name;
 public boolean dropChance;
 public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();

@@ -18,6 +18,6 @@ public class Fire extends Item
 	
 	public void use()
 	{
-		Projectile fireball = new Projectile(xCoord, yCoord, speed, 0, 100, hitBox);
+		Projectile fireball = new Projectile(xCoord, yCoord, xVelocity, yVelocity, range, hitBox);
 	}
 }

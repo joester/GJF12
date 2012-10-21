@@ -20,12 +20,4 @@ EARTH  5  1(3 if above) 1 Yes 0.05, 0.01
 		startUpTime = .05;
 		reloadTime = .01;	
 	}
-	
-	public void use()
-	{
-		
-	}
-	
-	
-	
 }

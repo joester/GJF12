@@ -17,4 +17,9 @@ public class Ice extends Item
 		reloadTime = .01;
 		
 	}
+	
+	public void use()
+	{
+		Projectile earth = new Projectile(xCoord, yCoord, xVelocity, yVelocity, range, hitBox);
+	}
 }

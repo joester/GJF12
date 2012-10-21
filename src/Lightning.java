@@ -19,7 +19,7 @@ public class Lightning extends Item
 	public void use()
 	{
 		//not final
-		Projectile lightningBolt = new Projectile(xCoord, yCoord, speed, 0, 100, hitbox);
+		Projectile lightningBolt = new Projectile(xCoord, yCoord, xVelocity, yVelocity, range, hitBox);
 	}
 	
 }

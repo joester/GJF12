@@ -20,6 +20,6 @@ public class Wind extends Item
 	
 	public void use()
 	{
-		
+		Projectile wind = new Projectile(xCoord, yCoord, xVelocity, yVelocity, range, hitBox);
 	}
 }
