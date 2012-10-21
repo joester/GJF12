@@ -1,6 +1,6 @@
 import org.newdawn.slick.geom.Rectangle;
 
-public class Map {
+public abstract class Map {
 	
 	GameWorld gW;
 	String backgroundFileLocation;
@@ -11,10 +11,17 @@ public class Map {
 	
 	public void addBlock(int xCoordinate, int yCoordinate, String fileLocation, BlockType blockType)	
 	{
-		gW.addBlock(new Block (xCoordinate * MapEntity.BLOCKSIZE, yCoordinate * MapEntity.BLOCKSIZE, 
-				fileLocation, blockType, 
-				new Rectangle(xCoordinate* MapEntity.BLOCKSIZE, yCoordinate* MapEntity.BLOCKSIZE, MapEntity.BLOCKSIZE, MapEntity.BLOCKSIZE)));
+		gW.addBlock(new Block(	xCoordinate * MapEntity.BLOCKSIZE, 
+								yCoordinate * MapEntity.BLOCKSIZE, 
+								fileLocation, 
+								blockType, 
+								new Rectangle(	xCoordinate * MapEntity.BLOCKSIZE, 
+												yCoordinate * MapEntity.BLOCKSIZE, 
+												MapEntity.BLOCKSIZE, 
+												MapEntity.BLOCKSIZE)));
 	}
+	
+	public abstract void buildMap();
 	
 	public String getBackgroundFileLocation()
 	{

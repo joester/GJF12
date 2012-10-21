@@ -45,7 +45,7 @@ Rectangle hitBox;
 		hP = 100;
 		baseDamage = 2;
 		wins = 0;
-		super.setHitBox(84, 84);
+		super.setHitBox(40, 84);
 		hitBox = getHitBox();
 		item = null;
 		
@@ -156,9 +156,13 @@ Rectangle hitBox;
 			//animation.draw(xCoord, yCoord, 64, 64);
 		if (xVelocity > 0)
 		{
+			isMovingRight = true;
+			isMovingLeft = false;
 			//Moving UP-RIGHT
 			if (yVelocity > 0)
 			{
+				isMovingUp = true;
+				isMovingDown = false;
 				boolean[] newMoves = {true, true, false, false};
 				isMoving = newMoves;
 			}
@@ -166,6 +170,8 @@ Rectangle hitBox;
 			//Moving DOWN-RIGHT
 			else if (yVelocity < 0)
 			{
+				isMovingUp = false;
+				isMovingDown = true;
 				boolean[] newMoves = {false, true, false, true};
 				isMoving = newMoves;
 			}
@@ -173,6 +179,8 @@ Rectangle hitBox;
 			//Moving ONLY Right
 			else
 			{
+				isMovingUp = false;
+				isMovingDown = false;
 				boolean[] newMoves = {false, true, false, false};
 				isMoving = newMoves;
 			}	
@@ -181,9 +189,13 @@ Rectangle hitBox;
 		
 		else if (xVelocity < 0)
 		{
+			isMovingRight = false;
+			isMovingLeft = true;
 			//Moving UP-LEFT
 			if (yVelocity > 0)
 			{
+				isMovingUp = true;
+				isMovingDown = false;
 				boolean[] newMoves = {true, true, false, false};
 				isMoving = newMoves;
 			}
@@ -191,6 +203,8 @@ Rectangle hitBox;
 			//Moving DOWN-LEFT
 			else if (yVelocity < 0)
 			{
+				isMovingUp = false;
+				isMovingDown = true;
 				boolean[] newMoves = {false, false, true, true};
 				isMoving = newMoves;
 			}
@@ -198,6 +212,8 @@ Rectangle hitBox;
 			//Moving ONLY Left
 			else
 			{
+				isMovingUp = false;
+				isMovingDown = false;
 				boolean[] newMoves = {false, false, true, false};
 				isMoving = newMoves;
 			}
@@ -206,9 +222,13 @@ Rectangle hitBox;
 		//xVelocity = 0
 		else
 		{
+			isMovingLeft = false;
+			isMovingRight = false;
 			//Moving only UP
 			if (yVelocity > 0)
 			{
+				isMovingUp = true;
+				isMovingDown = false;
 				boolean[] newMoves = {true, false, false, false};
 				isMoving = newMoves;
 			}
@@ -216,6 +236,8 @@ Rectangle hitBox;
 			//Moving only DOWN
 			else if (yVelocity < 0)
 			{
+				isMovingUp = false;
+				isMovingDown = true;
 				boolean[] newMoves = {false, false, false, true};
 				isMoving = newMoves;
 			}
@@ -223,6 +245,10 @@ Rectangle hitBox;
 			//NOT MOVING
 			else
 			{
+				isMovingLeft= false;
+				isMovingRight = false;
+				isMovingUp = false;
+				isMovingDown = false;
 				boolean[] newMoves = {false, false, false, false};
 				isMoving = newMoves;
 			}
@@ -273,8 +299,10 @@ Rectangle hitBox;
 		currentAnimation.update(delta);
 		//super.update(gc, delta);
 		Input input = new Input(delta);
-		if(input.isKeyDown(controls[0])){
-			xCoord -= .5 * delta;
+		if(xVelocity != 0){
+			xCoord += .5 * delta * xVelocity;
+			this.getHitBox().setX(xCoord);
+			xVelocity = 0;
 			currentAnimation = animationSet.get(2);
 		}
 		else if(input.isKeyDown(controls[1])){
