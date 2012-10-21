@@ -92,21 +92,20 @@ public class GameWorld
 
 	public void checkForCollisions()
 	{
+		ArrayList<Character> toBeRemoved = new ArrayList<Character>();
 		//checking for character's collision with blocks
 		for (Character c : listOfCharacters)
 		{
 			for (Block b : listOfBlocks)
 			{
-				if (b.getBlockType() == BlockType.Lethal)
-				{
-					listOfCharacters.remove(c);
-				}
-				System.out.println(c);
-				System.out.println(b);
-				System.out.println(c.getRectangle());
-				System.out.println(b.getRectangle());
 				if (c.getRectangle().intersects(b.getRectangle()))
-					{
+					{					
+						if (b.getBlockType() == BlockType.Lethal)
+						{
+							System.out.println("died");
+							toBeRemoved.add(c);
+						}
+						
 						 if (c.isMovingUp && b.getBlockType() == BlockType.Passable)
 						 {
 							//do nothing 						
@@ -130,13 +129,13 @@ public class GameWorld
 						 if (c.isMovingRight)
 						 {
 							 c.xVelocity = 0;
-						 }
-						 
-					}
-			
-				
+						 }						 
+					}				
 			}
 		}
+		
+		for (Character c : toBeRemoved)
+			listOfCharacters.remove(c);
 		
 		for (Character c : listOfCharacters)
 		{
@@ -191,7 +190,7 @@ public class GameWorld
 		for(Block b: listOfBlocks){
 			try{
 				b.render(gc, g);
-				System.out.println(b.image);
+				//System.out.println(b.image);
 			}
 			catch(NullPointerException ex){
 				listOfBlocks.remove(b);

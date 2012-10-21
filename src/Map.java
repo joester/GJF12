@@ -13,7 +13,7 @@ public class Map {
 	{
 		gW.addBlock(new Block (xCoordinate * MapEntity.BLOCKSIZE, yCoordinate * MapEntity.BLOCKSIZE, 
 				fileLocation, blockType, 
-				new Rectangle(xCoordinate, yCoordinate, MapEntity.BLOCKSIZE, MapEntity.BLOCKSIZE)));
+				new Rectangle(xCoordinate* MapEntity.BLOCKSIZE, yCoordinate* MapEntity.BLOCKSIZE, MapEntity.BLOCKSIZE, MapEntity.BLOCKSIZE)));
 	}
 	
 	public String getBackgroundFileLocation()
