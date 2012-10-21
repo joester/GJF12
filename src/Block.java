@@ -28,10 +28,6 @@ public class Block extends MapEntity {
 		return blockType;
 	}
 	
-	public Rectangle getRectangle()
-	{
-		return hitBox;
-	}
 	
 	//checks on what type the blocks are.
 	public boolean isLethal(){		
@@ -40,12 +36,12 @@ public class Block extends MapEntity {
 	
 	public boolean isPassible(){
 		
-		return blockType == BlockType.Passible;
+		return blockType == BlockType.Passable;
 	}
 	
 	public boolean isImpassible(){
 		
-		return blockType == BlockType.Impassible;
+		return blockType == BlockType.Impassable;
 	}
 	
 	public Rectangle getRectangle(){
@@ -54,7 +50,7 @@ public class Block extends MapEntity {
 
 
 	@Override
-	public void render(GameContainer arg0, Graphics arg1)
+	public void render(GameContainer gc, Graphics g)
 	{
 		image.draw(xCoord, yCoord, 1);	
 	}

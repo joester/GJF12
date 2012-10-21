@@ -35,8 +35,7 @@ long startTime = System.nanoTime();
 //Set<Body> bodies = new HashSet<Body>();
 
 
-	public Character(int x, int y, String imageLocation, String name, int maxHealth,
-		int numRows, int numCols)
+	public Character(int x, int y, String imageLocation)
 	{
 		super(x,y, imageLocation);
 		hasAuxItem = false;
@@ -46,7 +45,6 @@ long startTime = System.nanoTime();
 		baseDamage = 2;
 		wins = 0;
 		helpTimer = 5000000000L;
-			
 		//super.setHitBox(x, y, 40, 40);
 		hitBox = getHitBox();
 		item = null;
@@ -65,6 +63,9 @@ long startTime = System.nanoTime();
 		this.numRows = numRows;
 		this.numCols = numCols;
 	}
+	
+	
+	
 	public void update()
 	{
 		xCoord += xVelocity;
@@ -250,6 +251,7 @@ long startTime = System.nanoTime();
 		i[3] = new Image("/assets/punch-spritesheet.png").getFlippedCopy(true, false);
 		int[] cols = {1, 4, 3, 2};
 		int count = 0;
+		setControls(Input.KEY_A, Input.KEY_W, Input.KEY_D, Input.KEY_S);
 		for(Image img : i){
 			renderEnt(img, img.getWidth() / cols[count], img.getHeight());
 			count += 1;
