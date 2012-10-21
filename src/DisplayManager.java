@@ -18,7 +18,7 @@ public class DisplayManager extends StateBasedGame
 	//Builds the actual display for the game.
 
 	
-	public static void main(String args[]) throws SlickException{
+	public static void main(String args[])throws SlickException{
 		AppGameContainer app = 
 			new AppGameContainer(new DisplayManager("Hello"));
 		app.setDisplayMode(1280, 720, false);
