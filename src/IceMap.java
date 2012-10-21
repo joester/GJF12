@@ -35,7 +35,7 @@ public class IceMap extends Map
 		addBlock(5,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
 		addBlock(6,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
 		addBlock(7,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
-		addBlock(4,3,"/assets/Art/Stages/Volcano/crate.png",BlockType.Crate);
+		addBlock(4,3,"/assets/Art/Stages/genericcrate.png",BlockType.Crate);
 		addBlock(4,4,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
 		addBlock(5,4,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
 		//addBlock(5,0,"/assets/Art/Stages/Volcano/icicles-left.png",BlockType.Lethal);
@@ -54,7 +54,7 @@ public class IceMap extends Map
 		addBlock(8,3,"/assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable);
 		addBlock(9,4,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
 		addBlock(10,4,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
-		addBlock(10,3,"/assets/Art/Stages/Volcano/crate.png",BlockType.Crate);
+		addBlock(10,3,"/assets/Art/Stages/genericcrate.png",BlockType.Crate);
 		addBlock(8,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
 		addBlock(9,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
 		addBlock(10,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);

@@ -11,8 +11,6 @@ import org.newdawn.slick.geom.Rectangle;
 public class GameWorld
 {
 
-	//World gameWorld = new World(new Vec2(0, -9.8f), false);
-
 	List<Block> listOfBlocks = new ArrayList<Block>();
 	List<Platform> listOfPlatforms = new ArrayList<Platform>();
 	List<Projectile> listOfProjectiles = new ArrayList<Projectile>();
@@ -20,32 +18,33 @@ public class GameWorld
 	List<Item> listOfItems = new ArrayList<Item>();
 	List<Item> itemsOnMap = new ArrayList<Item>();
 	String testString = "GameWorld Loaded.";
+	
+	IceMap map = new IceMap(this);
+		
 
 
 	LavaMap map = new LavaMap(this);
 
 	public void init() throws IOException, SlickException 
 	{	 
-
-		//listOfItems.add(new Earth(0, 0, null));
-
-		//		listOfItems.add(new Fire());
-		//		listOfItems.add(new Ice());
-		//		listOfItems.add(new Lightning());
-		//		listOfItems.add(new Wind());
-
+		String earthFileLocation = "assets/Art/Transformations/icons/hammer.png";
+		String fireFileLocation = "assets/Art/Transformations/icons/bow.png";
+		String iceFileLocation = "assets/ArtTransformations/icons/shield.png";
+		String lightningFileLocation = "assets/ArtTransformations/icons/dagger.png";
+		String windFileLocation = "assets/ArtTransformations/icons/fan.png";
+		
+		//listOfItems.add(new Earth(0, 0, null));		
+		//listOfItems.add(new Fire());
+		//listOfItems.add(new Ice());
+		//listOfItems.add(new Lightning());
+		//listOfItems.add(new Wind());
+		
 		//loadSounds();
 		Character c = new Character(0, 0, "/assets/stand-spritesheet.png");
 		c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
 		listOfCharacters.add(c);
 		System.out.println("Character added");
 	}
-
-	//public static void main (String[] args) 
-	//{
-
-	//	GameWorld gameworld = new GameWorld();
-	//}
 
 	public void loadSounds() throws SlickException
 	{
@@ -70,12 +69,7 @@ public class GameWorld
 	{
 		return map;
 	}
-	/**
-	public World getWorld()
-	{
-		return gameWorld;
-	}
-	 **/
+	
 	public List<Block> getListOfBlocks()
 	{
 		return listOfBlocks;
@@ -135,10 +129,36 @@ public class GameWorld
 					listOfProjectiles.remove(p);
 				}
 			}
+			
+			for (Item i : itemsOnMap)
+			{
+				if (c.getRectangle().intersects(i.getHitBox()) && !c.hasItem)
+				{
+					c.pickUpItem(i);
+					c.hasItem = true;
+				}
+			}
 			for(Block b: listOfBlocks){
 				if(!b.isPassible()){
 					projectilesToBeRemoved.add(p);
 				}
+			}
+		}
+		for (Block b: listOfBlocks)
+		{
+			if (b.getBlockType() == BlockType.Crate)
+			{
+				for (Projectile p : listOfProjectiles)
+				{
+					if (p.getRectangle().intersects(b.getRectangle()))
+						{
+							Item toBeAdded = chooseRandomItem();
+							toBeAdded.setX(b.getX());
+							toBeAdded.setY(b.getY());
+							itemsOnMap.add(toBeAdded);
+						}
+	
+				}			 
 			}
 		}
 		
@@ -175,14 +195,21 @@ public class GameWorld
 				//System.out.println("Character updated");
 			}catch(Exception e){
 
-			}
+<<<<<<< .mine			}			
+=======			}
 
 
-		}
+>>>>>>> .theirs		}
+		
 		for(Platform plat : listOfPlatforms){
 			plat.update(gc, delta);
 		}
 
+		for (Item i : itemsOnMap)
+		{
+			i.update(gc, delta);
+		}
+		
 	}
 
 	public void render(GameContainer gc, Graphics g){
@@ -221,19 +248,19 @@ public class GameWorld
 		return listOfItems.get((int)(listOfItems.size() * Math.random()) - 1);
 	}
 
-	public void spawnItems()
-	{
-		for (Block block : listOfBlocks)
-		{
-			if(block.getBlockType() == BlockType.Crate && Math.random() < .2)
-			{
-				Item toBeSpawned = chooseRandomItem();
-				toBeSpawned.setX(block.getX());
-				toBeSpawned.setY(block.getY());
-				itemsOnMap.add(toBeSpawned);
-			}
-		}
-	}
+//	public void spawnItems()
+//	{
+//		for (Block block : listOfBlocks)
+//		{
+//			if(block.getBlockType() == BlockType.Crate && Math.random() < .2)
+//			{
+//				Item toBeSpawned = chooseRandomItem();
+//				toBeSpawned.setX(block.getX());
+//				toBeSpawned.setY(block.getY());
+//				itemsOnMap.add(toBeSpawned);
+//			}
+//		}
+//	}
 
 	public void addBlock(Block block){
 		listOfBlocks.add(block);

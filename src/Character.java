@@ -106,7 +106,7 @@ Rectangle hitBox;
 	   return damage;
 	}
 	
-	public void pickupitem(Item item)
+	public void pickUpItem(Item item)
 	{
 		damage = item.damage;
 		range = item.range;
