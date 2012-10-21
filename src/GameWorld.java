@@ -46,7 +46,7 @@ public class GameWorld
 		GameWorld gameworld = new GameWorld();
 	}
 	
-	public void loadSounds()
+	public void loadSounds() throws SlickException
 	{
 		Sound punchHit1 = new Sound("assets/SFX/punch1Final.mp3");
 		Sound punchHit2 = new Sound("assets/SFX/punch2Final.mp3");
