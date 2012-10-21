@@ -58,12 +58,13 @@ public class IceMap extends Map
 		addBlock(8,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Lethal);
 		addBlock(9,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
 		addBlock(10,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
-		addBlock(14,3,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
+		addBlock(14,2,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
 		addBlock(11,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Impassable);
 		addBlock(11,4,"/assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable);
 		addBlock(12,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
 		addBlock(13,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
 		addBlock(14,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Lethal);
+		addBlock(13, 6, "/assets/Art/Stages/Volcano/iceplatform.png", BlockType.Passable);
 	}
 	
 }
