@@ -1,22 +1,18 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.opengl.*;
-import org.newdawn.slick.util.*;
-import org.jbox2d.collision.*;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
 public class GameWorld
 {
 	
-	World gameWorld = new World(new Vec2(0, -9.8f), false);
+	//World gameWorld = new World(new Vec2(0, -9.8f), false);
 	
 	List<Block> listOfBlocks = new ArrayList<Block>();
 	List<Platform> listOfPlatforms = new ArrayList<Platform>();
@@ -24,19 +20,25 @@ public class GameWorld
 	List<Character> listOfCharacters = new ArrayList<Character>();
 	List<Item> listOfItems = new ArrayList<Item>();
 	List<Item> itemsOnMap = new ArrayList<Item>();
+	String testString = "GameWorld Loaded.";
 	
-	Map map;
+	
+	IceMap map = new IceMap(this);
 		
 	public void init() throws IOException, SlickException 
 	{	 
-		/*
-		listOfItems.add(new Earth());
-		listOfItems.add(new Fire());
-		listOfItems.add(new Ice());
-		listOfItems.add(new Lightning());
-		listOfItems.add(new Wind());
-		*/
-		loadSounds();
+		
+		//listOfItems.add(new Earth(0, 0, null));
+		
+//		listOfItems.add(new Fire());
+//		listOfItems.add(new Ice());
+//		listOfItems.add(new Lightning());
+//		listOfItems.add(new Wind());
+		
+		//loadSounds();
+		Character c = new Character(0, 0, "/assets/stand-spritesheet.png");
+		c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
+		listOfCharacters.add(c);
 	}
 	
 	//public static void main (String[] args) 
@@ -68,12 +70,12 @@ public class GameWorld
 	{
 		return map;
 	}
-	
+	/**
 	public World getWorld()
 	{
 		return gameWorld;
 	}
-	
+	**/
 	public List<Block> getListOfBlocks()
 	{
 		return listOfBlocks;
@@ -99,9 +101,10 @@ public class GameWorld
 			{
 				if (b.getBlockType() == BlockType.Lethal)
 				{
-					c.hitBox = null;
 					listOfCharacters.remove(c);
 				}
+				System.out.println(c.getRectangle());
+				System.out.println(b.getRectangle());
 				if (c.getRectangle().intersects(b.getRectangle()))
 					{
 						 if (c.isMovingUp && b.getBlockType() == BlockType.Passable)
@@ -148,6 +151,13 @@ public class GameWorld
 		}
 	}
 	
+	public void init(GameContainer gc) throws SlickException{
+		for(Character c : listOfCharacters){
+			c.init(gc);
+		}
+		map.buildMap();
+	}
+	
 	
 		
 	public void update(GameContainer gc, int delta)
@@ -162,7 +172,12 @@ public class GameWorld
 		
 		for (Character c: listOfCharacters)
 		{
-			c.update();
+			try{
+				c.update(gc, delta);
+			}catch(Exception e){
+				
+			}
+			
 			
 		}
 		for(Platform plat : listOfPlatforms){
@@ -172,9 +187,11 @@ public class GameWorld
 	}
 	
 	public void render(GameContainer gc, Graphics g){
+		
 		for(Block b: listOfBlocks){
 			try{
 				b.render(gc, g);
+				System.out.println(b.image);
 			}
 			catch(NullPointerException ex){
 				listOfBlocks.remove(b);
@@ -187,11 +204,22 @@ public class GameWorld
 		for(Platform plat : listOfPlatforms){
 			plat.render(gc, g);
 		}
+		for(Character c : listOfCharacters){
+			try{
+				c.render(gc, g);
+			}
+			catch(Exception e){
+				
+			}
+			
+		}
 	}
+	
+
 	
 	public Item chooseRandomItem()
 	{
-		return listOfItems.get((int)(listOfItems.size() * Math.random()));
+		return listOfItems.get((int)(listOfItems.size() * Math.random()) - 1);
 	}
 	
 	public void spawnItems()

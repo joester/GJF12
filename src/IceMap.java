@@ -17,7 +17,7 @@ public class IceMap extends Map
 	{
 		//addBlock( X-Coordinate, Y-Coordinate, blockFileLocation, blockType );
 		//"arg" is a placeholder fileLocation
-		addBlock(0,3, "arg", BlockType.Impassable);
+		//addBlock(0,3, "arg", BlockType.Impassable);
 		/*
 		 * addSpawn(0,2,"arg", BlockType.CrateSpawn);
 		 * addSpawn(15,2, "arg", BlockType.CrateSpawn);
