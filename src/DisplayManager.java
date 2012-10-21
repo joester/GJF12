@@ -40,7 +40,6 @@ public class DisplayManager extends StateBasedGame
 	{
 		this.addState(new MainMenu(DisplayManager.MAINMENUSTATE));
 		this.addState(new GameplayState(DisplayManager.GAMEPLAYSTATE, gw));
-		
 		this.addState(new PauseState(DisplayManager.PAUSESTATE));
 		
 	}

@@ -23,13 +23,13 @@ int xCoord, yCoord, jumpHeight;
 int xVelocity, yVelocity;
 String imageLocation;
 boolean isMovingUp, isMovingRight, isMovingLeft, isMovingDown;
-boolean punched, hasHelp;
+boolean punched, hasHelp, animationInPlay;
 boolean[] isMoving = {isMovingUp, isMovingRight, isMovingLeft, isMovingDown};
 boolean jumpAvailable;
 Auxillary auxItem;
 ArrayList<Animation> animationSet = new ArrayList<Animation>();
-long helpTimer;
-long startTime = System.nanoTime();
+Animation currentAnimation;
+int time;
 Rectangle hitBox;
 
 //GameWorld gameWorld = new GameWorld();
@@ -45,7 +45,6 @@ Rectangle hitBox;
 		hP = 100;
 		baseDamage = 2;
 		wins = 0;
-		helpTimer = 5000000000L;
 		super.setHitBox(84, 84);
 		hitBox = getHitBox();
 		item = null;
@@ -233,6 +232,8 @@ Rectangle hitBox;
 		
 	@Override
 	public void init(GameContainer gc) throws SlickException{
+		jumpHeight = 0;
+		
 		Image[] i = new Image[4];
 		i[0] = (new Image("/assets/stand-0.png")).getFlippedCopy(true, false);
 		i[1] = new Image("/assets/jump-spritesheet.png");
@@ -244,78 +245,61 @@ Rectangle hitBox;
 		for(Image img : i){
 			renderEnt(img, img.getWidth() / cols[count], img.getHeight());
 			count += 1;
+			animation.stopAt(animation.getFrameCount() - 1);
 			animationSet.add(animation);
 		}
+		currentAnimation = animationSet.get(2);
 	}
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		if(!hasDX){
-			if(punched){
-				animationSet.get(3).draw(xCoord, yCoord);
-			}
-			else{
-				animationSet.get(1).draw(xCoord, yCoord);
-			}
-			
+		currentAnimation.draw(xCoord, yCoord);
+		if(currentAnimation.equals(animationSet.get(1))){
+			if(currentAnimation.getFrame() >= 1)
+				yCoord -= 0.05 * time;
 		}
-		if(hasDX){
-			if(!jumpAvailable){
-				animationSet.get(1).draw(xCoord, yCoord);
-			}
-			else{
-				animationSet.get(2).draw(xCoord, yCoord);
-			}
+		if(currentAnimation.isStopped()){
+			currentAnimation = animationSet.get(2);
+			currentAnimation.restart();
 		}
-		if(hasHelp){
-			g.drawRect(xCoord, yCoord, 10, 10);
-		}
-		jumpAvailable = true;
-		punched = false;
-		hasDX = true;
 	}
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
-		super.update(gc, delta);
+		time = delta;
+		
+		currentAnimation.update(delta);
+		//super.update(gc, delta);
 		Input input = new Input(delta);
 		if(input.isKeyDown(controls[0])){
 			xCoord -= .5 * delta;
+			currentAnimation = animationSet.get(2);
 		}
-		if(input.isKeyDown(controls[1])){
-			yCoord -= jumpHeight * delta;
-			hasDX = false;
-			jumpAvailable = false;
-		}
-		if(input.isKeyDown(controls[2])){
-			xCoord += .5 * delta;
-		}
-		if(input.isKeyDown(controls[3])){
-			yCoord += .5 * delta;
+		else if(input.isKeyDown(controls[1])){
+			
+			currentAnimation = animationSet.get(1);
+			if(currentAnimation.isStopped()){
+				currentAnimation.restart();
+				currentAnimation = animationSet.get(2);
+			}
 			
 		}
-		if(input.isKeyDown(Input.KEY_SPACE)){
-			punched = true;
-			hasDX = false;
+		else if(input.isKeyDown(controls[2])){
+			xCoord += .5 * delta;
+			currentAnimation = animationSet.get(2);
 		}
-		else{
-			hasDX = true;
+		else if(input.isKeyDown(controls[3])){
+			yCoord += .5 * delta;
+			currentAnimation = animationSet.get(2);
+			
 		}
-		startTime = System.nanoTime() - startTime;
-		if(helpTimer >= 5000000000L){
-			helpTimer = 5000000000L;
-			hasHelp = true;
-		}
-		else{
-			helpTimer += startTime / 1000;
-		}
-		if(hasHelp){
-			if(input.isKeyDown(Input.KEY_E)){
-				yCoord -= jumpHeight * 4 * delta;
-				helpTimer = 0;
-				hasHelp = false;
+		else if(input.isKeyDown(Input.KEY_SPACE)){
+			currentAnimation = animationSet.get(3);
+			if(currentAnimation.isStopped()){
+				currentAnimation.restart();
+				currentAnimation = animationSet.get(2);
 			}
 		}
 		

@@ -37,6 +37,7 @@ public class GameWorld
 		Character c = new Character(0, 0, "/assets/stand-spritesheet.png");
 		c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
 		listOfCharacters.add(c);
+		System.out.println("Character added");
 	}
 	
 	//public static void main (String[] args) 
@@ -173,6 +174,7 @@ public class GameWorld
 		{
 			try{
 				c.update(gc, delta);
+				//System.out.println("Character updated");
 			}catch(Exception e){
 				
 			}
@@ -190,7 +192,7 @@ public class GameWorld
 		for(Block b: listOfBlocks){
 			try{
 				b.render(gc, g);
-				//System.out.println(b.image);
+				
 			}
 			catch(NullPointerException ex){
 				listOfBlocks.remove(b);
@@ -208,7 +210,7 @@ public class GameWorld
 				c.render(gc, g);
 			}
 			catch(Exception e){
-				
+				e.printStackTrace();
 			}
 			
 		}
