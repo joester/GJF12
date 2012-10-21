@@ -36,7 +36,7 @@ public class IceMap extends Map
 		addBlock(6,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
 		addBlock(7,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Impassable);
 		addBlock(4,3,"/assets/Art/Stages/Volcano/crate.png",BlockType.Crate);
-		addBlock(5,4,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
+		addBlock(5,3,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
 		addBlock(6,4,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
 		//addBlock(5,0,"/assets/Art/Stages/Volcano/icicles-left.png",BlockType.Lethal);
 		//in ice map the stalactites are gone?
