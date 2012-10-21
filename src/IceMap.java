@@ -24,9 +24,11 @@ public class IceMap extends Map
 		 * etc
 		 */
 		addBlock(0,7,"/assets/Art/Stages/Volcano/iceblock.png", BlockType.Impassable);
+		addBlock(0,2,"/assets/Art/Stages/Volcano/iceblock.png", BlockType.Impassable);
 		addBlock(1,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
 		addBlock(2,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
 		addBlock(3,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
+		addBlock(3,4,"/assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable);
 		addBlock(2,6,"/assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable);
 		//addBlock(3,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
 		addBlock(4,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
@@ -47,31 +49,20 @@ public class IceMap extends Map
 		**/
 		
 		//addBlock(11,0,"/assets/Art/Stages/Volcano/icicles-right.png",BlockType.Lethal);
-		addBlock(7,4,"/assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable);
-		addBlock(8,4, "/assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable);
-		addBlock(9,4,"/assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable);
-		addBlock(10,5,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
-		addBlock(11,5,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
-		addBlock(11,4,"/assets/Art/Stages/Volcano/crate.png",BlockType.Crate);
-		addBlock(8,9,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
-		addBlock(9,9,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
-		addBlock(10,9,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Impassable);
-		addBlock(11,9,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Impassable);
-		addBlock(12,9,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
-		addBlock(13,9,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
-		addBlock(14,9,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
-		addBlock(15,9,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
-		addBlock(15,3, "/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
-
-
-
-
-
-
-
-
-
-
+		addBlock(6,3,"/assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable);
+		addBlock(7,3, "/assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable);
+		addBlock(8,3,"/assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable);
+		addBlock(9,4,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
+		addBlock(10,4,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
+		addBlock(10,3,"/assets/Art/Stages/Volcano/crate.png",BlockType.Crate);
+		addBlock(8,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Lethal);
+		addBlock(9,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
+		addBlock(10,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable);
+		addBlock(11,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Impassable);
+		addBlock(11,4,"/assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable);
+		addBlock(12,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
+		addBlock(13,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
+		addBlock(14,7,"/assets/Art/Stages/Volcano/iceblock.png",BlockType.Lethal);
 
 	}
 	
