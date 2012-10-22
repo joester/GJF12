@@ -20,9 +20,10 @@ boolean hasAuxItem, hasItem;
 Item item;
 int wins;
 int xCoord, yCoord, jumpHeight;
-int xVelocity, yVelocity;
+double xVelocity, yVelocity;
 String imageLocation;
 boolean isMovingUp, isMovingRight, isMovingLeft, isMovingDown;
+boolean canMoveUp, canMoveRight, canMoveLeft, canMoveDown;
 boolean punched, hasHelp, animationInPlay;
 boolean[] isMoving = {isMovingUp, isMovingRight, isMovingLeft, isMovingDown};
 boolean jumpAvailable;
@@ -45,7 +46,7 @@ Rectangle hitBox;
 		hP = 100;
 		baseDamage = 2;
 		wins = 0;
-		super.setHitBox(40, 84);
+		super.setHitBox(x ,y ,42,84);
 		hitBox = getHitBox();
 		item = null;
 		
@@ -152,7 +153,7 @@ Rectangle hitBox;
 	
 	public void determineDirection()
 	{
-		if(hasDX){
+		//if(hasDX){
 			//animation.draw(xCoord, yCoord, 64, 64);
 		if (xVelocity > 0)
 		{
@@ -161,8 +162,8 @@ Rectangle hitBox;
 			//Moving UP-RIGHT
 			if (yVelocity > 0)
 			{
-				isMovingUp = true;
-				isMovingDown = false;
+				isMovingUp = false;
+				isMovingDown = true;
 				boolean[] newMoves = {true, true, false, false};
 				isMoving = newMoves;
 			}
@@ -170,8 +171,8 @@ Rectangle hitBox;
 			//Moving DOWN-RIGHT
 			else if (yVelocity < 0)
 			{
-				isMovingUp = false;
-				isMovingDown = true;
+				isMovingUp = true;
+				isMovingDown = false;
 				boolean[] newMoves = {false, true, false, true};
 				isMoving = newMoves;
 			}
@@ -194,8 +195,8 @@ Rectangle hitBox;
 			//Moving UP-LEFT
 			if (yVelocity > 0)
 			{
-				isMovingUp = true;
-				isMovingDown = false;
+				isMovingUp = false;
+				isMovingDown = true;
 				boolean[] newMoves = {true, true, false, false};
 				isMoving = newMoves;
 			}
@@ -203,8 +204,8 @@ Rectangle hitBox;
 			//Moving DOWN-LEFT
 			else if (yVelocity < 0)
 			{
-				isMovingUp = false;
-				isMovingDown = true;
+				isMovingUp = true;
+				isMovingDown = false;
 				boolean[] newMoves = {false, false, true, true};
 				isMoving = newMoves;
 			}
@@ -227,8 +228,8 @@ Rectangle hitBox;
 			//Moving only UP
 			if (yVelocity > 0)
 			{
-				isMovingUp = true;
-				isMovingDown = false;
+				isMovingUp = false;
+				isMovingDown = true;
 				boolean[] newMoves = {true, false, false, false};
 				isMoving = newMoves;
 			}
@@ -236,8 +237,8 @@ Rectangle hitBox;
 			//Moving only DOWN
 			else if (yVelocity < 0)
 			{
-				isMovingUp = false;
-				isMovingDown = true;
+				isMovingUp = true;
+				isMovingDown = false;
 				boolean[] newMoves = {false, false, false, true};
 				isMoving = newMoves;
 			}
@@ -254,7 +255,7 @@ Rectangle hitBox;
 			}
 		}
 		}
-	}
+	//}
 		
 	@Override
 	public void init(GameContainer gc) throws SlickException{
@@ -282,36 +283,67 @@ Rectangle hitBox;
 	{
 		currentAnimation.draw(xCoord, yCoord);
 		if(currentAnimation.equals(animationSet.get(1))){
-			if(currentAnimation.getFrame() >= 1)
-				yCoord -= 0.05 * time;
+			//if(currentAnimation.getFrame() >= 1)
+				////yCoord -= 0.05 * time;
 		}
 		if(currentAnimation.isStopped()){
 			currentAnimation = animationSet.get(2);
 			currentAnimation.restart();
 		}
+		g.draw(hitBox);
 	}
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
 		time = delta;
+		if(xVelocity < 0){
+			if(canMoveLeft){
+				xCoord += xVelocity;
+			}
+		}
+		else{
+			if(canMoveRight){
+				xCoord += xVelocity;
+			}
+		}
+		if(yVelocity > 0){
+			if(canMoveDown){
+				yCoord += yVelocity;
+			}
+		}
+		else{
+			if(canMoveUp){
+				yCoord += yVelocity;
+			}
+		}
 		
+		//yCoord += yVelocity;
+		
+		setHitBox(xCoord, yCoord);
 		currentAnimation.update(delta);
 		//super.update(gc, delta);
 		Input input = new Input(delta);
-		if(xVelocity != 0){
-			xCoord += .5 * delta * xVelocity;
-			this.getHitBox().setX(xCoord);
-			xVelocity = 0;
+//		if(xVelocity != 0){
+//			//xCoord += .5 * delta * xVelocity;
+//			this.getHitBox().setX(xCoord);
+//			xVelocity = 0;
+//			currentAnimation = animationSet.get(2);
+//		}
+//		if(yVelocity != 0){
+//			//yCoord += .5 * delta * yVelocity;
+//			this.getHitBox().setY(yCoord);
+//			yVelocity = 0;
+//			currentAnimation = animationSet.get(2);
+//		}
+		
+		if(input.isKeyDown(controls[0])){
+			//xCoord += .5 * delta;
+			//xVelocity = -1;
 			currentAnimation = animationSet.get(2);
 		}
-		if(yVelocity != 0){
-			yCoord += .5 * delta * yVelocity;
-			this.getHitBox().setY(yCoord);
-			yVelocity = 0;
-			currentAnimation = animationSet.get(2);
-		}
-		else if(input.isKeyDown(controls[1])){
+		
+		if(input.isKeyDown(controls[1])){
 			
 			currentAnimation = animationSet.get(1);
 			if(currentAnimation.isStopped()){
@@ -322,21 +354,30 @@ Rectangle hitBox;
 		}
 		else if(input.isKeyDown(controls[2])){
 			//xCoord += .5 * delta;
+			//xVelocity = 1;
 			currentAnimation = animationSet.get(2);
 		}
-		else if(input.isKeyDown(controls[3])){
+		
+		// 3 is UP
+		else if(input.isKeyDown(controls[3]) && jumpAvailable){
+			jumpAvailable = false;			
 			//yCoord += .5 * delta;
+			//yVelocity += 3;
 			currentAnimation = animationSet.get(2);
 			
 		}
 		else if(input.isKeyDown(Input.KEY_SPACE)){
+			
 			currentAnimation = animationSet.get(3);
 			if(currentAnimation.isStopped()){
 				currentAnimation.restart();
 				currentAnimation = animationSet.get(2);
 			}
 		}
-		
+		canMoveUp = true;
+		canMoveDown = true;
+		canMoveRight = true;
+		canMoveLeft = true;
 	}
 	
 }
