@@ -31,20 +31,20 @@ public class GameWorld
 	
 	public void init() throws IOException, SlickException 
 	{	 
-		/**
+		
 		String earthFileLocation = "assets/Art/Transformations/icons/hammer.png";
 		String fireFileLocation = "assets/Art/Transformations/icons/bow.png";
 		String iceFileLocation = "assets/Art/Transformations/icons/shield.png";
 		String lightningFileLocation = "assets/Art/Transformations/icons/dagger.png";
 		String windFileLocation = "assets/Art/Transformations/icons/fan.png";
 
-//		listOfItems.add(new Earth(0, 0, earthFileLocation));		
-//		listOfItems.add(new Fire(0, 0, fireFileLocation));
-//		listOfItems.add(new Ice(0, 0, iceFileLocation));
-//		listOfItems.add(new Lightning(0, 0, lightningFileLocation));
-//		listOfItems.add(new Wind(0, 0, windFileLocation));
-//		
-//		loadSounds();
+		listOfItems.add(new Earth(0, 0, earthFileLocation));		
+		listOfItems.add(new Fire(0, 0, fireFileLocation));		
+		listOfItems.add(new Ice(0, 0, iceFileLocation));
+		listOfItems.add(new Lightning(0, 0, lightningFileLocation));
+		listOfItems.add(new Wind(0, 0, windFileLocation));
+		
+		loadSounds();
 		Character c = new Character(0, 0, "/assets/Art/stand-spritesheet.png");
 		c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
 		listOfCharacters.add(c);
@@ -185,8 +185,7 @@ public class GameWorld
 					if (p.getRectangle().intersects(b.getRectangle()))
 					{
 						Item toBeAdded = chooseRandomItem();
-						toBeAdded.setX(b.getX());
-						toBeAdded.setY(b.getY());
+						toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
 						itemsOnMap.add(toBeAdded);
 						removeCrates.add(b);							
 					}
@@ -197,8 +196,7 @@ public class GameWorld
 					if (c.isMovingRight)
 					{
 						Item toBeAdded = chooseRandomItem();
-						toBeAdded.setX(b.getX());
-						toBeAdded.setY(b.getY());
+						toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
 						itemsOnMap.add(toBeAdded);
 						removeCrates.add(b);							
 					}
@@ -263,11 +261,17 @@ public class GameWorld
 		{
 			i.update(gc, delta);
 		}
+		System.out.println(itemsOnMap.size());
 
 	}
 
-	public void render(GameContainer gc, Graphics g){
+	public void render(GameContainer gc, Graphics g) throws SlickException{
 
+		for(Item i : itemsOnMap)
+		{
+			i.render(gc, g);
+		}
+		
 		for(Block b: listOfBlocks){
 			try{
 				b.render(gc, g);
@@ -321,7 +325,7 @@ public class GameWorld
 	}
 
 	public void assignActionToPlayer(GameContainer gc, int characterIndex,int delta){
-		Character c = listOfCharacters.get(characterIndex);/**
+		Character c = listOfCharacters.get(characterIndex);
 		Input input = gc.getInput();
 		if(input.isKeyDown(c.controls[0])){
 			c.setMove(true);
@@ -339,9 +343,9 @@ public class GameWorld
 			c.setMove(true);
 			c.xVelocity = 1;
 			c.canMoveRight = true;
-		}**/
-		//c.determineDirection();
-		if(controllerManager != null){
+		}
+		c.determineDirection();
+		/**if(controllerManager != null){
 			controllerManager.pollControllers();
 			for(int i = 0; i < controllerManager.getControllerCount(); i++){
 				Controller ctr = controllerManager.getController(i);
@@ -355,8 +359,6 @@ public class GameWorld
 					c.setMove(true);
 					c.xVelocity = 1;
 					c.canMoveRight = true;
-
-					
 				}
 				if(ctr.isButtonPressed(Button.A.buttonID)){
 					c.setMove(true);
@@ -367,7 +369,7 @@ public class GameWorld
 				}
 			}
 		}
-		c.determineDirection();
+		c.determineDirection();**/
 	}
 
 }

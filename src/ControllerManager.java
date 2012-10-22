@@ -11,26 +11,6 @@ public class ControllerManager{
 	private final float DEFAULT_DEAD_ZONE = .75f;
 
 	public ControllerManager(){
-		try {
-			Controllers.create();
-			for(int i = 0; i < Controllers.getControllerCount(); i++){
-				Controller c = Controllers.getController(i);
-				c.setXAxisDeadZone(DEFAULT_DEAD_ZONE);
-				c.setYAxisDeadZone(DEFAULT_DEAD_ZONE);
-			}
-			//for each button for each controller
-			buttonWasPressed = new boolean[getControllerCount()][Controllers.getController(0).getButtonCount()];
-			//c = controller index
-			for(int c = 0; c < buttonWasPressed.length; c++){ 
-				//b = buttonID index
-				for(int b = 0; b < buttonWasPressed[0].length; b++){ 
-					buttonWasPressed[c][b] = false;
-				}
-			}
-		} catch (LWJGLException e) {
-			e.printStackTrace();
-		}
-
 	}	
 
 	public void createControllers(){
@@ -41,6 +21,14 @@ public class ControllerManager{
 				Controller c = Controllers.getController(i);
 				c.setXAxisDeadZone(.75f);
 				c.setYAxisDeadZone(.75f);
+			}
+			buttonWasPressed = new boolean[getControllerCount()][Controllers.getController(0).getButtonCount()];
+			//c = controller index
+			for(int c = 0; c < buttonWasPressed.length; c++){ 
+				//b = buttonID index
+				for(int b = 0; b < buttonWasPressed[0].length; b++){ 
+					buttonWasPressed[c][b] = false;
+				}
 			}
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block

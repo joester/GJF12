@@ -44,11 +44,11 @@ public class MainMenu extends BasicGameState
     	if(input.isKeyDown(Input.KEY_ENTER)){
     		sbg.enterState(DisplayManager.GAMEPLAYSTATE);
     	}
-    	for(int i = 0; i < controllerManager.getControllerCount(); i++){
+    	/**for(int i = 0; i < controllerManager.getControllerCount(); i++){
     		if(controllerManager.getController(i).isButtonPressed(Button.A.buttonID)){
     			sbg.enterState(DisplayManager.GAMEPLAYSTATE);
     		}
-    	}
+    	}**/
     	
     }
 }

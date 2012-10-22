@@ -46,7 +46,7 @@ Rectangle hitBox;
 		hP = 100;
 		baseDamage = 2;
 		wins = 0;
-		super.setHitBox(x ,y ,42,84);
+		super.setHitBox(x ,y +42 ,42,84);
 		hitBox = getHitBox();
 		item = null;
 		

@@ -19,29 +19,17 @@ public String name;
 public boolean dropChance;
 public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
 BufferedImage img = null;
-public int xLocation;
-public int yLocation;
 String fileLocation;
 
   public Item (int x, int y, String fileLocation)
   {	 
 	  super(x, y, fileLocation);
 	  //Sets the hit box
-	  super.setHitBox(x, y, 84, 84);	  
-	  xLocation = x;
-	  yLocation = y;
+	  super.setHitBox(x, y, 45, 45);	  
+
 	  this.fileLocation = fileLocation;
   }
   
-  public void setX(int x)
-  {
-	  xLocation = x;
-  }
-  
-  public void setY(int y)
-  {
-	  yLocation = y;
-  }
   public void whatever(BufferedImage i, int w, int h)
 	{
 		// divide width of the BufferedImage by the wdth set by parameter to get number of rows. do same for height/columns. 
@@ -69,8 +57,9 @@ String fileLocation;
 	
 
 	@Override
-	public void render(GameContainer arg0, Graphics arg1) throws SlickException
+	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
+		g.draw(hitBox);
 		image.draw(xCoord, yCoord);
 		
 	}
@@ -83,11 +72,10 @@ String fileLocation;
 	}
 
 	@Override
-	public void update(GameContainer arg0, int arg1) throws SlickException,
+	public void update(GameContainer gc, int delta) throws SlickException,
 		InterruptedException
 	{
-		// TODO Auto-generated method stub
-		
+		super.update(gc, delta);		
 	}
 	
 	public Projectile use()
