@@ -26,7 +26,7 @@ boolean isMovingUp, isMovingRight, isMovingLeft, isMovingDown;
 boolean canMoveUp, canMoveRight, canMoveLeft, canMoveDown;
 boolean punched, hasHelp, animationInPlay;
 boolean[] isMoving = {isMovingUp, isMovingRight, isMovingLeft, isMovingDown};
-boolean jumpAvailable, isJumping, isPunching;
+boolean jumpAvailable, isJumpingLeft, isJumpingRight, movingLeft, movingRight, punchLeft, punchRight;
 Auxillary auxItem;
 ArrayList<Animation> animationSet = new ArrayList<Animation>();
 Animation currentAnimation;
@@ -261,46 +261,80 @@ Rectangle hitBox;
 	public void init(GameContainer gc) throws SlickException{
 		jumpHeight = 0;
 		
-		Image[] i = new Image[4];
-		i[0] = (new Image("/assets/stand-0.png")).getFlippedCopy(true, false);
-		i[1] = new Image("/assets/jump-spritesheet.png");
-		i[2] = new Image("/assets/stand-spritesheet.png");
-		i[3] = new Image("/assets/punch-spritesheet.png").getFlippedCopy(true, false);
-		int[] cols = {1, 4, 3, 2};
+		Image[] i = new Image[6];
+		i[0] = new Image("/assets/jump-spritesheet.png");
+		i[1] = new Image("/assets/stand-spritesheet.png");
+		i[2] = new Image("/assets/punch-spritesheet.png");
+		i[3] = new Image("/assets/jump-spritesheet.png").getFlippedCopy(true, false);
+		i[4] = new Image("/assets/stand-spritesheet.png").getFlippedCopy(true, false);
+		i[5] = new Image("/assets/punch-spritesheet.png").getFlippedCopy(true, false);
+		int[] cols = {4, 3, 2};
 		int count = 0;
+		boolean toFlipped = false;
 		setControls(Input.KEY_A, Input.KEY_W, Input.KEY_D, Input.KEY_S);
 		for(Image img : i){
+			if(count == 3){
+				count = 0;
+				toFlipped = true;
+			}
+			Image[] imagelist = new Image[cols[count]];
+			int imageListTrack = 0;
 			renderEnt(img, img.getWidth() / cols[count], img.getHeight());
+			if(toFlipped){
+				for(int j = cols[count] - 1; j >= 0; j --){
+					imagelist[imageListTrack] = animation.getImage(j); 
+					imageListTrack += 1;
+				}
+				animation = new Animation(imagelist, 300);
+			}
+			
 			count += 1;
+			
 			animation.stopAt(animation.getFrameCount() - 1);
 			animationSet.add(animation);
 		}
 		currentAnimation = animationSet.get(2);
-		isJumping = false;
-		isPunching = false;
+		
+		System.out.println(animationSet.size());
 	}
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		currentAnimation.draw(xCoord, yCoord);
-		
+		if(currentAnimation.equals(animationSet.get(0))){
+			isJumpingRight = true;
+		}
 		if(currentAnimation.equals(animationSet.get(1))){
-			isJumping = true;
+			isMovingRight = true;
+		}
+		if(currentAnimation.equals(animationSet.get(2))){
+			punchRight = true;
 		}
 		if(currentAnimation.equals(animationSet.get(3))){
-			isPunching = true;
+			isJumpingLeft = true;
+		}
+		if(currentAnimation.equals(animationSet.get(4))){
+			isMovingRight = true;
+		}
+		if(currentAnimation.equals(animationSet.get(5))){
+			isJumpingRight = true;
 		}
 		
 		if(currentAnimation.isStopped()){
 			currentAnimation.restart();
-			currentAnimation = animationSet.get(2);
-			isPunching = false;
-			isJumping = false;
-			
-			
-			
-			
+			if(isMovingRight){
+				currentAnimation = animationSet.get(1);
+				isMovingLeft = false;
+			}
+			if(isMovingLeft){
+				currentAnimation = animationSet.get(4);
+				isMovingRight = false;
+			}
+			punchLeft = false;
+			punchRight = false;
+			isJumpingLeft = false;
+			isJumpingRight = false;
 		}
 		g.draw(hitBox);
 	}
@@ -352,14 +386,21 @@ Rectangle hitBox;
 		if(input.isKeyDown(controls[0])){
 			//xCoord += .5 * delta;
 			//xVelocity = -1;
-			//currentAnimation = animationSet.get(2);
+			currentAnimation = animationSet.get(4);
 		}
 		
 		if(input.isKeyDown(controls[1])){
 			
-			if(!isPunching){
-				isJumping = true;
-				currentAnimation = animationSet.get(1);
+			if(!punchLeft && !punchRight){
+				if(movingRight){
+					currentAnimation = animationSet.get(0);
+					isJumpingRight = true;
+				}
+				if(movingLeft){
+					currentAnimation = animationSet.get(3);
+					isJumpingLeft = true;
+				}
+				
 				
 			}
 			
@@ -368,7 +409,9 @@ Rectangle hitBox;
 		if(input.isKeyDown(controls[2])){
 			//xCoord += .5 * delta;
 			//xVelocity = 1;
-			//currentAnimation = animationSet.get(2);
+			movingRight = true;
+			movingLeft = false;
+			currentAnimation = animationSet.get(1);
 		}
 		
 		// 3 is UP
@@ -380,13 +423,17 @@ Rectangle hitBox;
 			
 		//}
 		if(input.isKeyDown(Input.KEY_SPACE)){
-			if(!isJumping){
-				isPunching = true;
-				currentAnimation = animationSet.get(3);
-				
+			if(!isJumpingLeft && !isJumpingRight){
+				if(movingLeft){
+					punchLeft = true;
+					currentAnimation = animationSet.get(5);
+				}
+				if(movingRight){
+					punchRight = true;
+					currentAnimation = animationSet.get(2);
+				}
 			}
 		}
-		System.out.println(isJumping + " " + isPunching);
 		
 		canMoveUp = true;
 		canMoveDown = true;
