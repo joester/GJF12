@@ -5,10 +5,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 
 
-public class Block extends MapEntity {
-	
-	Rectangle hitBox;
-	
+public class Block extends MapEntity {	
 	public Block(int x, int y, String imageLocation, BlockType b, Rectangle hitBox) {
 		super(x, y,imageLocation);		
 		blockType = b;
@@ -53,6 +50,7 @@ public class Block extends MapEntity {
 	public void render(GameContainer gc, Graphics g)
 	{
 		image.draw(xCoord, yCoord, 1);	
+		g.draw(hitBox);
 	}
 
 
