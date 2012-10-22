@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.lwjgl.input.Controller;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -21,15 +23,21 @@ public class GameWorld
 	Map map;
 	IceMap iceMap = new IceMap(this);
 	LavaMap lavaMap = new LavaMap(this);
-
+	ControllerManager controllerManager;
+	
+	public GameWorld(ControllerManager cm){
+		controllerManager = cm;
+	}
+	
 	public void init() throws IOException, SlickException 
 	{	 
+		/**
 		String earthFileLocation = "assets/Art/Transformations/icons/hammer.png";
 		String fireFileLocation = "assets/Art/Transformations/icons/bow.png";
 		String iceFileLocation = "assets/Art/Transformations/icons/shield.png";
 		String lightningFileLocation = "assets/Art/Transformations/icons/dagger.png";
 		String windFileLocation = "assets/Art/Transformations/icons/fan.png";
-		
+
 //		listOfItems.add(new Earth(0, 0, earthFileLocation));		
 //		listOfItems.add(new Fire(0, 0, fireFileLocation));
 //		listOfItems.add(new Ice(0, 0, iceFileLocation));
@@ -71,7 +79,7 @@ public class GameWorld
 	{
 		return map;
 	}
-	
+
 	public List<Block> getListOfBlocks()
 	{
 		return listOfBlocks;
@@ -98,22 +106,18 @@ public class GameWorld
 					
 					
 					if (b.getBlockType() == BlockType.Lethal){
-						System.out.println("died");
-						//toBeRemoved.add(c);
+						toBeRemoved.add(c);
 					}
 					c.determineDirection();
-					//System.out.println(c.yVelocity);
 					if (c.isMovingUp && b.getBlockType() != BlockType.Passable){
 						c.yVelocity = 0;
 						c.jumpAvailable = false;
 						c.canMoveUp = false;
-						
 					}
 					else if (c.isMovingDown){
 						c.jumpAvailable = true;
 						if(c.getHitBox().getY() + c.getHitBox().getHeight() < b.getHitBox().getY())
 							c.yVelocity = 0;
-						//c.canMoveDown = false;
 					}
 					if (c.isMovingLeft && b.getBlockType() != BlockType.Passable){
 						c.canMoveLeft = false;
@@ -142,7 +146,7 @@ public class GameWorld
 		for (Character c : toBeRemoved)
 			listOfCharacters.remove(c);
 
-		
+
 		ArrayList<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
 		for (Projectile p : listOfProjectiles)
 		{
@@ -153,7 +157,7 @@ public class GameWorld
 					c.modifyHealth(-p.damage);
 					listOfProjectiles.remove(p);
 				}
-			
+
 				for (Item i : itemsOnMap)
 				{
 					if (c.getRectangle().intersects(i.getHitBox()) && !c.hasItem)
@@ -163,14 +167,14 @@ public class GameWorld
 					}
 				}
 			}
-			
+
 			for(Block b: listOfBlocks){
 				if(!b.isPassible()){
 					projectilesToBeRemoved.add(p);
 				}
 			}
 		}
-		
+
 		ArrayList<Block> removeCrates = new ArrayList<Block>();
 		for (Block b: listOfBlocks)
 		{
@@ -179,22 +183,22 @@ public class GameWorld
 				for (Projectile p : listOfProjectiles)
 				{
 					if (p.getRectangle().intersects(b.getRectangle()))
-						{
-							Item toBeAdded = chooseRandomItem();
-							toBeAdded.setX(b.getX());
-							toBeAdded.setY(b.getY());
-							itemsOnMap.add(toBeAdded);
-							removeCrates.add(b);							
-						}
+					{
+						Item toBeAdded = chooseRandomItem();
+						toBeAdded.setX(b.getX());
+						toBeAdded.setY(b.getY());
+						itemsOnMap.add(toBeAdded);
+						removeCrates.add(b);							
+					}
 				}			 
 			}
 		}
-		
+
 		for (Block b :removeCrates)
 		{
 			listOfBlocks.remove(b);
 		}
-		
+
 		for (Projectile p : projectilesToBeRemoved)
 			listOfProjectiles.remove(p);
 	}
@@ -216,16 +220,15 @@ public class GameWorld
 		for (Character c : listOfCharacters)
 		{
 			c.yVelocity += .1;
-			//System.out.println(c.yVelocity);
 		}
 		checkForCollisions(gc);
-		
-		
-		
-		
-	
+
+
+
+
+
 		//spawnItems();
-	
+
 		for (Projectile p : listOfProjectiles)
 		{
 			p.update(gc, delta);	
@@ -235,12 +238,11 @@ public class GameWorld
 		{
 			try{
 				c.update(gc, delta);
-				//System.out.println("Character updated");
 			}catch(Exception e){
 
 			}			
 		}
-		
+
 		for(Platform plat : listOfPlatforms){
 			plat.update(gc, delta);
 		}
@@ -249,7 +251,7 @@ public class GameWorld
 		{
 			i.update(gc, delta);
 		}
-		
+
 	}
 
 	public void render(GameContainer gc, Graphics g){
@@ -257,7 +259,7 @@ public class GameWorld
 		for(Block b: listOfBlocks){
 			try{
 				b.render(gc, g);
-				
+
 			}
 			catch(NullPointerException ex){
 				listOfBlocks.remove(b);
@@ -288,26 +290,26 @@ public class GameWorld
 		return listOfItems.get((int)(listOfItems.size() * Math.random()) - 1);
 	}
 
-//	public void spawnItems()
-//	{
-//		for (Block block : listOfBlocks)
-//		{
-//			if(block.getBlockType() == BlockType.Crate && Math.random() < .2)
-//			{
-//				Item toBeSpawned = chooseRandomItem();
-//				toBeSpawned.setX(block.getX());
-//				toBeSpawned.setY(block.getY());
-//				itemsOnMap.add(toBeSpawned);
-//			}
-//		}
-//	}
+	//	public void spawnItems()
+	//	{
+	//		for (Block block : listOfBlocks)
+	//		{
+	//			if(block.getBlockType() == BlockType.Crate && Math.random() < .2)
+	//			{
+	//				Item toBeSpawned = chooseRandomItem();
+	//				toBeSpawned.setX(block.getX());
+	//				toBeSpawned.setY(block.getY());
+	//				itemsOnMap.add(toBeSpawned);
+	//			}
+	//		}
+	//	}
 
 	public void addBlock(Block block){
 		listOfBlocks.add(block);
 	}
-	
+
 	public void assignActionToPlayer(GameContainer gc, int characterIndex,int delta){
-		Character c = listOfCharacters.get(characterIndex);
+		Character c = listOfCharacters.get(characterIndex);/**
 		Input input = gc.getInput();
 		if(input.isKeyDown(c.controls[0])){
 			c.setMove(true);
@@ -325,6 +327,33 @@ public class GameWorld
 			c.setMove(true);
 			c.xVelocity = 1;
 			c.canMoveRight = true;
+		}**/
+		//c.determineDirection();
+		if(controllerManager != null){
+			controllerManager.pollControllers();
+			for(int i = 0; i < controllerManager.getControllerCount(); i++){
+				Controller ctr = controllerManager.getController(i);
+				
+				if(ctr.getXAxisValue() < -0.75 && ctr.getYAxisValue() > -0.75 && ctr.getYAxisValue() < 0.75){
+					c.setMove(true);
+					c.xVelocity = -1;
+					c.canMoveLeft = true;
+				}
+				else if(ctr.getXAxisValue() > 0.75 && ctr.getYAxisValue() > -0.75 && ctr.getYAxisValue() < 0.75){
+					c.setMove(true);
+					c.xVelocity = 1;
+					c.canMoveRight = true;
+
+					
+				}
+				if(ctr.isButtonPressed(Button.A.buttonID)){
+					c.setMove(true);
+					c.yVelocity = -3;
+					c.hasDX = false;
+					c.jumpAvailable = false;
+					c.canMoveUp = true;
+				}
+			}
 		}
 		c.determineDirection();
 	}
