@@ -26,9 +26,9 @@ public class GameWorld
 	{	 
 		String earthFileLocation = "assets/Art/Transformations/icons/hammer.png";
 		String fireFileLocation = "assets/Art/Transformations/icons/bow.png";
-		String iceFileLocation = "assets/ArtTransformations/icons/shield.png";
-		String lightningFileLocation = "assets/ArtTransformations/icons/dagger.png";
-		String windFileLocation = "assets/ArtTransformations/icons/fan.png";
+		String iceFileLocation = "assets/Art/Transformations/icons/shield.png";
+		String lightningFileLocation = "assets/Art/Transformations/icons/dagger.png";
+		String windFileLocation = "assets/Art/Transformations/icons/fan.png";
 		
 		listOfItems.add(new Earth(0, 0, earthFileLocation));		
 		listOfItems.add(new Fire(0, 0, fireFileLocation));
@@ -46,6 +46,7 @@ public class GameWorld
 
 	public void loadSounds() throws SlickException
 	{
+		ArrayList<Sound> sounds = new ArrayList<Sound>();
 		Sound punchHit1 = new Sound("assets/SFX/punch1Final.wav");
 		Sound punchHit2 = new Sound("assets/SFX/punch2Final.wav");
 		Sound punchHit3 = new Sound("assets/SFX/punch3Final.wav");
@@ -60,9 +61,9 @@ public class GameWorld
 		Sound rockHammer = new Sound("assets/SFX/rockHammerFinal.wav");
 		Sound run = new Sound("assets/SFX/runFinal.wav");
 		Sound shock = new Sound("assets/SFX/shockFinal.wav");
-		Sound spikes = new Sound("assets/SFX/spikesFall.wav");
+		Sound spikes = new Sound("assets/SFX/spikesFallFinal.wav");
 		Sound ice = new Sound("assets/SFX/iceFinal.wav");
-		Sound movingSteel = new Sound("assets/SFX/movingSteel.wav");
+		Sound movingSteel = new Sound("assets/SFX/movingSteelFinal.wav");
 
 	}
 
@@ -95,17 +96,7 @@ public class GameWorld
 			for (Block b : listOfBlocks){
 				if (r.intersects(b.getRectangle())){	
 					
-					if(a){
-					System.out.println(c.getRectangle().getX());
-					System.out.println(c.getRectangle().getY());
-					//System.out.println(c.getRectangle().getWidth());
-					//System.out.println(c.getRectangle().getHeight());
-					//System.out.println(b.getRectangle().getX());
-					//System.out.println(b.getRectangle().getY());
-					//System.out.println(b.getRectangle().getWidth());
-					//System.out.println(b.getRectangle().getHeight());
-					//a = false;
-					}
+					
 					if (b.getBlockType() == BlockType.Lethal){
 						System.out.println("died");
 						//toBeRemoved.add(c);
