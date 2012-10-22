@@ -27,7 +27,7 @@ String fileLocation;
   {	 
 	  super(x, y, fileLocation);
 	  //Sets the hit box
-	  super.setHitBox(x, y);	  
+	  super.setHitBox(x, y, 84, 84);	  
 	  xLocation = x;
 	  yLocation = y;
 	  this.fileLocation = fileLocation;

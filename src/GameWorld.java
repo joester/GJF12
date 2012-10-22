@@ -45,7 +45,7 @@ public class GameWorld
 //		listOfItems.add(new Wind(0, 0, windFileLocation));
 //		
 //		loadSounds();
-		Character c = new Character(0, 0, "/assets/stand-spritesheet.png");
+		Character c = new Character(0, 0, "/assets/Art/stand-spritesheet.png");
 		c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
 		listOfCharacters.add(c);
 		System.out.println("Character added");
@@ -190,7 +190,19 @@ public class GameWorld
 						itemsOnMap.add(toBeAdded);
 						removeCrates.add(b);							
 					}
-				}			 
+				}	
+				
+				for (Character c : listOfCharacters)
+				{
+					if (c.isMovingRight)
+					{
+						Item toBeAdded = chooseRandomItem();
+						toBeAdded.setX(b.getX());
+						toBeAdded.setY(b.getY());
+						itemsOnMap.add(toBeAdded);
+						removeCrates.add(b);							
+					}
+				}
 			}
 		}
 
@@ -287,7 +299,7 @@ public class GameWorld
 
 	public Item chooseRandomItem()
 	{
-		return listOfItems.get((int)(listOfItems.size() * Math.random()) - 1);
+		return listOfItems.get((int)(listOfItems.size() * Math.random()));
 	}
 
 	//	public void spawnItems()
