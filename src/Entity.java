@@ -17,6 +17,7 @@ public abstract class Entity{
 	public Entity(int x, int y, String imageLocation){
 		xCoord = x;
 		yCoord = y;
+		hitBox = new Rectangle(x,y,0,0);
 		try {
 			image = new Image(imageLocation);
 		} catch (SlickException e) {

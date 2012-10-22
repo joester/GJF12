@@ -14,9 +14,11 @@ public class PauseState extends BasicGameState
 	Image pauseMenu = null;
 	private final String ST_CONTINUE = "CONTINUE";
 	int stateID = -1;
+	private ControllerManager controllerManager;
 	
-	public PauseState(int stateID){
+	public PauseState(int stateID, ControllerManager controllerManager){
 		this.stateID = stateID;
+		this.controllerManager = controllerManager;
 	}
 
 	@Override

@@ -12,8 +12,9 @@ public class DisplayManager extends StateBasedGame
 	public static final int MAINMENUSTATE = 0;
 	public static final int GAMEPLAYSTATE = 1;
 	public static final int PAUSESTATE = 2;
+	private ControllerManager controllerManager;
 	
-	GameWorld gw = new GameWorld();
+	GameWorld gw;
 	
 	//Builds the actual display for the game.
 
@@ -28,7 +29,9 @@ public class DisplayManager extends StateBasedGame
 	
 	public DisplayManager(String str) throws SlickException{
 		super(str);
-		
+		controllerManager = new ControllerManager();
+		controllerManager.createControllers();
+		gw =  new GameWorld(controllerManager);
 	}
 	
 	
@@ -38,9 +41,9 @@ public class DisplayManager extends StateBasedGame
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException
 	{
-		this.addState(new MainMenu(DisplayManager.MAINMENUSTATE));
-		this.addState(new GameplayState(DisplayManager.GAMEPLAYSTATE, gw));
-		this.addState(new PauseState(DisplayManager.PAUSESTATE));
+		this.addState(new MainMenu(DisplayManager.MAINMENUSTATE,controllerManager));
+		this.addState(new GameplayState(DisplayManager.GAMEPLAYSTATE, gw,controllerManager));
+		this.addState(new PauseState(DisplayManager.PAUSESTATE,controllerManager));
 		
 	}
 

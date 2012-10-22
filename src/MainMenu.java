@@ -15,14 +15,15 @@ public class MainMenu extends BasicGameState
 	
 	Image images[] = new Image[2];
 	Animation anime = new Animation();
-	
+	ControllerManager controllerManager;
 	int stateID = -1;
 	Image background = null;
 	
 	
 	
-	public MainMenu(int stateID){
+	public MainMenu(int stateID, ControllerManager controllerManager){
 		this.stateID = stateID;
+		this.controllerManager = controllerManager;
 	}
 	
 	public int getID(){
@@ -42,6 +43,11 @@ public class MainMenu extends BasicGameState
     	
     	if(input.isKeyDown(Input.KEY_ENTER)){
     		sbg.enterState(DisplayManager.GAMEPLAYSTATE);
+    	}
+    	for(int i = 0; i < controllerManager.getControllerCount(); i++){
+    		if(controllerManager.getController(i).isButtonPressed(Button.A.buttonID)){
+    			sbg.enterState(DisplayManager.GAMEPLAYSTATE);
+    		}
     	}
     	
     }

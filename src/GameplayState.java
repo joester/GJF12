@@ -13,10 +13,14 @@ public class GameplayState extends BasicGameState {
 	Character player = null;
 	Character player2 = null;
 	GameWorld gw = null;
+
+	private ControllerManager controllerManager;
 	
-	public GameplayState(int stateID, GameWorld gw){
+	
+	public GameplayState(int stateID, GameWorld gw, ControllerManager controllerManager){
 		this.stateID = stateID;
 		this.gw = gw;
+		this.controllerManager = controllerManager;
 	}
 
 	
