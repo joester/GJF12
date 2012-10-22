@@ -25,8 +25,13 @@ public abstract class Entity{
 		}
 	}
 	
+	public void setHitBox(int x, int y, int w, int h){
+		hitBox = new Rectangle(x,y, w, h);
+	}
+	
 	public void setHitBox(int x, int y){
-		hitBox = new Rectangle(image.getWidth(), image.getHeight() ,x,y);
+		hitBox.setX(x);
+		hitBox.setY(y);
 	}
 	
 	public void setHitBox(Rectangle hitbox){
@@ -55,7 +60,8 @@ public abstract class Entity{
 	
 	public void update(GameContainer arg0, int arg1) throws SlickException, InterruptedException
 	{
-		getHitBox().setBounds(xCoord, yCoord, getHitBox().getWidth(), getHitBox().getHeight());
+		getHitBox().setX(xCoord);
+		getHitBox().setY(yCoord);
 	}
 	
 	public void renderEnt(String str, int width, int height) throws SlickException{

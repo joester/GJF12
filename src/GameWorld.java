@@ -87,31 +87,64 @@ public class GameWorld
 	}
 
 
-	public void checkForCollisions(){
+	public void checkForCollisions(GameContainer gc){
 		ArrayList<Character> toBeRemoved = new ArrayList<Character>();
 		//checking for character's collision with blocks
 		for (Character c : listOfCharacters){
+			Rectangle r = new Rectangle((int)(c.xCoord + c.xVelocity), (int)(c.yCoord + c.yVelocity), c.getHitBox().getWidth(), c.getHitBox().getHeight());
 			for (Block b : listOfBlocks){
-				Rectangle r = new Rectangle(c.xCoord + c.xVelocity*5, c.yCoord + c.yVelocity*5, c.getRectangle().getWidth(), c.getRectangle().getHeight());
-				if (r.intersects(b.getRectangle())){					
+				if (r.intersects(b.getRectangle())){	
+					
+					if(a){
+					System.out.println(c.getRectangle().getX());
+					System.out.println(c.getRectangle().getY());
+					//System.out.println(c.getRectangle().getWidth());
+					//System.out.println(c.getRectangle().getHeight());
+					//System.out.println(b.getRectangle().getX());
+					//System.out.println(b.getRectangle().getY());
+					//System.out.println(b.getRectangle().getWidth());
+					//System.out.println(b.getRectangle().getHeight());
+					//a = false;
+					}
 					if (b.getBlockType() == BlockType.Lethal){
 						System.out.println("died");
-						toBeRemoved.add(c);
+						//toBeRemoved.add(c);
 					}
+					c.determineDirection();
+					//System.out.println(c.yVelocity);
 					if (c.isMovingUp && b.getBlockType() != BlockType.Passable){
 						c.yVelocity = 0;
+						c.jumpAvailable = false;
+						c.canMoveUp = false;
+						
 					}
-					else if (c.isMovingDown && b.getBlockType() != BlockType.Passable){
+					else if (c.isMovingDown){
 						c.jumpAvailable = true;
-						c.yVelocity = 0;
+						if(c.getHitBox().getY() + c.getHitBox().getHeight() < b.getHitBox().getY())
+							c.yVelocity = 0;
+						//c.canMoveDown = false;
 					}
 					if (c.isMovingLeft && b.getBlockType() != BlockType.Passable){
-						c.xVelocity = 0;
+						c.canMoveLeft = false;
+						if(c.getHitBox().getY() + c.getHitBox().getHeight()> b.getHitBox().getY())
+							c.canMoveDown = true;
 					}
 					else if(c.isMovingRight && b.getBlockType() != BlockType.Passable){
-						c.xVelocity = 0;
+						//c.xVelocity = 0;
+						c.canMoveRight = false;
+						if(c.getHitBox().getY() + c.getHitBox().getHeight()> b.getHitBox().getY())
+							c.canMoveDown = true;
 					}						 
-				}				
+				}
+				if(r.getX() <= 0){
+					c.canMoveLeft = false;
+				}
+				if(r.getX() + r.getWidth() >= gc.getWidth()){
+					c.canMoveRight = false;
+				}
+				if(r.getY() <= 0){
+					c.canMoveUp = false;
+				}
 			}
 		}
 
@@ -189,9 +222,19 @@ public class GameWorld
 		if(listOfCharacters.size() > 0){
 			assignActionToPlayer(gc,0,delta);
 		}
-		checkForCollisions();
+		for (Character c : listOfCharacters)
+		{
+			c.yVelocity += .1;
+			//System.out.println(c.yVelocity);
+		}
+		checkForCollisions(gc);
+		
+		
+		
+		
+	
 		//spawnItems();
-
+	
 		for (Projectile p : listOfProjectiles)
 		{
 			p.update(gc, delta);	
@@ -278,20 +321,19 @@ public class GameWorld
 		if(input.isKeyDown(c.controls[0])){
 			c.setMove(true);
 			c.xVelocity = -1;
+			c.canMoveLeft = true;
 		}
 		if(input.isKeyDown(c.controls[1])){
 			c.setMove(true);
-			c.yVelocity = -1;
+			c.yVelocity = -3;
 			c.hasDX = false;
 			c.jumpAvailable = false;
+			c.canMoveUp = true;
 		}
 		if(input.isKeyDown(c.controls[2])){
 			c.setMove(true);
 			c.xVelocity = 1;
-		}
-		if(input.isKeyDown(c.controls[3])){
-			c.setMove(true);
-			c.yVelocity = 1;
+			c.canMoveRight = true;
 		}
 		c.determineDirection();
 	}
