@@ -18,12 +18,9 @@ public class GameWorld
 	List<Item> listOfItems = new ArrayList<Item>();
 	List<Item> itemsOnMap = new ArrayList<Item>();
 	String testString = "GameWorld Loaded.";
-	
-	IceMap map = new IceMap(this);
-		
-
-
-	LavaMap map = new LavaMap(this);
+	Map map;
+	IceMap iceMap = new IceMap(this);
+	LavaMap lavaMap = new LavaMap(this);
 
 	public void init() throws IOException, SlickException 
 	{	 
@@ -33,35 +30,39 @@ public class GameWorld
 		String lightningFileLocation = "assets/ArtTransformations/icons/dagger.png";
 		String windFileLocation = "assets/ArtTransformations/icons/fan.png";
 		
-		//listOfItems.add(new Earth(0, 0, null));		
-		//listOfItems.add(new Fire());
-		//listOfItems.add(new Ice());
-		//listOfItems.add(new Lightning());
-		//listOfItems.add(new Wind());
+		listOfItems.add(new Earth(0, 0, earthFileLocation));		
+		listOfItems.add(new Fire(0, 0, fireFileLocation));
+		listOfItems.add(new Ice(0, 0, iceFileLocation));
+		listOfItems.add(new Lightning(0, 0, lightningFileLocation));
+		listOfItems.add(new Wind(0, 0, windFileLocation));
 		
-		//loadSounds();
+		loadSounds();
 		Character c = new Character(0, 0, "/assets/stand-spritesheet.png");
 		c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
 		listOfCharacters.add(c);
 		System.out.println("Character added");
+		map = iceMap;
 	}
 
 	public void loadSounds() throws SlickException
 	{
-		Sound punchHit1 = new Sound("assets/SFX/punch1Final.mp3");
-		Sound punchHit2 = new Sound("assets/SFX/punch2Final.mp3");
-		Sound punchHit3 = new Sound("assets/SFX/punch3Final.mp3");
-		Sound punchMiss1 = new Sound("assets/SFX/punchMiss1Final.mp3");
-		Sound punchMiss2 = new Sound("assets/SFX/punchMiss2Final.mp3");
-		Sound punchMiss3 = new Sound("assets/SFX/punchMiss3Final.mp3");
-		Sound bonesCrack = new Sound("assets/SFX/bonesCrackFinal.mp3");
-		Sound breakCrate = new Sound("assets/SFX/breakCrateFinal.mp3");
-		Sound clockBell = new Sound("assets/SFX/clockBellFinal.mp3");
-		Sound rockHammer = new Sound("assets/SFX/rockHammerFinal.mp3");
-		Sound run = new Sound("assets/SFX/runFinal.mp3");
-		Sound shock = new Sound("assets/SFX/shockFinal.mp3");
-		Sound spikes = new Sound("assets/SFX/spikesFall.mp3");
-		Sound ice = new Sound("assets/SFX/iceFinal.mp3");
+		Sound punchHit1 = new Sound("assets/SFX/punch1Final.wav");
+		Sound punchHit2 = new Sound("assets/SFX/punch2Final.wav");
+		Sound punchHit3 = new Sound("assets/SFX/punch3Final.wav");
+		Sound punchMiss1 = new Sound("assets/SFX/punchMiss1Final.wav");
+		Sound punchMiss2 = new Sound("assets/SFX/punchMiss2Final.wav");
+		Sound punchMiss3 = new Sound("assets/SFX/punchMiss3Final.wav");
+		Sound bonesCrack = new Sound("assets/SFX/bonesCrackFinal.wav");
+		Sound breakCrate = new Sound("assets/SFX/breakCrateFinal.wav");
+		Sound clockBell = new Sound("assets/SFX/clockBellFinal.wav");
+		Sound earthquake = new Sound("assets/SFX/earthquakesFinal.wav");
+		Sound clockPulse = new Sound("assets/SFX/clockPulseFinal.wav");
+		Sound rockHammer = new Sound("assets/SFX/rockHammerFinal.wav");
+		Sound run = new Sound("assets/SFX/runFinal.wav");
+		Sound shock = new Sound("assets/SFX/shockFinal.wav");
+		Sound spikes = new Sound("assets/SFX/spikesFall.wav");
+		Sound ice = new Sound("assets/SFX/iceFinal.wav");
+		Sound movingSteel = new Sound("assets/SFX/movingSteel.wav");
 
 	}
 
@@ -128,22 +129,25 @@ public class GameWorld
 					c.modifyHealth(-p.damage);
 					listOfProjectiles.remove(p);
 				}
-			}
 			
-			for (Item i : itemsOnMap)
-			{
-				if (c.getRectangle().intersects(i.getHitBox()) && !c.hasItem)
+				for (Item i : itemsOnMap)
 				{
-					c.pickUpItem(i);
-					c.hasItem = true;
+					if (c.getRectangle().intersects(i.getHitBox()) && !c.hasItem)
+					{
+						c.pickUpItem(i);
+						c.hasItem = true;
+					}
 				}
 			}
+			
 			for(Block b: listOfBlocks){
 				if(!b.isPassible()){
 					projectilesToBeRemoved.add(p);
 				}
 			}
 		}
+		
+		ArrayList<Block> removeCrates = new ArrayList<Block>();
 		for (Block b: listOfBlocks)
 		{
 			if (b.getBlockType() == BlockType.Crate)
@@ -156,10 +160,15 @@ public class GameWorld
 							toBeAdded.setX(b.getX());
 							toBeAdded.setY(b.getY());
 							itemsOnMap.add(toBeAdded);
+							removeCrates.add(b);							
 						}
-	
 				}			 
 			}
+		}
+		
+		for (Block b :removeCrates)
+		{
+			listOfBlocks.remove(b);
 		}
 		
 		for (Projectile p : projectilesToBeRemoved)
@@ -195,11 +204,8 @@ public class GameWorld
 				//System.out.println("Character updated");
 			}catch(Exception e){
 
-<<<<<<< .mine			}			
-=======			}
-
-
->>>>>>> .theirs		}
+			}			
+		}
 		
 		for(Platform plat : listOfPlatforms){
 			plat.update(gc, delta);
