@@ -26,7 +26,7 @@ boolean isMovingUp, isMovingRight, isMovingLeft, isMovingDown;
 boolean canMoveUp, canMoveRight, canMoveLeft, canMoveDown;
 boolean punched, hasHelp, animationInPlay;
 boolean[] isMoving = {isMovingUp, isMovingRight, isMovingLeft, isMovingDown};
-boolean jumpAvailable;
+boolean jumpAvailable, isJumping, isPunching;
 Auxillary auxItem;
 ArrayList<Animation> animationSet = new ArrayList<Animation>();
 Animation currentAnimation;
@@ -276,19 +276,31 @@ Rectangle hitBox;
 			animationSet.add(animation);
 		}
 		currentAnimation = animationSet.get(2);
+		isJumping = false;
+		isPunching = false;
 	}
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		currentAnimation.draw(xCoord, yCoord);
+		
 		if(currentAnimation.equals(animationSet.get(1))){
-			//if(currentAnimation.getFrame() >= 1)
-				////yCoord -= 0.05 * time;
+			isJumping = true;
 		}
+		if(currentAnimation.equals(animationSet.get(3))){
+			isPunching = true;
+		}
+		
 		if(currentAnimation.isStopped()){
-			currentAnimation = animationSet.get(2);
 			currentAnimation.restart();
+			currentAnimation = animationSet.get(2);
+			isPunching = false;
+			isJumping = false;
+			
+			
+			
+			
 		}
 		g.draw(hitBox);
 	}
@@ -340,40 +352,42 @@ Rectangle hitBox;
 		if(input.isKeyDown(controls[0])){
 			//xCoord += .5 * delta;
 			//xVelocity = -1;
-			currentAnimation = animationSet.get(2);
+			//currentAnimation = animationSet.get(2);
 		}
 		
 		if(input.isKeyDown(controls[1])){
 			
-			currentAnimation = animationSet.get(1);
-			if(currentAnimation.isStopped()){
-				currentAnimation.restart();
-				currentAnimation = animationSet.get(2);
+			if(!isPunching){
+				isJumping = true;
+				currentAnimation = animationSet.get(1);
+				
 			}
 			
+			
 		}
-		else if(input.isKeyDown(controls[2])){
+		if(input.isKeyDown(controls[2])){
 			//xCoord += .5 * delta;
 			//xVelocity = 1;
-			currentAnimation = animationSet.get(2);
+			//currentAnimation = animationSet.get(2);
 		}
 		
 		// 3 is UP
-		else if(input.isKeyDown(controls[3]) && jumpAvailable){
-			jumpAvailable = false;			
+		//if(input.isKeyDown(controls[3]) && jumpAvailable){
+			//jumpAvailable = false;			
 			//yCoord += .5 * delta;
 			//yVelocity += 3;
-			currentAnimation = animationSet.get(2);
+			//currentAnimation = animationSet.get(2);
 			
-		}
-		else if(input.isKeyDown(Input.KEY_SPACE)){
-			
-			currentAnimation = animationSet.get(3);
-			if(currentAnimation.isStopped()){
-				currentAnimation.restart();
-				currentAnimation = animationSet.get(2);
+		//}
+		if(input.isKeyDown(Input.KEY_SPACE)){
+			if(!isJumping){
+				isPunching = true;
+				currentAnimation = animationSet.get(3);
+				
 			}
 		}
+		System.out.println(isJumping + " " + isPunching);
+		
 		canMoveUp = true;
 		canMoveDown = true;
 		canMoveRight = true;
