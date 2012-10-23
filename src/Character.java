@@ -24,7 +24,6 @@ public class Character extends Entity{
 	double xVelocity, yVelocity;
 	boolean isMovingUp, isMovingRight, isMovingLeft, isMovingDown;
 	boolean canMoveUp, canMoveRight, canMoveLeft, canMoveDown;
-	boolean punched, hasHelp, animationInPlay;
 	boolean jumpAvailable, isJumpingLeft, isJumpingRight, movingLeft, movingRight, punchLeft, punchRight;
 	Auxillary auxItem;
 	ArrayList<Animation> animationSet = new ArrayList<Animation>();
@@ -38,7 +37,7 @@ public class Character extends Entity{
 	private boolean isRunning;
 	public int gravityCounter;
 	GameWorld gW;
-	boolean hit;
+	boolean hit, isHit;
 	
 	Projectile punchProjectile; 
 
@@ -99,7 +98,8 @@ public class Character extends Entity{
 
 	public void modifyHealth(int deltaHealth)
 	{
-		HP -= deltaHealth;		
+		HP -= deltaHealth;	
+		isHit = true;
 	}
 
 	public int getDamage()
@@ -264,23 +264,25 @@ public class Character extends Entity{
 	public void init(GameContainer gc) throws SlickException{
 		jumpHeight = 0;
 
-		Image[] i = new Image[8];
+		Image[] i = new Image[10];
 		i[0] = new Image("/assets/Art/Characters/" + name + "/jump-spritesheet.png");
 		i[1] = new Image("/assets/Art/Characters/" + name + "/punch-spritesheet.png");
 		i[2] = new Image("/assets/Art/Characters/" + name + "/stand-spritesheet.png");
 		i[3] = new Image("/assets/Art/Characters/" + name + "/run-spritesheet.png");
-		i[4] = new Image("/assets/Art/Characters/" + name + "/jump-spritesheet.png").getFlippedCopy(true, false);
-		i[5] = new Image("/assets/Art/Characters/" + name + "/punch-spritesheet.png").getFlippedCopy(true, false);
-		i[6] = new Image("/assets/Art/Characters/" + name + "/stand-spritesheet.png").getFlippedCopy(true, false);
-		i[7] = new Image("/assets/Art/Characters/" + name + "/run-spritesheet.png").getFlippedCopy(true, false);
-		int[] cols = {4,2,3,9};
+		i[4] = new Image("/assets/Art/Characters/" + name + "/hurt-spritesheet.png");
+		i[5] = new Image("/assets/Art/Characters/" + name + "/jump-spritesheet.png").getFlippedCopy(true, false);
+		i[6] = new Image("/assets/Art/Characters/" + name + "/punch-spritesheet.png").getFlippedCopy(true, false);
+		i[7] = new Image("/assets/Art/Characters/" + name + "/stand-spritesheet.png").getFlippedCopy(true, false);
+		i[8] = new Image("/assets/Art/Characters/" + name + "/run-spritesheet.png").getFlippedCopy(true, false);
+		i[9] = new Image("/assets/Art/Characters/" + name + "/hurt-spritesheet.png");
+		int[] cols = {4,2,3,9,2};
 		int count = 0;
 		boolean toFlipped = false;
 		for(Image img : i){
-			if(img.equals(i[0]) || img.equals(i[4])){
+			if(img.equals(i[0]) || img.equals(i[5])){
 				img = img.getSubImage(0, 25, img.getWidth(), img.getHeight() - 25);
 			}
-			if(count == 4){
+			if(count == 5){
 				count = 0;
 				toFlipped = true;
 			}
@@ -389,29 +391,39 @@ public class Character extends Entity{
 					currentAnimation = animationSet.get(2);
 				}
 			}
-			else{
+			else if(isRunning){
 				if(currentAnimation != animationSet.get(3)){
 					currentAnimation = animationSet.get(3);
+				}
+			}
+			else if(isHit){
+				if(currentAnimation != animationSet.get(4)){
+					currentAnimation = animationSet.get(4);
 				}
 			}
 		}
 		else{
 			if(isJumping){
-				if(currentAnimation !=  animationSet.get(4))
-					currentAnimation = animationSet.get(4);	
+				if(currentAnimation !=  animationSet.get(5))
+					currentAnimation = animationSet.get(5);	
 			}
 			else if(isPunching){
-				if(currentAnimation !=  animationSet.get(5))
-					currentAnimation = animationSet.get(5);
+				if(currentAnimation !=  animationSet.get(6))
+					currentAnimation = animationSet.get(6);
 			}
 			else if(isIdle){
-				if(currentAnimation !=  animationSet.get(6)){
-					currentAnimation = animationSet.get(6);
+				if(currentAnimation !=  animationSet.get(7)){
+					currentAnimation = animationSet.get(7);
 				}
 			}
-			else{
-				if(currentAnimation != animationSet.get(7)){
-					currentAnimation = animationSet.get(7);
+			else if(isRunning){
+				if(currentAnimation != animationSet.get(8)){
+					currentAnimation = animationSet.get(8);
+				}
+			}
+			else if(isHit){
+				if(currentAnimation != animationSet.get(9)){
+					currentAnimation = animationSet.get(9);
 				}
 			}
 		}
