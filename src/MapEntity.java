@@ -5,15 +5,10 @@ import org.newdawn.slick.geom.Rectangle;
 
 public abstract class MapEntity extends Entity {
 	public static final int BLOCKSIZE = 84;
-	protected Rectangle hitBox;
 	protected BlockType blockType;
 	
 	public MapEntity(int x, int y, String imageLocation){
 		super(x,y,imageLocation);
-	}
-	
-	public Rectangle getHitBox(){
-		return hitBox;
 	}
 	
 	public void setPosition(int x, int y){
@@ -22,11 +17,11 @@ public abstract class MapEntity extends Entity {
 	}
 	
 	public int getX(){
-		return xCoord;
+		return (int) getHitBox().getX();
 	}
 	
 	public int getY(){
-		return yCoord;
+		return (int) getHitBox().getY();
 	}
 	
 	public BlockType getBlockType(){

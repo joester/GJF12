@@ -9,9 +9,8 @@ public class Block extends MapEntity {
 	public Block(int x, int y, String imageLocation, BlockType b, Rectangle hitBox) {
 		super(x, y,imageLocation);		
 		blockType = b;
-		//setHitBoxLocation(,b.yHitBoxOffSet);
+		setHitBox(getX(),getY() + b.yHitBoxOffSet,MapEntity.BLOCKSIZE, MapEntity.BLOCKSIZE - b.yHitBoxOffSet);
 	}
-	
 
 	//Only use when block is Destructible
 	public void destroyBlock() throws SlickException
