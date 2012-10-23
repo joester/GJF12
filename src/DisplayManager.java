@@ -29,9 +29,13 @@ public class DisplayManager extends StateBasedGame
 	
 	public DisplayManager(String str) throws SlickException{
 		super(str);
-		controllerManager = new ControllerManager();
-		//controllerManager.createControllers();
-		gw =  new GameWorld(controllerManager);
+		try{
+			controllerManager = new ControllerManager();
+			controllerManager.createControllers();
+			gw =  new GameWorld(controllerManager);
+		}catch(Exception e){
+			gw =  new GameWorld(null);
+		}
 	}
 	
 	

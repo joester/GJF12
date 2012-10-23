@@ -22,6 +22,9 @@ public class ControllerEvent {
 	
 	public ControllerEvent() {
 		buttonStates = new ArrayList<Boolean>();
+		for(int i = 0; i < 10; i++){
+			buttonStates.add(false);
+		}
 	}
 
 	public void setButton(Button button) {
@@ -49,9 +52,6 @@ public class ControllerEvent {
 	}
 
 	public void addButtonState(Button button, boolean buttonPressed) {
-		while(buttonStates.size() < button.buttonID){
-			buttonStates.add(null);
-		}
 		buttonStates.add(button.buttonID, buttonPressed);
 	}
 	
@@ -67,5 +67,7 @@ public class ControllerEvent {
 		return direction;
 	}
 	
-	
+	public boolean hasButtonStates(){
+		return buttonStates.size() != 0;
+	}
 }

@@ -54,26 +54,22 @@ public class ControllerManager{
 	public ControllerEvent getInput(int controllerIndex){
 		Controller c = Controllers.getController(controllerIndex);
 		ControllerEvent ce = new ControllerEvent();
-		if(ce.getXAxisValue() < -0.75 && ce.getYAxisValue() > -0.75 && ce.getYAxisValue() < 0.75) {
+		if(c.getXAxisValue() < -0.75 && c.getYAxisValue() > -0.75 && c.getYAxisValue() < 0.75) {
 			ce.setDirection(Direction.LEFT);
 		}
-
-		if(ce.getXAxisValue() > 0.75 && ce.getYAxisValue() > -0.75 && ce.getYAxisValue() < 0.75) {
+		else if(c.getXAxisValue() > 0.75 && c.getYAxisValue() > -0.75 && c.getYAxisValue() < 0.75) {
 			ce.setDirection(Direction.RIGHT);
-
 		}
-		if(ce.getYAxisValue() < -0.75 && ce.getXAxisValue() > -0.75 && ce.getXAxisValue() < 0.75) {
+		else if(c.getYAxisValue() < -0.75 && c.getXAxisValue() > -0.75 && c.getXAxisValue() < 0.75) {
 			ce.setDirection(Direction.UP);
-
 		}
-		if(ce.getYAxisValue() > 0.75 && ce.getXAxisValue() > -0.75 && ce.getXAxisValue() < 0.75) {
+		else if(c.getYAxisValue() > 0.75 && c.getXAxisValue() > -0.75 && c.getXAxisValue() < 0.75) {
 			ce.setDirection(Direction.DOWN);
-
 		}
 		for(Button button: Button.values()){
 			if(c.isButtonPressed(button.buttonID)){
 				if(!buttonWasPressed[controllerIndex][button.buttonID]){
-					ce.addButtonState(button,true);
+					ce.addButtonState(button, true);
 					buttonWasPressed[controllerIndex][button.buttonID] = true;
 				}
 			}

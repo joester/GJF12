@@ -11,8 +11,8 @@ public abstract class Map {
 	
 	public void addBlock(int xCoordinate, int yCoordinate, String fileLocation, BlockType blockType)	
 	{
-		gW.addBlock(new Block(	xCoordinate * MapEntity.BLOCKSIZE, 
-								yCoordinate * MapEntity.BLOCKSIZE, 
+		gW.addBlock(new Block(	xCoordinate, 
+								yCoordinate, 
 								fileLocation, 
 								blockType, 
 								new Rectangle(	xCoordinate * MapEntity.BLOCKSIZE, 

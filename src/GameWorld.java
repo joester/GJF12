@@ -23,6 +23,8 @@ public class GameWorld
 	Map map;
 	IceMap iceMap = new IceMap(this);
 	LavaMap lavaMap = new LavaMap(this);
+	SpaceMap spaceMap = new SpaceMap(this);
+	ClockMap clockMap = new ClockMap(this);
 	ControllerManager controllerManager;
 	
 	public GameWorld(ControllerManager cm){
@@ -49,7 +51,7 @@ public class GameWorld
 		c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
 		listOfCharacters.add(c);
 		System.out.println("Character added");
-		map = iceMap;
+		map = clockMap;
 	}
 
 	public void loadSounds() throws SlickException
@@ -103,33 +105,64 @@ public class GameWorld
 			Rectangle r = new Rectangle((int)(c.xCoord + c.xVelocity), (int)(c.yCoord + c.yVelocity), c.getHitBox().getWidth(), c.getHitBox().getHeight());
 			for (Block b : listOfBlocks){
 				if (r.intersects(b.getRectangle())){	
-					
-					
+					System.out.println("1XCoord: " + b.hitBox.getX() + " YCoord: " +b.hitBox.getY() +  " Height: "+ b.getHitBox().getHeight()+ " Width: " + b.getHitBox().getWidth());
+					System.out.println("2XCoord: " + b.hitBox.getX() + " YCoord: " +b.hitBox.getY() +  " Height: "+ b.getHitBox().getHeight()+ " Width: " + b.getHitBox().getWidth());
+					System.out.println("CY: " + c.getY());
 					if (b.getBlockType() == BlockType.Lethal){
 						toBeRemoved.add(c);
 					}
 					c.determineDirection();
-					if (c.isMovingUp && b.getBlockType() != BlockType.Passable){
-						c.yVelocity = 0;
-						c.jumpAvailable = false;
-						c.canMoveUp = false;
-					}
-					else if (c.isMovingDown){
-						c.jumpAvailable = true;
-						if(c.getHitBox().getY() + c.getHitBox().getHeight() < b.getHitBox().getY())
-							c.yVelocity = 0;
-					}
 					if (c.isMovingLeft && b.getBlockType() != BlockType.Passable){
-						c.canMoveLeft = false;
-						if(c.getHitBox().getY() + c.getHitBox().getHeight()> b.getHitBox().getY())
-							c.canMoveDown = true;
+						if(c.getX() >= b.getX() + b.getHitBox().getWidth())
+							c.canMoveLeft = false;
+						if (c.isMovingUp && b.getBlockType() != BlockType.Passable){
+							if(c.getY() >= b.getY() + b.getHitBox().getHeight()){
+								c.yVelocity = 0;
+								c.jumpAvailable = false;
+								c.canMoveUp = false;
+							}
+						}
+						else if (c.isMovingDown){
+							c.jumpAvailable = true;
+							if(c.getHitBox().getY() + c.getHitBox().getHeight() < b.getHitBox().getY()){
+								c.yVelocity = 0;
+								c.canMoveDown = false;
+							}
+						}
 					}
 					else if(c.isMovingRight && b.getBlockType() != BlockType.Passable){
 						//c.xVelocity = 0;
-						c.canMoveRight = false;
-						if(c.getHitBox().getY() + c.getHitBox().getHeight()> b.getHitBox().getY())
-							c.canMoveDown = true;
-					}						 
+						if(c.getX() + c.getHitBox().getWidth() <= b.getX())
+							c.canMoveRight = false;
+						if (c.isMovingUp && b.getBlockType() != BlockType.Passable){
+							if(c.getY() >= b.getHitBox().getY() + b.getHitBox().getHeight()){
+								c.yVelocity = 0;
+								c.jumpAvailable = false;
+								c.canMoveUp = false;
+							}
+						}
+						else if (c.isMovingDown){
+							c.jumpAvailable = true;
+							if(c.getHitBox().getY() + c.getHitBox().getHeight() < b.getHitBox().getY()){
+								c.yVelocity = 0;
+								c.canMoveDown = false;
+							}
+						}
+					}
+					else{
+						if (c.isMovingUp && b.getBlockType() != BlockType.Passable){
+							c.yVelocity = 0;
+							c.jumpAvailable = false;
+							c.canMoveUp = false;
+						}
+						else if (c.isMovingDown){
+							c.jumpAvailable = true;
+							if(c.getHitBox().getY() + c.getHitBox().getHeight() < b.getHitBox().getY()){
+								c.yVelocity = 0;
+								c.canMoveDown = false;
+							}
+						}
+					}
 				}
 				if(r.getX() <= 0){
 					c.canMoveLeft = false;
@@ -152,7 +185,7 @@ public class GameWorld
 		{
 			for (Character c : listOfCharacters)
 			{
-				if (p.getRectangle().intersects(c.getRectangle()))
+				if (p.getRectangle().intersects(c.getHitBox()))
 				{			
 					c.modifyHealth(-p.damage);
 					listOfProjectiles.remove(p);
@@ -160,7 +193,7 @@ public class GameWorld
 
 				for (Item i : itemsOnMap)
 				{
-					if (c.getRectangle().intersects(i.getHitBox()) && !c.hasItem)
+					if (c.getHitBox().intersects(i.getHitBox()) && !c.hasItem)
 					{
 						c.pickUpItem(i);
 						c.hasItem = true;
@@ -328,40 +361,37 @@ public class GameWorld
 		Character c = listOfCharacters.get(characterIndex);
 		Input input = gc.getInput();
 		if(input.isKeyDown(c.controls[0])){
-			c.setMove(true);
 			c.xVelocity = -1;
 			c.canMoveLeft = true;
 		}
 		if(input.isKeyDown(c.controls[1])){
-			c.setMove(true);
 			c.yVelocity = -3;
 			c.hasDX = false;
 			c.jumpAvailable = false;
 			c.canMoveUp = true;
 		}
 		if(input.isKeyDown(c.controls[2])){
-			c.setMove(true);
 			c.xVelocity = 1;
 			c.canMoveRight = true;
 		}
 		c.determineDirection();
-		/**if(controllerManager != null){
+		if(controllerManager != null){
 			controllerManager.pollControllers();
 			for(int i = 0; i < controllerManager.getControllerCount(); i++){
 				Controller ctr = controllerManager.getController(i);
 				
 				if(ctr.getXAxisValue() < -0.75 && ctr.getYAxisValue() > -0.75 && ctr.getYAxisValue() < 0.75){
-					c.setMove(true);
+				
 					c.xVelocity = -1;
 					c.canMoveLeft = true;
 				}
 				else if(ctr.getXAxisValue() > 0.75 && ctr.getYAxisValue() > -0.75 && ctr.getYAxisValue() < 0.75){
-					c.setMove(true);
+				
 					c.xVelocity = 1;
 					c.canMoveRight = true;
 				}
 				if(ctr.isButtonPressed(Button.A.buttonID)){
-					c.setMove(true);
+					
 					c.yVelocity = -3;
 					c.hasDX = false;
 					c.jumpAvailable = false;
@@ -369,7 +399,7 @@ public class GameWorld
 				}
 			}
 		}
-		c.determineDirection();**/
+		c.determineDirection();
 	}
 
 }

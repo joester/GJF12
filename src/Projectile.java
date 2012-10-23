@@ -14,7 +14,6 @@ public class Projectile extends Entity
 	int yVelocity;
 	int damage;
 	int maxRange;
-	Rectangle hitBox;
 	GameWorld gW;
 	
 	public Projectile (int xSpawnLocation, int ySpawnLocation, int xVelocity, int yVelocity,

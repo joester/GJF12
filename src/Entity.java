@@ -15,9 +15,9 @@ public abstract class Entity{
 
 	
 	public Entity(int x, int y, String imageLocation){
-		xCoord = x;
-		yCoord = y;
-		hitBox = new Rectangle(x,y,0,0);
+		xCoord = x * MapEntity.BLOCKSIZE;
+		yCoord = y * MapEntity.BLOCKSIZE;
+		hitBox = new Rectangle(xCoord,yCoord,0,0);
 		try {
 			image = new Image(imageLocation);
 		} catch (SlickException e) {
@@ -27,16 +27,12 @@ public abstract class Entity{
 	}
 	
 	public void setHitBox(int x, int y, int w, int h){
-		hitBox = new Rectangle(x,y, w, h);
+		hitBox.setBounds(x,y, w, h);
 	}
 	
 	public void setHitBox(int x, int y){
 		hitBox.setX(x);
 		hitBox.setY(y);
-	}
-	
-	public void setHitBox(Rectangle hitbox){
-		this.hitBox = hitbox;
 	}
 	
 	public Rectangle getHitBox(){
@@ -61,8 +57,8 @@ public abstract class Entity{
 	
 	public void update(GameContainer arg0, int arg1) throws SlickException, InterruptedException
 	{
-		getHitBox().setX(xCoord);
-		getHitBox().setY(yCoord);
+		hitBox.setX(xCoord);
+		hitBox.setY(yCoord);
 	}
 	
 	public void renderEnt(String str, int width, int height) throws SlickException{
@@ -78,5 +74,9 @@ public abstract class Entity{
 	public void addFrame(String str, int width, int height) throws SlickException{
 		Image img = new Image(str);
 		animation.addFrame(img, 300);
+	}
+
+	public void setHitBoxSize(int w, int h) {
+		hitBox.setSize(w, h);
 	}
 }

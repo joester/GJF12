@@ -9,7 +9,7 @@ public class Block extends MapEntity {
 	public Block(int x, int y, String imageLocation, BlockType b, Rectangle hitBox) {
 		super(x, y,imageLocation);		
 		blockType = b;
-		this.hitBox = hitBox;
+		//setHitBoxLocation(,b.yHitBoxOffSet);
 	}
 	
 
@@ -51,6 +51,7 @@ public class Block extends MapEntity {
 	{
 		image.draw(xCoord, yCoord, 1);	
 		g.draw(hitBox);
+		g.draw(new Rectangle(xCoord,yCoord,hitBox.getWidth(),hitBox.getHeight()));
 	}
 
 
