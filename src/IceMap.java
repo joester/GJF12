@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
-import org.newdawn.slick.geom.Rectangle;
 
 public class IceMap extends Map
 {

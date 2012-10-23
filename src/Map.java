@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 
-import org.newdawn.slick.geom.Rectangle;
-
 public abstract class Map {
 	public class Location{
 		int x,y;

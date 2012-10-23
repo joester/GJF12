@@ -2,8 +2,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.input.Controller;
-import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
