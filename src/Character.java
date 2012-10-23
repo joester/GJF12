@@ -159,10 +159,10 @@ public class Character extends Entity{
 		{
 			if (punchProjectile.getHitBox().intersects(b.getHitBox()) && b.getBlockType() == BlockType.Crate)
 			{
-				Item toBeAdded = gW.chooseRandomItem();
-				toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
-				gW.itemsOnMap.add(toBeAdded);
-				gW.removeCrates.add(b);
+//				Item toBeAdded = gW.chooseRandomItem();
+//				toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
+//				gW.itemsOnMap.add(toBeAdded);
+//				gW.removeCrates.add(b);
 				
 				gW.playRandomSound(gW.punchHit);
 				hit = true;
@@ -170,8 +170,8 @@ public class Character extends Entity{
 			}
 		}
 		
-		if (!hit)
-			gW.playRandomSound(gW.punchMiss);
+		//if (!hit)
+			//gW.playRandomSound(gW.punchMiss);
 	}
 
 	public void determineDirection()

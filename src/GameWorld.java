@@ -32,6 +32,7 @@ public class GameWorld
 	ArrayList<Sound> punchHit;
 	ArrayList<Sound> punchMiss;
 	ArrayList<Block> removeCrates;
+	ArrayList<Item> itemsToRemove;
 	
 	public GameWorld(ControllerManager cm){
 		controllerManager = cm;
@@ -111,7 +112,6 @@ public class GameWorld
 		for(Character c : chars){
 			c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
 			listOfCharacters.add(c);
-			System.out.println("Character added");
 		}
 	}
 
@@ -143,9 +143,6 @@ public class GameWorld
 			Rectangle r = new Rectangle((int)(c.xCoord + c.xVelocity), (int)(c.yCoord + c.yVelocity), c.getHitBox().getWidth(), c.getHitBox().getHeight());
 			for (Block b : listOfBlocks){
 				if (r.intersects(b.getHitBox())){	
-					System.out.println("1XCoord: " + b.hitBox.getX() + " YCoord: " +b.hitBox.getY() +  " Height: "+ b.getHitBox().getHeight()+ " Width: " + b.getHitBox().getWidth());
-					System.out.println("2XCoord: " + b.hitBox.getX() + " YCoord: " +b.hitBox.getY() +  " Height: "+ b.getHitBox().getHeight()+ " Width: " + b.getHitBox().getWidth());
-					System.out.println("CY: " + c.getY());
 					if (b.getBlockType() == BlockType.Lethal){
 						c.modifyHealth(c.getHP());
 					}
@@ -221,7 +218,8 @@ public class GameWorld
 		for (Character c : toBeRemoved)
 			listOfCharacters.remove(c);
 
-
+		itemsToRemove = new ArrayList<Item>();
+		
 		ArrayList<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
 		for (Projectile p : listOfProjectiles)
 		{
@@ -232,32 +230,26 @@ public class GameWorld
 					c.modifyHealth(p.damage);
 					projectilesToBeRemoved.add(p);
 				}
-
-				for (Item i : itemsOnMap)
-				{
-					if (c.getHitBox().intersects(i.getHitBox()) && !c.hasItem)
-					{
-						c.pickUpItem(i);
-						c.hasItem = true;
-					}
-				}
 			}
 			
-			for (Character c : listOfCharacters)
-			{
-				for (Item i : itemsOnMap)
-				{
-					if (c.getHitBox().intersects(i.getHitBox()) && !c.hasItem)
-					{
-						c.pickUpItem(i);
-						c.hasItem = true;
-					}
-				}
-			}
 
 			for(Block b: listOfBlocks){
 				if(!b.isPassible()){
 					projectilesToBeRemoved.add(p);
+				}
+			}
+		}
+		
+		for (Character c : listOfCharacters)
+		{
+			for (Item i : itemsOnMap)
+			{
+				if (c.getHitBox().intersects(i.getHitBox()) && !c.hasItem)
+				{
+					System.out.println("item picked up");
+					c.pickUpItem(i);
+					itemsToRemove.add(i);
+					c.hasItem = true;
 				}
 			}
 		}
@@ -274,7 +266,7 @@ public class GameWorld
 						Item toBeAdded = chooseRandomItem();
 						toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
 						itemsOnMap.add(toBeAdded);
-						removeCrates.add(b);							
+						removeCrates.add(b);		
 					}
 				}	
 //				for (Character c : listOfCharacters)
@@ -290,6 +282,11 @@ public class GameWorld
 			}
 		}
 
+		for (Item i : itemsToRemove)
+		{
+		   itemsOnMap.remove(i);	
+		}
+		
 		for (Block b :removeCrates)
 		{
 			listOfBlocks.remove(b);
@@ -347,7 +344,6 @@ public class GameWorld
 		{
 			i.update(gc, delta);
 		}
-		System.out.println(itemsOnMap.size());
 
 	}
 
