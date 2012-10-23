@@ -65,7 +65,7 @@ public class GameWorld
 
 	public void loadSounds() throws SlickException
 	{
-		Sound background = new Sound("assets/SFX/Music/Rocket.wav");
+		Sound background = new Sound("assets/SFX/music/Volcano.wav");
 		background.loop();
 		
 		Sound punchHit1 = new Sound("assets/SFX/punch1Final.wav");
