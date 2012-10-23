@@ -13,8 +13,8 @@ public class Wind extends Item
 	public Wind(int x, int y, String i, int xVel, int yVel){
 		super(x, y, i, xVel, yVel);
 		damage = 1;
-		projectileRange = 1000;
-		projectileXSpeed = 2;
+		projectileRange = 500;
+		projectileXSpeed = 4;
 		dropChance = true;
 		startUpTime = .01;
 		reloadTime = 1;

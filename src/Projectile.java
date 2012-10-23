@@ -23,7 +23,6 @@ public class Projectile extends Entity
 	public Projectile (int xSpawnLocation, int ySpawnLocation, Image image, int xVelocity, int yVelocity,
 						int maxRange, Rectangle hitBox, Character owner, GameWorld gW)
 	{
-		
 		super(xSpawnLocation, ySpawnLocation);
 		this.gW = gW;
 		this.xSpawnLocation = xSpawnLocation;
@@ -47,10 +46,10 @@ public class Projectile extends Entity
 		this.ySpawnLocation = ySpawnLocation;
 		currentXLocation = xSpawnLocation;
 		currentYLocation = ySpawnLocation;
-		this.xVelocity = projectileXSpeed;
-		this.yVelocity = projectileYSpeed;	
-		this.maxRange = projectileRange;
-		this.owner = c;
+		xVelocity = projectileXSpeed;
+		yVelocity = projectileYSpeed;	
+		maxRange = projectileRange;
+		owner = c;
 		this.image = image;
 		this.hitBoxXOffSet = hitBoxXPosOffSet;
 		this.hitBoxYOffSet = hitBoxYPosOffSet;
@@ -67,7 +66,8 @@ public class Projectile extends Entity
 		//update projectile's location
 		currentXLocation += xVelocity;
 		currentYLocation += yVelocity;
-		if (getDistanceTravelled() >= 1000)
+		System.out.println(getDistanceTravelled() );
+		if (getDistanceTravelled() >= maxRange)
 		{
 			gW.projectilesToBeRemoved.add(this);
 		}

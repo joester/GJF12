@@ -18,7 +18,7 @@ EARTH  5  1(3 if above) 1 Yes 0.05, 0.01
 		super(x, y, i, xVel, yVel);
 		damage = 5;
 		projectileRange = 100;
-		projectileXSpeed = 1; 
+		projectileXSpeed = 3; 
 		dropChance = true;
 		startUpTime = .05;
 		reloadTime = .01;	

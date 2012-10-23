@@ -13,7 +13,7 @@ public class Fire extends Item
 		super(x, y, i, xVelocity, yVelocity);
 		damage = 3;
 		projectileRange = 400;
-		projectileXSpeed = 5;
+		projectileXSpeed = 3;
 		dropChance = false;
 		startUpTime = .01;
 		reloadTime = .9;

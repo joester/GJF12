@@ -12,7 +12,7 @@ public class Ice extends Item
 	public Ice(int x, int y, String i, int xVel, int yVel){
 		super(x, y, i, xVel, yVel);
 		damage = 2;
-		projectileRange = 500;
+		projectileRange = 200;
 		projectileXSpeed = 3;
 		dropChance = false;
 		startUpTime = .25;
