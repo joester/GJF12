@@ -64,7 +64,7 @@ public class GameplayState extends BasicGameState {
 		
 		for(int i = 0; i < 4; i ++){
 			uiImages[i].draw(dist - 84, inLine, (float).75);
-			g.drawString((String)gw.listOfCharacters.get(0).displayHP(),
+			g.drawString((String)gw.listOfCharacters.get(i).displayHP(),
 				dist + (uiImages[i].getWidth() * 3 / 4) - 84, inLine + 16);
 			dist += uiIntervals;
 		}

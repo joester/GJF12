@@ -38,13 +38,17 @@ public class Character extends Entity{
 	private boolean isRunning;
 	public int gravityCounter;
 
+	int[] setOne = {Input.KEY_A, Input.KEY_W, Input.KEY_D, Input.KEY_S};
+	int[] setTwo = {Input.KEY_LEFT, Input.KEY_UP, Input.KEY_RIGHT, Input.KEY_DOWN};
+	
 	//GameWorld gameWorld = new GameWorld();
 	//Set<Body> bodies = new HashSet<Body>();
 
 
-	public Character(int x, int y, String imageLocation)
+	public Character(int x, int y, String player, int controls)
 	{
-		super(x,y, imageLocation);
+		super(x,y, player);
+		name = player;
 		hasAuxItem = false;
 		hasItem = false;
 		//Place holder numbers
@@ -60,13 +64,16 @@ public class Character extends Entity{
 		itemName = null;
 		auxName = null;
 		jumpAvailable = true;
+		if(controls == 0){
+			setControls(setOne);
+		}
+		if(controls == 1){
+			setControls(setTwo);
+		}
 	}
 
-	public void setControls(int left, int up, int right, int down){
-		controls[0] = left;
-		controls[1] = up;
-		controls[2] = right;
-		controls[3] = down;
+	public void setControls(int[] set){
+		controls = set;
 	}
 
 	
@@ -92,7 +99,7 @@ public class Character extends Entity{
 
 	public void modifyHealth(int deltaHealth)
 	{
-		HP += deltaHealth;		
+		HP -= deltaHealth;		
 	}
 
 	public int getDamage()
@@ -231,16 +238,15 @@ public class Character extends Entity{
 		jumpHeight = 0;
 
 		Image[] i = new Image[6];
-		i[0] = new Image("/assets/Art/jump-spritesheet.png");
-		i[1] = new Image("/assets/punch-spritesheet.png");
-		i[2] = new Image("/assets/Art/stand-spritesheet.png");
-		i[3] = new Image("/assets/Art/jump-spritesheet.png").getFlippedCopy(true, false);
-		i[4] = new Image("/assets/punch-spritesheet.png").getFlippedCopy(true, false);
-		i[5] = new Image("/assets/Art/stand-spritesheet.png").getFlippedCopy(true, false);
-		int[] cols = {4, 2,3};
+		i[0] = new Image("/assets/Art/Characters/" + name + "/jump-spritesheet.png");
+		i[1] = new Image("/assets/Art/Characters/" + name + "/punch-spritesheet.png");
+		i[2] = new Image("/assets/Art/Characters/" + name + "/stand-spritesheet.png");
+		i[3] = new Image("/assets/Art/Characters/" + name + "/jump-spritesheet.png").getFlippedCopy(true, false);
+		i[4] = new Image("/assets/Art/Characters/" + name + "/punch-spritesheet.png").getFlippedCopy(true, false);
+		i[5] = new Image("/assets/Art/Characters/" + name + "/stand-spritesheet.png").getFlippedCopy(true, false);
+		int[] cols = {4,2,3};
 		int count = 0;
 		boolean toFlipped = false;
-		setControls(Input.KEY_A, Input.KEY_W, Input.KEY_D, Input.KEY_S);
 		for(Image img : i){
 			if(img.equals(i[0]) || img.equals(i[4])){
 				img = img.getSubImage(0, 25, img.getWidth(), img.getHeight() - 25);

@@ -28,14 +28,14 @@ public class GameWorld
 	ClockMap clockMap = new ClockMap(this,"/assets/Art/Background/bg_ice.jpg");
 	ControllerManager controllerManager;
 	private Image background;
-	
+
 	public GameWorld(ControllerManager cm){
 		controllerManager = cm;
 	}
-	
+
 	public void init() throws IOException, SlickException 
 	{	 
-		
+
 		String earthFileLocation = "assets/Art/Transformations/icons/hammer.png";
 		String fireFileLocation = "assets/Art/Transformations/icons/bow.png";
 		String iceFileLocation = "assets/Art/Transformations/icons/shield.png";
@@ -47,10 +47,10 @@ public class GameWorld
 		listOfItems.add(new Ice(0, 0, iceFileLocation));
 		listOfItems.add(new Lightning(0, 0, lightningFileLocation));
 		listOfItems.add(new Wind(0, 0, windFileLocation));
-		
+
 		loadSounds();
-		
-		
+		loadChars();
+
 		map = iceMap;
 		setBackgroundImage();
 	}
@@ -77,11 +77,18 @@ public class GameWorld
 		Sound movingSteel = new Sound("assets/SFX/movingSteelFinal.wav");
 
 	}
-	
+
 	public void loadChars() throws SlickException{
-		Character c = new Character(0, 0, "/assets/Art/stand-spritesheet.png");
-		c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
-		listOfCharacters.add(c);
+		List<Character> chars = new ArrayList<Character>();
+		chars.add(new Character(0, 0, "player1", 0));
+		chars.add(new Character(0, 0, "player2", 0));
+		chars.add(new Character(0, 0, "player3", 1));
+		chars.add(new Character(0, 0, "player4", 1));
+		for(Character c : chars){
+			c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
+			listOfCharacters.add(c);
+			System.out.println("Character added");
+		}
 	}
 
 	public Map getMap()
@@ -183,7 +190,7 @@ public class GameWorld
 				if(r.getY() > gc.getHeight()){
 					c.modifyHealth(c.getHP());
 				}
-				
+
 			}
 		}
 
@@ -267,8 +274,8 @@ public class GameWorld
 
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
-		if(listOfCharacters.size() > 0){
-			assignActionToPlayer(gc,0,delta);
+		for(int i = 0; i < listOfCharacters.size(); i++){
+			assignActionToPlayer(gc,i,delta);
 		}
 		for (Character c : listOfCharacters)
 		{
@@ -314,7 +321,7 @@ public class GameWorld
 		{
 			i.render(gc, g);
 		}
-		
+
 		for(Block b: listOfBlocks){
 			try{
 				b.render(gc, g);
@@ -366,38 +373,71 @@ public class GameWorld
 	public void assignActionToPlayer(GameContainer gc, int characterIndex,int delta){
 		Character c = listOfCharacters.get(characterIndex);
 		Input input = gc.getInput();
-		if(input.isKeyDown(c.controls[0])){
-			c.xVelocity = -1;
-			c.canMoveLeft = true;
+		if(characterIndex == 0){
+			if(input.isKeyDown(Input.KEY_A)){
+				listOfCharacters.get(0).xVelocity = -1;
+				c.canMoveLeft = true;
+			}
+			if(input.isKeyDown(Input.KEY_W)){
+				c.yVelocity = -3;
+				c.hasDX = false;
+				c.jumpAvailable = false;
+				c.canMoveUp = true;
+			}
+			if(input.isKeyDown(Input.KEY_D)){
+				c.xVelocity = 1;
+				c.canMoveRight = true;
+			}
 		}
-		if(input.isKeyDown(c.controls[1])){
-			c.yVelocity = -3;
-			c.hasDX = false;
-			c.jumpAvailable = false;
-			c.canMoveUp = true;
+		if(characterIndex == 1){
+			if(input.isKeyDown(Input.KEY_J)){
+				c.xVelocity = -1;
+				c.canMoveLeft = true;
+			}
+			if(input.isKeyDown(Input.KEY_I)){
+				c.yVelocity = -3;
+				c.hasDX = false;
+				c.jumpAvailable = false;
+				c.canMoveUp = true;
+			}
+			if(input.isKeyDown(Input.KEY_L)){
+				c.xVelocity = 1;
+				c.canMoveRight = true;
+			}
 		}
-		if(input.isKeyDown(c.controls[2])){
-			c.xVelocity = 1;
-			c.canMoveRight = true;
+		if(characterIndex == 2){
+			if(input.isKeyDown(Input.KEY_LEFT)){
+				c.xVelocity = -1;
+				c.canMoveLeft = true;
+			}
+			if(input.isKeyDown(Input.KEY_UP)){
+				c.yVelocity = -3;
+				c.hasDX = false;
+				c.jumpAvailable = false;
+				c.canMoveUp = true;
+			}
+			if(input.isKeyDown(Input.KEY_RIGHT)){
+				c.xVelocity = 1;
+				c.canMoveRight = true;
+			}
 		}
-		c.determineDirection();
 		if(controllerManager != null){
 			controllerManager.pollControllers();
 			for(int i = 0; i < controllerManager.getControllerCount(); i++){
 				Controller ctr = controllerManager.getController(i);
-				
+
 				if(ctr.getXAxisValue() < -0.75 && ctr.getYAxisValue() > -0.75 && ctr.getYAxisValue() < 0.75){
-				
+
 					c.xVelocity = -1;
 					c.canMoveLeft = true;
 				}
 				else if(ctr.getXAxisValue() > 0.75 && ctr.getYAxisValue() > -0.75 && ctr.getYAxisValue() < 0.75){
-				
+
 					c.xVelocity = 1;
 					c.canMoveRight = true;
 				}
 				if(ctr.isButtonPressed(Button.A.buttonID)){
-					
+
 					c.yVelocity = -3;
 					c.hasDX = false;
 					c.jumpAvailable = false;
@@ -407,7 +447,7 @@ public class GameWorld
 		}
 		c.determineDirection();
 	}
-	
+
 	private void setBackgroundImage(){
 		try {
 			background = new Image(map.getBackgroundFileLocation());

@@ -7,6 +7,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 public abstract class Entity{
+	boolean isCharacter = false;
 	protected Image image;
 	protected Rectangle hitBox;
 	protected int xCoord;
@@ -15,11 +16,22 @@ public abstract class Entity{
 
 	
 	public Entity(int x, int y, String imageLocation){
+		String newLocation = "";
+		if(this instanceof Character){
+			newLocation = "/assets/Art/Characters/" + imageLocation
+				+ "/stand-spritesheet.png";
+			isCharacter = true;
+		}
 		xCoord = x * MapEntity.BLOCKSIZE;
 		yCoord = y * MapEntity.BLOCKSIZE;
 		hitBox = new Rectangle(xCoord,yCoord,0,0);
 		try {
-			image = new Image(imageLocation);
+			if(isCharacter){
+				image = new Image(newLocation);
+			}
+			else{
+				image = new Image(imageLocation);
+			}
 		} catch (SlickException e) {
 			System.out.println("Image not found for " + this.getClass());
 			e.printStackTrace();
