@@ -41,6 +41,11 @@ public abstract class Entity{
 		hitBox = new Rectangle(xCoord,yCoord,0,0);
 	}
 
+	public Entity(int xSpawnLocation, int ySpawnLocation) {
+		xCoord = xSpawnLocation;
+		yCoord = ySpawnLocation;
+	}
+
 	public void setHitBox(int x, int y, int w, int h){
 		hitBox.setBounds(x,y, w, h);
 	}

@@ -110,7 +110,7 @@ public class Character extends Entity{
 	public void pickUpItem(Item item)
 	{
 		damage = item.damage;
-		range = item.range;
+		range = item.projectileRange;
 		itemName = item.name;
 		this.item = item;
 		hasItem = true;
@@ -147,14 +147,7 @@ public class Character extends Entity{
 
 		if (hasItem)
 		{
-			System.out.println(getX() + "");
-			if(isFacingRight)
-				gW.listOfProjectiles.add(new Projectile(xCoord+ 42, yCoord+ 42,item.pImage, item.speed, 0, item.range, new Rectangle(getX() + 42, getY() + 42, item.pImage.getWidth() , item.pImage.getHeight()),this,gW));
-			else
-				gW.listOfProjectiles.add(new Projectile(xCoord+ 42, yCoord+ 42,item.pImage, -item.speed, 0, item.range, new Rectangle(getX() + 42, getY() + 42,item.pImage.getWidth() , item.pImage.getHeight()),this,gW));
-			for(Projectile p: gW.listOfProjectiles){
-				System.out.println(p.hitBox.getX());
-			}
+			item.use(gW, this);
 		}
 		else{
 			//else

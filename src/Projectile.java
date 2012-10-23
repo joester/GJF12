@@ -7,8 +7,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Projectile extends Entity
 {
-	int xCoord;
-	int yCoord;
+	int currentXLocation;
+	int currentYLocation;
 	int xSpawnLocation;
 	int ySpawnLocation;
 	int xVelocity;
@@ -18,39 +18,62 @@ public class Projectile extends Entity
 	GameWorld gW;
 	Character owner;
 	
-	public Projectile (int xSpawnLocation, int ySpawnLocation, Image pi, int xVelocity, int yVelocity,
+	int hitBoxXOffSet;
+	int hitBoxYOffSet;
+	public Projectile (int xSpawnLocation, int ySpawnLocation, Image image, int xVelocity, int yVelocity,
 						int maxRange, Rectangle hitBox, Character owner, GameWorld gW)
 	{
 		
-		super(xSpawnLocation, ySpawnLocation, null);
+		super(xSpawnLocation, ySpawnLocation);
 		this.gW = gW;
 		this.xSpawnLocation = xSpawnLocation;
 		this.ySpawnLocation = ySpawnLocation;
-		xCoord = xSpawnLocation;
-		yCoord = ySpawnLocation;
+		currentXLocation = xSpawnLocation;
+		currentYLocation = ySpawnLocation;
 		this.xVelocity = xVelocity;
 		this.yVelocity = yVelocity;
 		this.hitBox = hitBox;		
 		this.maxRange = maxRange;
 		this.owner = owner;
-		gW.listOfProjectiles.add(this);
-		this.image = pi;
+		this.image = image;
 	}
-	
+
+	public Projectile(int xSpawnLocation, int ySpawnLocation, Image image,
+			int projectileXSpeed, int projectileYSpeed, int projectileRange,
+			int hitBoxXPosOffSet, int hitBoxYPosOffSet, int hitBoxXOffSet, int hitBoxYOffSet, Character c, GameWorld gW) {
+		super(xSpawnLocation, ySpawnLocation,null);
+		this.gW = gW;
+		this.xSpawnLocation = xSpawnLocation;
+		this.ySpawnLocation = ySpawnLocation;
+		currentXLocation = xSpawnLocation;
+		currentYLocation = ySpawnLocation;
+		this.xVelocity = projectileXSpeed;
+		this.yVelocity = projectileYSpeed;	
+		this.maxRange = projectileRange;
+		this.owner = c;
+		this.image = image;
+		this.hitBoxXOffSet = hitBoxXPosOffSet;
+		this.hitBoxYOffSet = hitBoxYPosOffSet;
+		hitBox = new Rectangle(xSpawnLocation + hitBoxXPosOffSet, 
+				ySpawnLocation + hitBoxYPosOffSet, 
+				image.getWidth() - hitBoxXOffSet,
+				image.getHeight() - hitBoxYOffSet);
+	}
+
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
 		super.update(gc, delta);
 		//update projectile's location
-		xCoord += xVelocity;
-		yCoord += yVelocity;
+		currentXLocation += xVelocity;
+		currentYLocation += yVelocity;
 		if (getDistanceTravelled() >= 1000)
 		{
 			gW.projectilesToBeRemoved.add(this);
 		}
 		
 		//keeps rectangle in line with sprite
-		setHitBox(xCoord, yCoord);
+		setHitBox(currentXLocation + hitBoxXOffSet, currentYLocation + hitBoxYOffSet);
 	}
 	
 	
@@ -58,17 +81,16 @@ public class Projectile extends Entity
 	//used to determine if the projectile has reached its maximum range
 	public double getDistanceTravelled()
 	{
-		return Math.sqrt(Math.pow((xCoord - xSpawnLocation), 2) +
-						 Math.pow((yCoord - ySpawnLocation), 2));
+		return Math.sqrt(Math.pow((currentXLocation - xSpawnLocation), 2) +
+						 Math.pow((currentYLocation - ySpawnLocation), 2));
 	}
 
 	@Override
 	public void render(GameContainer gc, Graphics g)
 	{
-		System.out.println("projectile is rendering" + hitBox.getX() + "" +hitBox.getY() + " " + image);
 		g.draw(hitBox);
 		if(image != null){
-			image.draw(xCoord, yCoord, 1);	
+			image.draw(currentXLocation, currentYLocation, 1);	
 		}
 		
 	}

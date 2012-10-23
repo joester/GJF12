@@ -56,6 +56,14 @@ public class GameWorld
 		listOfItems.add(new Ice(0, 0, iceFileLocation,0,0));
 		listOfItems.add(new Lightning(0, 0, lightningFileLocation,0,0));
 		listOfItems.add(new Wind(0, 0, windFileLocation,0,0));
+		for(Item i : listOfItems){
+			try {
+				  i.projectileImage = new Image(i.projectileImageLocation);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 		loadSounds();
 
@@ -233,7 +241,6 @@ public class GameWorld
 		{
 			for (Character c : listOfCharacters)
 			{
-				System.out.println(( p.owner != c) + " " + p.getHitBox().intersects(c.getHitBox()));
 				if(p.owner != c){
 					if (p.getHitBox().intersects(c.getHitBox()))
 					{			
@@ -507,9 +514,8 @@ public class GameWorld
 			}
 
 		}
-		
-		
 		c.determineDirection();
+		/**
 		if(controllerManager != null){
 			controllerManager.pollControllers();
 			for(int i = 0; i < controllerManager.getControllerCount(); i++){
@@ -534,7 +540,7 @@ public class GameWorld
 				}
 			}
 		}
-		c.determineDirection();
+		c.determineDirection();**/
 	}
 
 	private void setBackgroundImage(){
