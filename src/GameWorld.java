@@ -57,8 +57,8 @@ public class GameWorld
 
 		loadSounds();
 		
-		map = lavaMap;
-		lavaMap.buildMap();
+		map = spaceMap;
+		spaceMap.buildMap();
 		setBackgroundImage();
 		loadChars();
 	}
@@ -422,17 +422,11 @@ public class GameWorld
 			}
 
 			if(input.isKeyDown(Input.KEY_Q)){
-<<<<<<< .mine
-				c.dropitem();
-			}
-			if(input.isKeyDown(Input.KEY_E)){
-=======
->>>>>>> .r187
 				for (Item i : itemsOnMap)
 				{
 					if (c.getHitBox().intersects(i.getHitBox()))
 					{
-						c.dropitem();
+						c.dropItem();
 						c.pickUpItem(i);
 						itemsToRemove.add(i);
 					}
