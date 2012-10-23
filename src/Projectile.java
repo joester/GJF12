@@ -8,8 +8,6 @@ public class Projectile extends Entity
 {
 	int xSpawnLocation;
 	int ySpawnLocation;
-	int xCurrentLocation;
-	int yCurrentLocation;
 	int xVelocity;
 	int yVelocity;
 	int damage;
@@ -21,18 +19,13 @@ public class Projectile extends Entity
 	{
 		super(xSpawnLocation, ySpawnLocation, "assets/Art/Transformations/wind.png");
 		this.xSpawnLocation = xSpawnLocation;
-		this.xCurrentLocation = xSpawnLocation;
+		this.xCoord = xSpawnLocation;
 		this.ySpawnLocation = ySpawnLocation;
-		this.yCurrentLocation = xSpawnLocation;
+		this.yCoord = xSpawnLocation;
 		this.xVelocity = xVelocity;
 		this.yVelocity = yVelocity;
 		this.hitBox = hitBox;		
 		this.maxRange = maxRange;
-	}
-	
-	public Rectangle getRectangle()
-	{
-		return hitBox;
 	}
 	
 	@Override
@@ -40,15 +33,15 @@ public class Projectile extends Entity
 	{
 		super.update(gc, delta);
 		//update projectile's location
-		xCurrentLocation += xVelocity;
-		yCurrentLocation += yVelocity;
+		xCoord += xVelocity;
+		yCoord += yVelocity;
 		if (getDistanceTravelled() >= maxRange)
 		{
 			gW.getListOfProjectiles().remove(this);
 		}
 		
 		//keeps rectangle in line with sprite
-		getRectangle().setBounds(xCurrentLocation, yCurrentLocation, getRectangle().getWidth(), getRectangle().getHeight());
+		setHitBox(xCoord, yCoord);
 	}
 	
 	
@@ -56,8 +49,8 @@ public class Projectile extends Entity
 	//used to determine if the projectile has reached its maximum range
 	public double getDistanceTravelled()
 	{
-		return Math.sqrt(Math.pow((xCurrentLocation - xSpawnLocation), 2) +
-						 Math.pow((yCurrentLocation - ySpawnLocation), 2));
+		return Math.sqrt(Math.pow((xCoord - xSpawnLocation), 2) +
+						 Math.pow((yCoord - ySpawnLocation), 2));
 	}
 
 	@Override

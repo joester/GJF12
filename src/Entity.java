@@ -47,6 +47,11 @@ public abstract class Entity{
 		hitBox.setY(y);
 	}
 	
+	public void setHitBox(float x, float y){
+		hitBox.setX(x);
+		hitBox.setY(y);
+	}
+	
 	public Rectangle getHitBox(){
 		return hitBox;
 	}

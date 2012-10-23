@@ -231,7 +231,7 @@ public class GameWorld
 		{
 			for (Character c : listOfCharacters)
 			{
-				if (p.getRectangle().intersects(c.getHitBox()))
+				if (p.getHitBox().intersects(c.getHitBox()))
 				{			
 					c.modifyHealth(p.damage);
 					projectilesToBeRemoved.add(p);
@@ -266,7 +266,7 @@ public class GameWorld
 			{
 				for (Projectile p : listOfProjectiles)
 				{
-					if (p.getRectangle().intersects(b.getHitBox()))
+					if (p.getHitBox().intersects(b.getHitBox()))
 					{
 						Item toBeAdded = chooseRandomItem();
 						toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
