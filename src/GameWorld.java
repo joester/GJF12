@@ -51,11 +51,11 @@ public class GameWorld
 		String lightningFileLocation = "assets/Art/Transformations/icons/dagger.png";
 		String windFileLocation = "assets/Art/Transformations/icons/fan.png";
 
-		listOfItems.add(new Earth(0, 0, earthFileLocation));		
-		listOfItems.add(new Fire(0, 0, fireFileLocation));		
-		listOfItems.add(new Ice(0, 0, iceFileLocation));
-		listOfItems.add(new Lightning(0, 0, lightningFileLocation));
-		listOfItems.add(new Wind(0, 0, windFileLocation));
+		listOfItems.add(new Earth(0, 0, earthFileLocation,0,0));		
+		listOfItems.add(new Fire(0, 0, fireFileLocation,0,0));		
+		listOfItems.add(new Ice(0, 0, iceFileLocation,0,0));
+		listOfItems.add(new Lightning(0, 0, lightningFileLocation,0,0));
+		listOfItems.add(new Wind(0, 0, windFileLocation,0,0));
 
 		loadSounds();
 

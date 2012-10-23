@@ -148,7 +148,10 @@ public class Character extends Entity{
 		if (hasItem)
 		{
 			System.out.println(getX() + "");
-			gW.listOfProjectiles.add(new Projectile(xCoord+ 42, yCoord+ 42,item.pImage, item.speed, 0, 1000, new Rectangle(getX() + 42, getY() + 42, 40, 40),this,gW));
+			if(isFacingRight)
+				gW.listOfProjectiles.add(new Projectile(xCoord+ 42, yCoord+ 42,item.pImage, item.speed, 0, item.range, new Rectangle(getX() + 42, getY() + 42, item.pImage.getWidth() , item.pImage.getHeight()),this,gW));
+			else
+				gW.listOfProjectiles.add(new Projectile(xCoord+ 42, yCoord+ 42,item.pImage, -item.speed, 0, item.range, new Rectangle(getX() + 42, getY() + 42,item.pImage.getWidth() , item.pImage.getHeight()),this,gW));
 			for(Projectile p: gW.listOfProjectiles){
 				System.out.println(p.hitBox.getX());
 			}
@@ -169,6 +172,7 @@ public class Character extends Entity{
 				hit = true;
 				break;
 			}
+			gW.projectilesToBeRemoved.add(punchProjectile);
 		}
 
 		//if (!hit)

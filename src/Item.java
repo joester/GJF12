@@ -61,10 +61,10 @@ protected Image pImage;
 	public void use(GameWorld gW,Character c)
 	{		
 		if(c.isFacingRight)
-			c.gW.listOfProjectiles.add(new Projectile((int)(c.xCoord + c.getHitBox().getWidth()), c.yCoord, xVelocity, yVelocity,damage, range, hitBox, c.gW, c));
+			c.gW.listOfProjectiles.add(new Projectile(c.xCoord, c.yCoord,pImage, xVelocity, yVelocity, range, hitBox,c,gW));
 		
 		else{
-			 c.gW.listOfProjectiles.add(new Projectile(c.xCoord, c.yCoord, -xVelocity, yVelocity,damage, range, hitBox, c.gW, c));
+			 c.gW.listOfProjectiles.add(new Projectile(c.xCoord, c.yCoord, pImage,-xVelocity, yVelocity, range, hitBox, c, gW));
 		}
 		System.out.println("ajskljqklslsa");
 	}

@@ -1,11 +1,14 @@
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 
 public class Projectile extends Entity
 {
+	int xCoord;
+	int yCoord;
 	int xSpawnLocation;
 	int ySpawnLocation;
 	int xVelocity;
@@ -13,19 +16,25 @@ public class Projectile extends Entity
 	int damage;
 	int maxRange;
 	GameWorld gW;
+	Character owner;
 	
-	public Projectile (int xSpawnLocation, int ySpawnLocation, int xVelocity, int yVelocity,
-						int maxRange, Rectangle hitBox)
+	public Projectile (int xSpawnLocation, int ySpawnLocation, Image pi, int xVelocity, int yVelocity,
+						int maxRange, Rectangle hitBox, Character owner, GameWorld gW)
 	{
-		super(xSpawnLocation, ySpawnLocation, "assets/Art/Transformations/wind.png");
+		
+		super(xSpawnLocation, ySpawnLocation, null);
+		this.gW = gW;
 		this.xSpawnLocation = xSpawnLocation;
-		this.xCoord = xSpawnLocation;
 		this.ySpawnLocation = ySpawnLocation;
-		this.yCoord = xSpawnLocation;
+		xCoord = xSpawnLocation;
+		yCoord = ySpawnLocation;
 		this.xVelocity = xVelocity;
 		this.yVelocity = yVelocity;
 		this.hitBox = hitBox;		
 		this.maxRange = maxRange;
+		this.owner = owner;
+		gW.listOfProjectiles.add(this);
+		this.image = pi;
 	}
 	
 	@Override
@@ -35,9 +44,9 @@ public class Projectile extends Entity
 		//update projectile's location
 		xCoord += xVelocity;
 		yCoord += yVelocity;
-		if (getDistanceTravelled() >= maxRange)
+		if (getDistanceTravelled() >= 1000)
 		{
-			gW.getListOfProjectiles().remove(this);
+			gW.projectilesToBeRemoved.add(this);
 		}
 		
 		//keeps rectangle in line with sprite
@@ -56,8 +65,11 @@ public class Projectile extends Entity
 	@Override
 	public void render(GameContainer gc, Graphics g)
 	{
+		System.out.println("projectile is rendering" + hitBox.getX() + "" +hitBox.getY() + " " + image);
 		g.draw(hitBox);
-		image.draw(xCoord, yCoord);
+		if(image != null){
+			image.draw(xCoord, yCoord, 1);	
+		}
 		
 	}
 

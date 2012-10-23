@@ -1,3 +1,6 @@
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 
 public class Wind extends Item
 {
@@ -10,10 +13,17 @@ public class Wind extends Item
 	public Wind(int x, int y, String i, int xVel, int yVel){
 		super(x, y, i, xVel, yVel);
 		damage = 1;
-		range = 400;
-		speed = .2;
+		range = 1000;
+		speed = 2;
 		dropChance = true;
 		startUpTime = .01;
 		reloadTime = 1;
+		projectileImageLocation = "/assets/Art/Transformations/wind.png";
+		  try {
+				pImage = new Image(projectileImageLocation);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 }
