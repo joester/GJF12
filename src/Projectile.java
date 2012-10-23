@@ -63,6 +63,7 @@ public class Projectile extends Entity
 	@Override
 	public void render(GameContainer gc, Graphics g)
 	{
+		g.draw(hitBox);
 		image.draw(xCoord, yCoord);
 		
 	}
