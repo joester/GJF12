@@ -94,7 +94,11 @@ public abstract class Entity{
 	}
 	public void renderEnt(Image img, int width, int height) throws SlickException{
 		SpriteSheet sheet = new SpriteSheet(img, width, height);
-		animation = new Animation(sheet, 500);
+		animation = new Animation(sheet, 300);
+	}
+	public void renderEnt(Image img, int width, int height,int duration) throws SlickException{
+		SpriteSheet sheet = new SpriteSheet(img, width, height);
+		animation = new Animation(sheet, duration);
 	}
 	public void addFrame(String str, int width, int height) throws SlickException{
 		Image img = new Image(str);

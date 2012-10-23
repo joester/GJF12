@@ -2,9 +2,8 @@ import java.util.ArrayList;
 
 public class ClockMap extends Map { 
 
-	public ClockMap(GameWorld gW, String backgroundFileLocation) {
-		super(gW, backgroundFileLocation);
-		// TODO Auto-generated constructor stub
+	public ClockMap(GameWorld gW, String backgroundFileLocation, String musicFileLocation) {
+		super(gW, backgroundFileLocation, musicFileLocation);
 	}
 
 	String backgroundFileLocation;

@@ -152,8 +152,12 @@ public class Character extends Entity{
 		else{
 			//else
 			//{
-			punchProjectile = new Projectile(getX() + 42, getY()+ 42, null, 0, 0, 0, 
-					new Rectangle(getX() + 42, getY() + 42, 40, 40), this,gW);
+			if(isFacingRight)
+				punchProjectile = new Projectile(getX() + 42, getY(), null, 0, 0, 0, 
+					new Rectangle(getX() + 42, getY(), 20, 40), this,gW);
+			else
+				punchProjectile = new Projectile(getX() - 42, getY(), null, 0, 0, 0, 
+						new Rectangle(getX() - 42, getY(), 20, 40), this,gW);
 			gW.listOfProjectiles.add(punchProjectile);	
 		}
 		//}
@@ -285,14 +289,21 @@ public class Character extends Entity{
 			}
 			Image[] imagelist = new Image[cols[count]];
 			int imageListTrack = 0;
-			renderEnt(img, img.getWidth() / cols[count], img.getHeight());
-
+			
+			if(img.equals(i[3]) || img.equals(i[8]))
+				renderEnt(img, img.getWidth() / cols[count], img.getHeight(),100);
+			else
+				renderEnt(img, img.getWidth() / cols[count], img.getHeight());
 			if(toFlipped){
 				for(int j = cols[count] - 1; j >= 0; j --){
 					imagelist[imageListTrack] = animation.getImage(j); 
 					imageListTrack += 1;
 				}
-				animation = new Animation(imagelist, 300);
+				if(img.equals(i[3]) || img.equals(i[8]))
+					animation = new Animation(imagelist, 100);
+				else
+					animation = new Animation(imagelist, 300);
+				
 			}
 
 			count += 1;
