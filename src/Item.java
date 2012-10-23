@@ -10,7 +10,7 @@ import org.newdawn.slick.SlickException;
 
 
 public class Item extends Entity {
-public int range;
+public int range = 400;
 public double speed, startUpTime, reloadTime;
 public int damage;
 public int xVelocity;
@@ -21,41 +21,18 @@ public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
 BufferedImage img = null;
 String fileLocation;
 
-  public Item (int x, int y, String fileLocation)
+  public Item (int x, int y, String fileLocation, int xVel, int yVel)
   {	 
 	  super(x, y, fileLocation);
 	  //Sets the hit box
 	  super.setHitBox(x, y, 45, 45);	  
 
 	  this.fileLocation = fileLocation;
+	  
+	  this.xVelocity = xVel;
+	  this.yVelocity = yVel;
   }
   
-  public void whatever(BufferedImage i, int w, int h)
-	{
-		// divide width of the BufferedImage by the wdth set by parameter to get number of rows. do same for height/columns. 
-		int rows = i.getWidth(null) / w;
-		int columns = i.getHeight(null) / h;
-		for(int x = 0; x < rows; x++)
-		{
-			for(int y = 0; y < columns; y++)
-			{
-				pics.add(i.getSubimage(x*w, y*h, w, h));
-			}
-		}
-	}
-	public void imageReciever(String s)
-	{
-		try 
-		{
-			img = ImageIO.read(new File(s));
-		}
-		catch(IOException e)
-		{
-			
-		}
-	}
-	
-
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
@@ -65,7 +42,7 @@ String fileLocation;
 	}
 
 	@Override
-	public void init(GameContainer arg0) throws SlickException
+	public void init(GameContainer gc) throws SlickException
 	{
 		// TODO Auto-generated method stub
 		
@@ -80,8 +57,14 @@ String fileLocation;
 	
 	
 	
-	public void use(GameWorld gW)
+	public void use(Character c)
 	{		
-	    gW.listOfProjectiles.add(new Projectile(xCoord, yCoord, xVelocity, yVelocity, range, hitBox));
+		if(c.isFacingRight)
+			c.gW.listOfProjectiles.add(new Projectile((int)(c.xCoord + c.getHitBox().getWidth()), c.yCoord, xVelocity, yVelocity,damage, range, hitBox, c.gW, c));
+		
+		else{
+			 c.gW.listOfProjectiles.add(new Projectile(c.xCoord, c.yCoord, -xVelocity, yVelocity,damage, range, hitBox, c.gW, c));
+		}
+		System.out.println("ajskljqklslsa");
 	}
 }

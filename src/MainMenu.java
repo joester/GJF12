@@ -1,6 +1,7 @@
 
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -30,11 +31,14 @@ public class MainMenu extends BasicGameState
 		return stateID;
 	}
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		 background = new Image("/assets/background.jpg");
+		 background = new Image("/assets/opening_screen3.jpg");
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
     	background.draw();
+    	g.setColor(Color.black);
+    	
+    	g.drawString("Press Enter to Start", gc.getWidth()/2 - 100, gc.getHeight()/2);
     	
     }
  

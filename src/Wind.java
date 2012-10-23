@@ -7,11 +7,10 @@ public class Wind extends Item
  */
 	private int push = 5;
 	
-	public Wind(int x, int y, String i)
-	{
-		super( x,  y,  i);
+	public Wind(int x, int y, String i, int xVel, int yVel){
+		super(x, y, i, xVel, yVel);
 		damage = 1;
-		range = 4;
+		range = 400;
 		speed = .2;
 		dropChance = true;
 		startUpTime = .01;

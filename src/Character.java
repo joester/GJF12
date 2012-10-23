@@ -31,7 +31,7 @@ public class Character extends Entity{
 	int time;
 	boolean attackFlag;
 	private boolean isPunching;
-	private boolean isFacingRight;
+	boolean isFacingRight;
 	private boolean isJumping;
 	private boolean isIdle;
 	private boolean isRunning;
@@ -144,27 +144,21 @@ public class Character extends Entity{
 	public void attack()
 	{
 		isPunching = true;
-		
+		System.out.println(hasItem);
 		if (hasItem)
 		{
-			item.use(gW);
+			item.use(this);
 		}
 		
-		//else
-		//{
-		punchProjectile = new Projectile(getX(), getY(), 0, 0, 0, 
-						  new Rectangle(getX() + 42, getY() + 42, 40, 40));
-		gW.listOfProjectiles.add(punchProjectile);			
-		//}
+		else
+		{
+			punchProjectile = new Projectile(getX(), getY(), 0, 0, 0, 
+						  0, new Rectangle(getX() + 42, getY() + 42, 40, 40), gW, this);		
+		}
 		for (Block b : gW.listOfBlocks)
 		{
 			if (punchProjectile.getHitBox().intersects(b.getHitBox()) && b.getBlockType() == BlockType.Crate)
-			{
-//				Item toBeAdded = gW.chooseRandomItem();
-//				toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
-//				gW.itemsOnMap.add(toBeAdded);
-//				gW.removeCrates.add(b);
-				
+			{	
 				gW.playRandomSound(gW.punchHit);
 				hit = true;
 				break;
@@ -274,7 +268,7 @@ public class Character extends Entity{
 		i[6] = new Image("/assets/Art/Characters/" + name + "/punch-spritesheet.png").getFlippedCopy(true, false);
 		i[7] = new Image("/assets/Art/Characters/" + name + "/stand-spritesheet.png").getFlippedCopy(true, false);
 		i[8] = new Image("/assets/Art/Characters/" + name + "/run-spritesheet.png").getFlippedCopy(true, false);
-		i[9] = new Image("/assets/Art/Characters/" + name + "/hurt-spritesheet.png");
+		i[9] = new Image("/assets/Art/Characters/" + name + "/hurt-spritesheet.png").getFlippedCopy(true, false);
 		int[] cols = {4,2,3,9,2};
 		int count = 0;
 		boolean toFlipped = false;
@@ -360,12 +354,7 @@ public class Character extends Entity{
 		}
 		selectAnimation();
 		setHitBox(xCoord, yCoord);
-		if(currentAnimation.equals(animationSet.get(3)) || 
-			currentAnimation.equals(animationSet.get(7))){
-			currentAnimation.update(100);
-		}
-		currentAnimation.update(10);
-
+		
 
 		xVelocity = 0;
 		gravityCounter++;
