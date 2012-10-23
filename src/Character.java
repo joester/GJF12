@@ -263,21 +263,23 @@ public class Character extends Entity{
 	public void init(GameContainer gc) throws SlickException{
 		jumpHeight = 0;
 
-		Image[] i = new Image[6];
+		Image[] i = new Image[8];
 		i[0] = new Image("/assets/Art/Characters/" + name + "/jump-spritesheet.png");
 		i[1] = new Image("/assets/Art/Characters/" + name + "/punch-spritesheet.png");
 		i[2] = new Image("/assets/Art/Characters/" + name + "/stand-spritesheet.png");
-		i[3] = new Image("/assets/Art/Characters/" + name + "/jump-spritesheet.png").getFlippedCopy(true, false);
-		i[4] = new Image("/assets/Art/Characters/" + name + "/punch-spritesheet.png").getFlippedCopy(true, false);
-		i[5] = new Image("/assets/Art/Characters/" + name + "/stand-spritesheet.png").getFlippedCopy(true, false);
-		int[] cols = {4,2,3};
+		i[3] = new Image("/assets/Art/Characters/" + name + "/run-spritesheet.png");
+		i[4] = new Image("/assets/Art/Characters/" + name + "/jump-spritesheet.png").getFlippedCopy(true, false);
+		i[5] = new Image("/assets/Art/Characters/" + name + "/punch-spritesheet.png").getFlippedCopy(true, false);
+		i[6] = new Image("/assets/Art/Characters/" + name + "/stand-spritesheet.png").getFlippedCopy(true, false);
+		i[7] = new Image("/assets/Art/Characters/" + name + "/run-spritesheet.png").getFlippedCopy(true, false);
+		int[] cols = {4,2,3,9};
 		int count = 0;
 		boolean toFlipped = false;
 		for(Image img : i){
 			if(img.equals(i[0]) || img.equals(i[4])){
 				img = img.getSubImage(0, 25, img.getWidth(), img.getHeight() - 25);
 			}
-			if(count == 3){
+			if(count == 4){
 				count = 0;
 				toFlipped = true;
 			}
@@ -415,8 +417,9 @@ public class Character extends Entity{
 		}
 		isJumping = false;
 		isPunching = false;
-		isIdle = true;
+		isIdle = false;
 		isRunning = false;
+		isMovingRight = false;
 	}
 	
 	public void resetGravityCounter(){
