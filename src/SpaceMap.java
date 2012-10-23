@@ -1,12 +1,10 @@
 public class SpaceMap extends Map
 {
-	String backgroundFileLocation;
-	
-	public SpaceMap(GameWorld gW)
-	{
-		super(gW);
-		backgroundFileLocation = "";
+	public SpaceMap(GameWorld gW, String backgroundFileLocation) {
+		super(gW, backgroundFileLocation);
 	}
+
+	String backgroundFileLocation;
 	
 	public void buildMap()
 	{

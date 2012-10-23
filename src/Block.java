@@ -9,7 +9,10 @@ public class Block extends MapEntity {
 	public Block(int x, int y, String imageLocation, BlockType b, Rectangle hitBox) {
 		super(x, y,imageLocation);		
 		blockType = b;
-		setHitBox(getX(),getY() + b.yHitBoxOffSet,MapEntity.BLOCKSIZE, MapEntity.BLOCKSIZE - b.yHitBoxOffSet);
+		if(blockType.offSetFromTop)
+			setHitBox(getX(),getY() + blockType.yHitBoxOffSet,MapEntity.BLOCKSIZE, MapEntity.BLOCKSIZE - blockType.yHitBoxOffSet);
+		else
+			setHitBox(getX(),getY(),MapEntity.BLOCKSIZE, MapEntity.BLOCKSIZE - blockType.yHitBoxOffSet);
 	}
 
 	//Only use when block is Destructible
@@ -39,10 +42,6 @@ public class Block extends MapEntity {
 		
 		return blockType == BlockType.Impassable;
 	}
-	
-	public Rectangle getRectangle(){
-		return hitBox;
-	}
 
 
 	@Override
@@ -50,7 +49,6 @@ public class Block extends MapEntity {
 	{
 		image.draw(xCoord, yCoord, 1);	
 		g.draw(hitBox);
-		g.draw(new Rectangle(xCoord,yCoord,hitBox.getWidth(),hitBox.getHeight()));
 	}
 
 

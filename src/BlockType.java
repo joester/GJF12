@@ -1,7 +1,9 @@
 public enum BlockType {
-	Impassable(0), Lethal(21), Crate(0), Passable(0);
+	Impassable(0,true), Lethal(21,true), Crate(0,true), Passable(63,false);
 	public int yHitBoxOffSet;
-	private BlockType(int yOffs){
+	public boolean offSetFromTop;
+	private BlockType(int yOffs, boolean offSetTop){
 		yHitBoxOffSet = yOffs;
+		offSetFromTop = offSetTop;
 	}
 }

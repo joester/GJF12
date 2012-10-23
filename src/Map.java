@@ -3,10 +3,11 @@ import org.newdawn.slick.geom.Rectangle;
 public abstract class Map {
 	
 	GameWorld gW;
-	String backgroundFileLocation;
-	public Map(GameWorld gW)
+	private String backgroundFileLocation;
+	public Map(GameWorld gW,String backgroundFileLocation)
 	{
 		this.gW = gW;
+		this.backgroundFileLocation = backgroundFileLocation;
 	}
 	
 	public void addBlock(int xCoordinate, int yCoordinate, String fileLocation, BlockType blockType)	

@@ -148,14 +148,14 @@ public class Character extends Entity{
 		{
 			isMovingRight = true;
 			isMovingLeft = false;
-			//Moving UP-RIGHT
+			//Moving DOWN-RIGHT
 			if (yVelocity > 0)
 			{
 				isMovingUp = false;
 				isMovingDown = true;
 			}
 
-			//Moving DOWN-RIGHT
+			//Moving UP-RIGHT
 			else if (yVelocity < 0)
 			{
 				isMovingUp = true;
@@ -173,7 +173,7 @@ public class Character extends Entity{
 		{
 			isMovingRight = false;
 			isMovingLeft = true;
-			//Moving UP-LEFT
+			//Moving DOWN-LEFT
 			if (yVelocity > 0)
 			{
 				isMovingUp = false;
@@ -199,14 +199,14 @@ public class Character extends Entity{
 		{
 			isMovingLeft = false;
 			isMovingRight = false;
-			//Moving only UP
+			//Moving only DOWN
 			if (yVelocity > 0)
 			{
 				isMovingUp = false;
 				isMovingDown = true;
 			}
 
-			//Moving only DOWN
+			//Moving only UP
 			else if (yVelocity < 0)
 			{
 				isMovingUp = true;

@@ -5,13 +5,12 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class IceMap extends Map
 {
-	String backgroundFileLocation;
-	
-	public IceMap(GameWorld gW)
-	{
-		super(gW);
-		backgroundFileLocation = "";
+	public IceMap(GameWorld gW, String backgroundFileLocation) {
+		super(gW, backgroundFileLocation);
+		// TODO Auto-generated constructor stub
 	}
+
+	String backgroundFileLocation;
 	
 	public void buildMap()
 	{

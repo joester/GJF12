@@ -1,13 +1,11 @@
 
 public class LavaMap extends Map
 {
-	String backgroundFileLocation;
-	
-	public LavaMap(GameWorld gW)
-	{
-		super(gW);
-		backgroundFileLocation = "";
+	public LavaMap(GameWorld gW, String backgroundFileLocation) {
+		super(gW, backgroundFileLocation);
 	}
+
+	String backgroundFileLocation;
 	
 	public void buildMap()
 	{

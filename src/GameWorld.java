@@ -5,6 +5,7 @@ import java.util.List;
 import org.lwjgl.input.Controller;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -21,11 +22,12 @@ public class GameWorld
 	List<Item> itemsOnMap = new ArrayList<Item>();
 	String testString = "GameWorld Loaded.";
 	Map map;
-	IceMap iceMap = new IceMap(this);
-	LavaMap lavaMap = new LavaMap(this);
-	SpaceMap spaceMap = new SpaceMap(this);
-	ClockMap clockMap = new ClockMap(this);
+	IceMap iceMap = new IceMap(this,"/assets/Art/Background/bg_ice.jpg");
+	LavaMap lavaMap = new LavaMap(this,"/assets/Art/Background/bg_volcano.jpg");
+	SpaceMap spaceMap = new SpaceMap(this,"/assets/Art/Background/bg_ice.jpg");
+	ClockMap clockMap = new ClockMap(this,"/assets/Art/Background/bg_ice.jpg");
 	ControllerManager controllerManager;
+	private Image background;
 	
 	public GameWorld(ControllerManager cm){
 		controllerManager = cm;
@@ -49,7 +51,8 @@ public class GameWorld
 		loadSounds();
 		
 		
-		map = clockMap;
+		map = iceMap;
+		setBackgroundImage();
 	}
 
 	public void loadSounds() throws SlickException
@@ -79,7 +82,6 @@ public class GameWorld
 		Character c = new Character(0, 0, "/assets/Art/stand-spritesheet.png");
 		c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
 		listOfCharacters.add(c);
-		System.out.println("Character added");
 	}
 
 	public Map getMap()
@@ -109,12 +111,12 @@ public class GameWorld
 		for (Character c : listOfCharacters){
 			Rectangle r = new Rectangle((int)(c.xCoord + c.xVelocity), (int)(c.yCoord + c.yVelocity), c.getHitBox().getWidth(), c.getHitBox().getHeight());
 			for (Block b : listOfBlocks){
-				if (r.intersects(b.getRectangle())){	
+				if (r.intersects(b.getHitBox())){	
 					System.out.println("1XCoord: " + b.hitBox.getX() + " YCoord: " +b.hitBox.getY() +  " Height: "+ b.getHitBox().getHeight()+ " Width: " + b.getHitBox().getWidth());
 					System.out.println("2XCoord: " + b.hitBox.getX() + " YCoord: " +b.hitBox.getY() +  " Height: "+ b.getHitBox().getHeight()+ " Width: " + b.getHitBox().getWidth());
 					System.out.println("CY: " + c.getY());
 					if (b.getBlockType() == BlockType.Lethal){
-						toBeRemoved.add(c);
+						c.modifyHealth(c.getHP());
 					}
 					c.determineDirection();
 					if (c.isMovingLeft && b.getBlockType() != BlockType.Passable){
@@ -224,7 +226,7 @@ public class GameWorld
 			{
 				for (Projectile p : listOfProjectiles)
 				{
-					if (p.getRectangle().intersects(b.getRectangle()))
+					if (p.getRectangle().intersects(b.getHitBox()))
 					{
 						Item toBeAdded = chooseRandomItem();
 						toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
@@ -232,7 +234,6 @@ public class GameWorld
 						removeCrates.add(b);							
 					}
 				}	
-				
 				for (Character c : listOfCharacters)
 				{
 					if (c.isMovingRight)
@@ -308,7 +309,7 @@ public class GameWorld
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException{
-
+		background.draw();
 		for(Item i : itemsOnMap)
 		{
 			i.render(gc, g);
@@ -331,13 +332,9 @@ public class GameWorld
 			plat.render(gc, g);
 		}
 		for(Character c : listOfCharacters){
-			try{
+			if(c.getHP() > 0){
 				c.render(gc, g);
 			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-
 		}
 	}
 
@@ -409,6 +406,15 @@ public class GameWorld
 			}
 		}
 		c.determineDirection();
+	}
+	
+	private void setBackgroundImage(){
+		try {
+			background = new Image(map.getBackgroundFileLocation());
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
