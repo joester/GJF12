@@ -6,28 +6,29 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 
 public class Item extends Entity {
-public int range = 400;
-public double speed, startUpTime, reloadTime;
-public int damage;
-public int xVelocity;
-public int yVelocity;
-public String name;
-public boolean dropChance;
-public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
+protected int range;
+protected int speed;
+protected double startUpTime, reloadTime;
+protected int damage;
+protected int xVelocity;
+protected int yVelocity;
+protected String name;
+protected boolean dropChance;
+protected ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
 BufferedImage img = null;
-String fileLocation;
+protected String projectileImageLocation;
+protected Image pImage;
 
   public Item (int x, int y, String fileLocation, int xVel, int yVel)
   {	 
 	  super(x, y, fileLocation);
 	  //Sets the hit box
-	  super.setHitBox(x, y, 45, 45);	  
-
-	  this.fileLocation = fileLocation;
+	  super.setHitBox(x, y, 45, 45);	
 	  
 	  this.xVelocity = xVel;
 	  this.yVelocity = yVel;
@@ -57,7 +58,7 @@ String fileLocation;
 	
 	
 	
-	public void use(Character c)
+	public void use(GameWorld gW,Character c)
 	{		
 		if(c.isFacingRight)
 			c.gW.listOfProjectiles.add(new Projectile((int)(c.xCoord + c.getHitBox().getWidth()), c.yCoord, xVelocity, yVelocity,damage, range, hitBox, c.gW, c));

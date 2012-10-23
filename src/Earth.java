@@ -1,3 +1,6 @@
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 
 public class Earth extends Item
 {
@@ -19,5 +22,12 @@ EARTH  5  1(3 if above) 1 Yes 0.05, 0.01
 		dropChance = true;
 		startUpTime = .05;
 		reloadTime = .01;	
+		projectileImageLocation = "/assets/Art/Transformations/boulder.png";
+		  try {
+			pImage = new Image(projectileImageLocation);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

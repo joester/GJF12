@@ -35,7 +35,8 @@ public class GameWorld
 	ArrayList<Sound> punchMiss;
 	ArrayList<Block> removeCrates;
 	ArrayList<Item> itemsToRemove;
-	
+	public ArrayList<Projectile> projectilesToBeRemoved;
+
 	public GameWorld(ControllerManager cm){
 		controllerManager = cm;
 	}
@@ -43,7 +44,7 @@ public class GameWorld
 	public void init() throws IOException, SlickException 
 	{	 
 
-		
+
 		String earthFileLocation = "assets/Art/Transformations/icons/hammer.png";
 		String fireFileLocation = "assets/Art/Transformations/icons/bow.png";
 		String iceFileLocation = "assets/Art/Transformations/icons/shield.png";
@@ -57,9 +58,9 @@ public class GameWorld
 		listOfItems.add(new Wind(0, 0, windFileLocation));
 
 		loadSounds();
-		
-		map = spaceMap;
-		spaceMap.buildMap();
+
+		map = lavaMap;
+		lavaMap.buildMap();
 		setBackgroundImage();
 		loadChars();
 	}
@@ -68,7 +69,7 @@ public class GameWorld
 	{
 		Sound background = new Sound("assets/SFX/music/Volcano.wav");
 		background.loop();
-		
+
 		Sound punchHit1 = new Sound("assets/SFX/punch1Final.wav");
 		Sound punchHit2 = new Sound("assets/SFX/punch2Final.wav");
 		Sound punchHit3 = new Sound("assets/SFX/punch3Final.wav");
@@ -86,19 +87,19 @@ public class GameWorld
 		Sound spikes = new Sound("assets/SFX/spikesFallFinal.wav");
 		Sound ice = new Sound("assets/SFX/iceFinal.wav");
 		Sound movingSteel = new Sound("assets/SFX/movingSteelFinal.wav");
-		
+
 		punchHit = new ArrayList<Sound>();
 		punchMiss = new ArrayList<Sound>();
-		
+
 		punchHit.add(punchHit1);
 		punchHit.add(punchHit2);
 		punchHit.add(punchHit3);
-		
+
 		punchMiss.add(punchMiss1);
 		punchMiss.add(punchMiss2);
 		punchMiss.add(punchMiss3);
-		
-		
+
+
 
 	}
 
@@ -106,9 +107,9 @@ public class GameWorld
 	{
 		soundList.get((int)(soundList.size() * Math.random())).play();
 	}
-	
+
 	public void loadChars() throws SlickException{
-		
+
 		List<Character> chars = new ArrayList<Character>();
 		List<Map.Location> characterSpawns = map.getCharacterSpawns();
 		for(int i = 0; i < map.getCharacterSpawns().size(); i++){
@@ -226,27 +227,34 @@ public class GameWorld
 			listOfCharacters.remove(c);
 
 		itemsToRemove = new ArrayList<Item>();
-		
-		ArrayList<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
+
+		projectilesToBeRemoved = new ArrayList<Projectile>();
 		for (Projectile p : listOfProjectiles)
 		{
 			for (Character c : listOfCharacters)
 			{
-				if (p.getHitBox().intersects(c.getHitBox()))
-				{			
-					c.modifyHealth(p.damage);
-					projectilesToBeRemoved.add(p);
+				System.out.println(( p.owner != c) + " " + p.getHitBox().intersects(c.getHitBox()));
+				if(p.owner != c){
+					if (p.getHitBox().intersects(c.getHitBox()))
+					{			
+						c.modifyHealth(p.damage);
+						projectilesToBeRemoved.add(p);
+					}
 				}
 			}
-			
+
 
 			for(Block b: listOfBlocks){
-				if(!b.isPassible()){
-					projectilesToBeRemoved.add(p);
+				if(b.blockType != BlockType.Passable && b.getBlockType() != BlockType.Crate){
+					if (p.getHitBox().intersects(b.getHitBox()))
+					{			
+						projectilesToBeRemoved.add(p);
+					}
+					
 				}
 			}
 		}
-		
+
 		for (Character c : listOfCharacters)
 		{
 			for (Item i : itemsOnMap)
@@ -275,24 +283,24 @@ public class GameWorld
 						removeCrates.add(b);		
 					}
 				}	
-//				for (Character c : listOfCharacters)
-//				{
-//					if (c.isMovingRight)
-//					{
-//						Item toBeAdded = chooseRandomItem();
-//						toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
-//						itemsOnMap.add(toBeAdded);
-//						removeCrates.add(b);							
-//					}
-//				}
+				//				for (Character c : listOfCharacters)
+				//				{
+				//					if (c.isMovingRight)
+				//					{
+				//						Item toBeAdded = chooseRandomItem();
+				//						toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
+				//						itemsOnMap.add(toBeAdded);
+				//						removeCrates.add(b);							
+				//					}
+				//				}
 			}
 		}
 
 		for (Item i : itemsToRemove)
 		{
-		   itemsOnMap.remove(i);	
+			itemsOnMap.remove(i);	
 		}
-		
+
 		for (Block b :removeCrates)
 		{
 			listOfBlocks.remove(b);
@@ -327,10 +335,7 @@ public class GameWorld
 
 		//spawnItems();
 
-		for (Projectile p : listOfProjectiles)
-		{
-			p.update(gc, delta);	
-		}
+
 
 		for (Character c: listOfCharacters)
 		{
@@ -340,10 +345,13 @@ public class GameWorld
 
 			}			
 		}
-
-		for(Platform plat : listOfPlatforms){
-			plat.update(gc, delta);
+		projectilesToBeRemoved = new ArrayList<Projectile>();
+		for (Projectile p : listOfProjectiles)
+		{
+			p.update(gc, delta);	
 		}
+		for (Projectile p : projectilesToBeRemoved)
+			listOfProjectiles.remove(p);
 
 		for (Item i : itemsOnMap)
 		{
@@ -371,9 +379,6 @@ public class GameWorld
 		for(Projectile p : listOfProjectiles){
 			p.render(gc, g);
 
-		}
-		for(Platform plat : listOfPlatforms){
-			plat.render(gc, g);
 		}
 		for(Character c : listOfCharacters){
 			if(c.getHP() > 0){

@@ -38,12 +38,12 @@ public class Character extends Entity{
 	public int gravityCounter;
 	GameWorld gW;
 	boolean hit, isHit;
-	
+
 	Projectile punchProjectile; 
 
 	int[] setOne = {Input.KEY_A, Input.KEY_W, Input.KEY_D, Input.KEY_S};
 	int[] setTwo = {Input.KEY_LEFT, Input.KEY_UP, Input.KEY_RIGHT, Input.KEY_DOWN};
-	
+
 	//GameWorld gameWorld = new GameWorld();
 	//Set<Body> bodies = new HashSet<Body>();
 
@@ -67,7 +67,7 @@ public class Character extends Entity{
 		itemName = null;
 		auxName = null;
 		jumpAvailable = true;
-		
+
 		this.gW = gW;
 	}
 
@@ -75,17 +75,17 @@ public class Character extends Entity{
 		controls = set;
 	}
 
-	
+
 
 	//public Animation getAnimation(){
-		//return animation;
+	//return animation;
 	//}
 
 	public String displayHP()
 	{
 		return "" + HP + "/" + maxHealth;
 	}
-	
+
 	public String getName()
 	{
 		return name;
@@ -131,30 +131,36 @@ public class Character extends Entity{
 		hasAuxItem = true;
 	}
 
-//	public void useAux()
-//	{
-//		if (hasAuxItem == true)
-//		{
-//			auxItem.use();
-//			hasAuxItem = false;
-//			auxItem = null;
-//		}
-//	}
+	//	public void useAux()
+	//	{
+	//		if (hasAuxItem == true)
+	//		{
+	//			auxItem.use();
+	//			hasAuxItem = false;
+	//			auxItem = null;
+	//		}
+	//	}
 
 	public void attack()
 	{
 		isPunching = true;
-		System.out.println(hasItem);
+
 		if (hasItem)
 		{
-			item.use(this);
+			System.out.println(getX() + "");
+			gW.listOfProjectiles.add(new Projectile(xCoord+ 42, yCoord+ 42,item.pImage, item.speed, 0, 1000, new Rectangle(getX() + 42, getY() + 42, 40, 40),this,gW));
+			for(Projectile p: gW.listOfProjectiles){
+				System.out.println(p.hitBox.getX());
+			}
 		}
-		
-		else
-		{
-			punchProjectile = new Projectile(getX(), getY(), 0, 0, 0, 
-						  0, new Rectangle(getX() + 42, getY() + 42, 40, 40), gW, this);		
+		else{
+			//else
+			//{
+			punchProjectile = new Projectile(getX() + 42, getY()+ 42, null, 0, 0, 0, 
+					new Rectangle(getX() + 42, getY() + 42, 40, 40), this,gW);
+			gW.listOfProjectiles.add(punchProjectile);	
 		}
+		//}
 		for (Block b : gW.listOfBlocks)
 		{
 			if (punchProjectile.getHitBox().intersects(b.getHitBox()) && b.getBlockType() == BlockType.Crate)
@@ -164,9 +170,9 @@ public class Character extends Entity{
 				break;
 			}
 		}
-		
+
 		//if (!hit)
-			//gW.playRandomSound(gW.punchMiss);
+		//gW.playRandomSound(gW.punchMiss);
 	}
 
 	public void determineDirection()
@@ -283,7 +289,7 @@ public class Character extends Entity{
 			Image[] imagelist = new Image[cols[count]];
 			int imageListTrack = 0;
 			renderEnt(img, img.getWidth() / cols[count], img.getHeight());
-			
+
 			if(toFlipped){
 				for(int j = cols[count] - 1; j >= 0; j --){
 					imagelist[imageListTrack] = animation.getImage(j); 
@@ -293,7 +299,7 @@ public class Character extends Entity{
 			}
 
 			count += 1;
-			
+
 			animation.stopAt(animation.getFrameCount() - 1);
 			animationSet.add(animation);
 		}
@@ -308,7 +314,7 @@ public class Character extends Entity{
 			currentAnimation.restart();
 		}
 		g.draw(hitBox);
-		
+
 	}
 
 	@Override
@@ -326,8 +332,8 @@ public class Character extends Entity{
 				xCoord += xVelocity;
 			}
 		}
-		
-		
+
+
 		if(yVelocity > 0){
 			if(canMoveDown){
 				yCoord += yVelocity;
@@ -345,7 +351,7 @@ public class Character extends Entity{
 
 		isRunning = !isJumping && xVelocity != 0;
 		isIdle = !isJumping && !isRunning;
-		
+
 		if(isMovingRight){
 			isFacingRight = true;
 		}
@@ -422,7 +428,7 @@ public class Character extends Entity{
 		isRunning = false;
 		isMovingRight = false;
 	}
-	
+
 	public void resetGravityCounter(){
 		gravityCounter = 0;
 	}

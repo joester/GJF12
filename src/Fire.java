@@ -1,3 +1,6 @@
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 
 public class Fire extends Item
 {
@@ -9,10 +12,17 @@ public class Fire extends Item
 	{
 		super(x, y, i, xVelocity, yVelocity);
 		damage = 3;
-		range = 100;
+		range = 400;
 		speed = 5;
 		dropChance = false;
 		startUpTime = .01;
 		reloadTime = .9;
+		projectileImageLocation = "/assets/Art/Transformations/fireball.png";
+		  try {
+				pImage = new Image(projectileImageLocation);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 }

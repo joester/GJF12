@@ -14,70 +14,73 @@ public abstract class Entity{
 	protected int yCoord;
 	protected Animation animation;
 
-	
+
 	public Entity(int x, int y, String imageLocation){
-		String newLocation = "";
-		if(this instanceof Character){
-			newLocation = "/assets/Art/Characters/" + imageLocation
-				+ "/stand-spritesheet.png";
-			isCharacter = true;
-		}
+		if(imageLocation != null){
+			String newLocation = "";
+			if(this instanceof Character){
+				newLocation = "/assets/Art/Characters/" + imageLocation
+						+ "/stand-spritesheet.png";
+				isCharacter = true;
+			}
+
+			try {
+				if(isCharacter){
+					image = new Image(newLocation);
+				}
+				else{
+					image = new Image(imageLocation);
+				}
+			} catch (SlickException e) {
+				System.out.println("Image not found for " + this.getClass());
+				e.printStackTrace();
+			}
+			}
 		xCoord = x * MapEntity.BLOCKSIZE;
 		yCoord = y * MapEntity.BLOCKSIZE;
 		hitBox = new Rectangle(xCoord,yCoord,0,0);
-		try {
-			if(isCharacter){
-				image = new Image(newLocation);
-			}
-			else{
-				image = new Image(imageLocation);
-			}
-		} catch (SlickException e) {
-			System.out.println("Image not found for " + this.getClass());
-			e.printStackTrace();
-		}
 	}
-	
+
 	public void setHitBox(int x, int y, int w, int h){
 		hitBox.setBounds(x,y, w, h);
 	}
-	
+
 	public void setHitBox(int x, int y){
 		hitBox.setX(x);
 		hitBox.setY(y);
 	}
-	
+
 	public void setHitBox(float x, float y){
 		hitBox.setX(x);
 		hitBox.setY(y);
 	}
-	
+
 	public Rectangle getHitBox(){
 		return hitBox;
 	}
-	
+
 	public void setLocation(int x, int y){
 		xCoord = x;
 		yCoord = y;
 	}
-	
+
 	public int getX(){
 		return xCoord;
 	}
-	
+
 	public int getY(){
 		return yCoord;
 	}
 	public abstract void render(GameContainer arg0, Graphics arg1) throws SlickException;
-	
+
 	public abstract void init(GameContainer arg0) throws SlickException;
-	
+
 	public void update(GameContainer arg0, int arg1) throws SlickException, InterruptedException
 	{
 		hitBox.setX(xCoord);
 		hitBox.setY(yCoord);
 	}
-	
+
 	public void renderEnt(String str, int width, int height) throws SlickException{
 		Image img = new Image(str);
 		SpriteSheet sheet = new SpriteSheet(img, width, height);
