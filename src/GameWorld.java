@@ -54,10 +54,11 @@ public class GameWorld
 		listOfItems.add(new Wind(0, 0, windFileLocation));
 
 		loadSounds();
-		loadChars();
-
-		map = iceMap;
+		
+		map = spaceMap;
+		spaceMap.buildMap();
 		setBackgroundImage();
+		loadChars();
 	}
 
 	public void loadSounds() throws SlickException
@@ -104,11 +105,14 @@ public class GameWorld
 	}
 	
 	public void loadChars() throws SlickException{
+		
 		List<Character> chars = new ArrayList<Character>();
-		chars.add(new Character(0, 0, "player1", this));
-		chars.add(new Character(0, 0, "player2", this));
-		chars.add(new Character(0, 0, "player3", this));
-		chars.add(new Character(0, 0, "player4", this));
+		List<Map.Location> characterSpawns = map.getCharacterSpawns();
+		for(int i = 0; i < map.getCharacterSpawns().size(); i++){
+			int j = i+1;
+			Map.Location loc = characterSpawns.get(i);
+			chars.add(new Character(loc.x, loc.y, "player" + j, this));
+		}
 		for(Character c : chars){
 			c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
 			listOfCharacters.add(c);
@@ -300,7 +304,6 @@ public class GameWorld
 		for(Character c : listOfCharacters){
 			c.init(gc);
 		}
-		map.buildMap();
 	}
 
 
