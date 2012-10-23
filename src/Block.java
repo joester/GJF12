@@ -6,13 +6,10 @@ import org.newdawn.slick.geom.Rectangle;
 
 
 public class Block extends MapEntity {	
-	public Block(int x, int y, String imageLocation, BlockType b, Rectangle hitBox) {
+	public Block(int x, int y, String imageLocation, BlockType b, int xOffSet,int yOffSet, int sizeXOff, int sizeYOff) {
 		super(x, y,imageLocation);		
 		blockType = b;
-		if(blockType.offSetFromTop)
-			setHitBox(getX(),getY() + blockType.yHitBoxOffSet,MapEntity.BLOCKSIZE, MapEntity.BLOCKSIZE - blockType.yHitBoxOffSet);
-		else
-			setHitBox(getX(),getY(),MapEntity.BLOCKSIZE, MapEntity.BLOCKSIZE - blockType.yHitBoxOffSet);
+		setHitBox(getX() + xOffSet,getY() + yOffSet,MapEntity.BLOCKSIZE - sizeXOff, MapEntity.BLOCKSIZE - sizeYOff);
 	}
 
 	//Only use when block is Destructible
