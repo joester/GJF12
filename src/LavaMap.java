@@ -20,7 +20,7 @@ public class LavaMap extends Map
 		 * etc
 		 */
 		addBlock(0,7,"/assets/Art/Stages/Volcano/submergededge.png", BlockType.Impassable);
-		addBlock(0,2,"/assets/Art/Stages/Volcano/block.png", BlockType.Impassable);
+		addBlock(0,2,"/assets/Art/Stages/Volcano/edge-right.png", BlockType.Impassable);
 		addBlock(1,7,"/assets/Art/Stages/Volcano/lava.png",BlockType.Lethal);
 		addBlock(2,7,"/assets/Art/Stages/Volcano/lava.png",BlockType.Lethal);
 		addBlock(3,7,"/assets/Art/Stages/Volcano/lava.png",BlockType.Lethal);
@@ -58,7 +58,7 @@ public class LavaMap extends Map
 		addBlock(14,7,"/assets/Art/Stages/Volcano/submerged-left.png",BlockType.Impassable);
 		addBlock(12,6,"/assets/Art/Stages/Volcano/platform.png",BlockType.Passable);
 		addBlock(11,4,"/assets/Art/Stages/Volcano/platform.png",BlockType.Passable);
-		addBlock(14, 2,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable );
+		addBlock(14, 2,"/assets/Art/Stages/Volcano/edge.png",BlockType.Impassable );
 
 
 	}
