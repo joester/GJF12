@@ -47,10 +47,8 @@ public class GameWorld
 		listOfItems.add(new Wind(0, 0, windFileLocation));
 		
 		loadSounds();
-		Character c = new Character(0, 0, "/assets/Art/stand-spritesheet.png");
-		c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
-		listOfCharacters.add(c);
-		System.out.println("Character added");
+		
+		
 		map = clockMap;
 	}
 
@@ -75,6 +73,13 @@ public class GameWorld
 		Sound ice = new Sound("assets/SFX/iceFinal.wav");
 		Sound movingSteel = new Sound("assets/SFX/movingSteelFinal.wav");
 
+	}
+	
+	public void loadChars() throws SlickException{
+		Character c = new Character(0, 0, "/assets/Art/stand-spritesheet.png");
+		c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
+		listOfCharacters.add(c);
+		System.out.println("Character added");
 	}
 
 	public Map getMap()
