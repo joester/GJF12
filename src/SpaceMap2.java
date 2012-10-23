@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class SpaceMap2 extends Map
 {
@@ -11,42 +12,61 @@ public class SpaceMap2 extends Map
 	public void buildMap()
 	{
 	
-		addBlock(0,7,"/assets/Art/Stages/Space/block3.png", BlockType.Impassable);
-		addBlock(0,2,"/assets/Art/Stages/Space/block3.png", BlockType.Impassable);
+		addBlock(0,7,"/assets/Art/Stages/Space/block2.png", BlockType.Impassable,0,0,0,0);
+		addBlock(0,2,"/assets/Art/Stages/Space/block2.png", BlockType.Impassable,0,0,0,0);
 		
-		//addBlock(1,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
-		///addBlock(2,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
-		//addBlock(3,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
+		addBlock(1,7,"/assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
+		addBlock(2,7,"/assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
+		addBlock(3,7,"/assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
 		
-		addBlock(3,4,"/assets/Art/Stages/Space/platform.png",BlockType.Passable);
-		addBlock(2,6,"/assets/Art/Stages/Space/platform.png",BlockType.Passable);
+		addBlock(3,4,"/assets/Art/Stages/Space/platform.png",BlockType.Passable,0,0,0,63);
+		addBlock(2,6,"/assets/Art/Stages/Space/platform.png",BlockType.Passable,0,0,0,63);
 
 		
-		addBlock(4,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable);
-		addBlock(5,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable);
-		addBlock(6,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable);
-		//addBlock(7,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
-		addBlock(4,3,"/assets/Art/Stages/genericcrate.png",BlockType.Crate);
-		addBlock(4,4,"/assets/Art/Stages/Space/block.png",BlockType.Impassable);
-		addBlock(5,4,"/assets/Art/Stages/Space/block.png",BlockType.Impassable);
+		addBlock(4,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable,0,0,0,0);
+		addBlock(5,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable,0,0,0,0);
+		addBlock(6,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable,0,0,0,0);
+		addBlock(7,7,"/assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
+		addBlock(4,3,"/assets/Art/Stages/genericCrate.png",BlockType.Crate,0,21,0,21);
+		addBlock(4,4,"/assets/Art/Stages/Space/block.png",BlockType.Impassable,0,0,0,0);
+		addBlock(5,4,"/assets/Art/Stages/Space/block.png",BlockType.Impassable,0,0,0,0);
 		
 		
-		addBlock(6,3,"/assets/Art/Stages/Space/platform.png",BlockType.Passable);
-		addBlock(7,3, "/assets/Art/Stages/Space/platform.png",BlockType.Passable);
-		addBlock(8,3,"/assets/Art/Stages/Space/platform.png",BlockType.Passable);
-		addBlock(9,4,"/assets/Art/Stages/Space/block.png",BlockType.Impassable);
-		addBlock(10,4,"/assets/Art/Stages/Space/block.png",BlockType.Impassable);
-		addBlock(10,3,"/assets/Art/Stages/genericcrate.png",BlockType.Crate);
-		addBlock(8,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable);
-		addBlock(9,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable);
-		addBlock(10,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable);
-		addBlock(14,2,"/assets/Art/Stages/Space/block3.png",BlockType.Impassable);
-		//addBlock(11,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
-		addBlock(11,4,"/assets/Art/Stages/Space/platform.png",BlockType.Passable);
-		//addBlock(12,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
-		//addBlock(13,7,"/assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
-		addBlock(14,7,"/assets/Art/Stages/Space/block3.png",BlockType.Impassable);
-		addBlock(12, 6, "/assets/Art/Stages/Space/platform.png", BlockType.Passable);
+		addBlock(6,3,"/assets/Art/Stages/Space/platform.png",BlockType.Passable,0,0,0,63);
+		addBlock(7,3, "/assets/Art/Stages/Space/platform.png",BlockType.Passable,0,0,0,63);
+		addBlock(8,3,"/assets/Art/Stages/Space/platform.png",BlockType.Passable,0,0,0,63);
+		addBlock(9,4,"/assets/Art/Stages/Space/block.png",BlockType.Impassable,0,0,0,0);
+		addBlock(10,4,"/assets/Art/Stages/Space/block.png",BlockType.Impassable,0,0,0,0);
+		addBlock(10,3,"/assets/Art/Stages/genericCrate.png",BlockType.Crate,0,21,0,21);
+		addBlock(8,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable,0,0,0,0);
+		addBlock(9,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable,0,0,0,0);
+		addBlock(10,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable,0,0,0,0);
+		addBlock(14,2,"/assets/Art/Stages/Space/block2.png",BlockType.Impassable,0,0,0,0);
+		addBlock(11,7,"/assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
+		addBlock(11,4,"/assets/Art/Stages/Space/platform.png",BlockType.Passable,0,0,0,63);
+		addBlock(12,7,"/assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
+		addBlock(13,7,"/assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
+		addBlock(14,7,"/assets/Art/Stages/Space/block2.png",BlockType.Impassable,0,0,0,0);
+		addBlock(12, 6, "/assets/Art/Stages/Space/platform.png", BlockType.Passable,0,0,0,63);
+		setCharacterSpawns();
+		setCrateSpawnPoints();
+	}
+
+	@Override
+	public void setCharacterSpawns() {
+		spawnList = new ArrayList<Location>();
+		spawnList.add(new Location(0,1));
+		spawnList.add(new Location(14,1));
+		spawnList.add(new Location(0,6));
+		spawnList.add(new Location(14,6));
+	}
+	public void setCrateSpawnPoints() {
+		crateList = new ArrayList<Location>();
+		crateList.add(new Location(6,13));
+		crateList.add(new Location(7,2));
+		crateList.add(new Location(8,13));
+		crateList.add(new Location(4,3));
+		crateList.add(new Location(10,3));
 	}
 	
 }

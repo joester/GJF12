@@ -12,6 +12,7 @@ public abstract class Map {
 	}
 	GameWorld gW;
 	protected ArrayList<Location> spawnList;
+	protected ArrayList<Location> crateList; 
 	private String backgroundFileLocation;
 	public Map(GameWorld gW,String backgroundFileLocation)
 	{

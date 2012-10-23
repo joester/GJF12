@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-
 public class LavaMap extends Map
 {
 	public LavaMap(GameWorld gW, String backgroundFileLocation) {
@@ -70,6 +69,14 @@ public class LavaMap extends Map
 		spawnList.add(new Location(14,1));
 		spawnList.add(new Location(0,6));
 		spawnList.add(new Location(14,6));
+	}
+	public void setCrateSpawnPoints() {
+		crateList = new ArrayList<Location>();
+		crateList.add(new Location(6,13));
+		crateList.add(new Location(7,2));
+		crateList.add(new Location(8,13));
+		crateList.add(new Location(4,3));
+		crateList.add(new Location(10,3));
 	}
 	
 }

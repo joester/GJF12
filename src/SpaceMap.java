@@ -89,13 +89,11 @@ public class SpaceMap extends Map
 		addBlock(14,7,"/assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,0); 
 		setCharacterSpawns();
 	}
-	
 	public void setCharacterSpawns() {
 		spawnList = new ArrayList<Location>();
-		spawnList.add(new Location(1,2));
-		spawnList.add(new Location(13,2));
-		spawnList.add(new Location(1,5));
-		spawnList.add(new Location(13,5));
+		spawnList.add(new Location(5,3));
+		spawnList.add(new Location(9,3));
+		spawnList.add(new Location(4,6));
+		spawnList.add(new Location(10,6));
 	}
-	
 }
