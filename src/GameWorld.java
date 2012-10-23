@@ -25,8 +25,8 @@ public class GameWorld
 	Map map;
 	IceMap iceMap = new IceMap(this,"/assets/Art/Background/bg_ice.jpg");
 	LavaMap lavaMap = new LavaMap(this,"/assets/Art/Background/bg_volcano.jpg");
-	SpaceMap spaceMap = new SpaceMap(this,"/assets/Art/Background/bg_ice.jpg");
-	ClockMap clockMap = new ClockMap(this,"/assets/Art/Background/bg_ice.jpg");
+	SpaceMap2 spaceMap = new SpaceMap2(this,"/assets/Art/Background/bg_space.jpg");
+	//ClockMap clockMap = new ClockMap(this,"/assets/Art/Background/bg_ice.jpg");
 	ControllerManager controllerManager;
 	private Image background;
 
