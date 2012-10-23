@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class LavaMap extends Map
 {
-	public LavaMap(GameWorld gW, String backgroundFileLocation) {
-		super(gW, backgroundFileLocation);
+	public LavaMap(GameWorld gW, String backgroundFileLocation, String musicFileLocation) {
+		super(gW, backgroundFileLocation, musicFileLocation);
 	}
 
 	String backgroundFileLocation;

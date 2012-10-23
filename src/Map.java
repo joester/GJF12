@@ -14,10 +14,13 @@ public abstract class Map {
 	protected ArrayList<Location> spawnList;
 	protected ArrayList<Location> crateList; 
 	private String backgroundFileLocation;
-	public Map(GameWorld gW,String backgroundFileLocation)
+	private String musicFileLocation;
+	
+	public Map(GameWorld gW,String backgroundFileLocation, String musicLocation)
 	{
 		this.gW = gW;
 		this.backgroundFileLocation = backgroundFileLocation;
+		this.musicFileLocation = musicFileLocation;
 	}
 	
 	public void addBlock(int xCoordinate, int yCoordinate, String fileLocation, BlockType blockType, int xOffSet, int yOffSet, int sizeXOff,int sizeYOff)	
@@ -37,6 +40,11 @@ public abstract class Map {
 	public String getBackgroundFileLocation()
 	{
 		return backgroundFileLocation;
+	}
+	
+	public String getMusicFileLocation()
+	{
+		return musicFileLocation;
 	}
 	
 	protected abstract void setCharacterSpawns();

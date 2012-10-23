@@ -23,9 +23,10 @@ public class GameWorld
 	List<Item> itemsOnMap = new ArrayList<Item>();
 	String testString = "GameWorld Loaded.";
 	Map map;
-	IceMap iceMap = new IceMap(this,"/assets/Art/Background/bg_ice.jpg");
-	LavaMap lavaMap = new LavaMap(this,"/assets/Art/Background/bg_volcano.jpg");
-	SpaceMap2 spaceMap = new SpaceMap2(this,"/assets/Art/Background/bg_space.jpg");
+	
+	IceMap iceMap = new IceMap(this,"/assets/Art/Background/bg_ice.jpg", "/assets/SFX/music/Ice.wav");
+	LavaMap lavaMap = new LavaMap(this,"/assets/Art/Background/bg_volcano.jpg", "/assets/SFX/music/Volcano.wav");
+	SpaceMap spaceMap = new SpaceMap(this,"/assets/Art/Background/bg_space.jpg", "/assets/SFX/music/Space.wav");
 	//ClockMap clockMap = new ClockMap(this,"/assets/Art/Background/bg_ice.jpg");
 	ControllerManager controllerManager;
 	private Image background;
@@ -409,6 +410,7 @@ public class GameWorld
 	public void assignActionToPlayer(GameContainer gc, int characterIndex,int delta){
 		Character c = listOfCharacters.get(characterIndex);
 		Input input = gc.getInput();
+		
 		if(characterIndex == 0){
 			if(input.isKeyDown(Input.KEY_A)){
 				listOfCharacters.get(0).xVelocity = -1;
@@ -420,8 +422,12 @@ public class GameWorld
 				c.jumpAvailable = false;
 				c.canMoveUp = true;
 			}
+			
+			if(input.isKeyDown(Input.KEY_SPACE))
+				c.attack();
 
 			if(input.isKeyDown(Input.KEY_Q)){
+				
 				for (Item i : itemsOnMap)
 				{
 					if (c.getHitBox().intersects(i.getHitBox()))
@@ -441,22 +447,44 @@ public class GameWorld
 				c.canMoveRight = true;
 			}
 		}
+			
+			
+			
 		if(characterIndex == 1){
-			if(input.isKeyDown(Input.KEY_J)){
+			if(input.isKeyDown(Input.KEY_NUMPAD4)){
 				c.xVelocity = -1;
 				c.canMoveLeft = true;
 			}
-			if(input.isKeyDown(Input.KEY_I)){
+			if(input.isKeyDown(Input.KEY_NUMPAD8)){
 				c.yVelocity = -3;
 				c.hasDX = false;
 				c.jumpAvailable = false;
 				c.canMoveUp = true;
 			}
-			if(input.isKeyDown(Input.KEY_L)){
+			if(input.isKeyDown(Input.KEY_NUMPAD7)){
+				for (Item i : itemsOnMap)
+				{
+					if (c.getHitBox().intersects(i.getHitBox()))
+					{
+						c.dropItem();
+						c.pickUpItem(i);
+						itemsToRemove.add(i);
+					}
+				}
+				for (Item i :itemsToRemove)
+				{
+					itemsOnMap.remove(i);
+				}
+			}
+			if(input.isKeyDown(Input.KEY_NUMPAD6)){
 				c.xVelocity = 1;
 				c.canMoveRight = true;
 			}
+			if(input.isKeyDown(Input.KEY_NUMPAD0)){
+				c.attack();
+			}
 		}
+		
 		if(characterIndex == 2){
 			if(input.isKeyDown(Input.KEY_LEFT)){
 				c.xVelocity = -1;
@@ -472,10 +500,10 @@ public class GameWorld
 				c.xVelocity = 1;
 				c.canMoveRight = true;
 			}
+
 		}
-		if(input.isKeyDown(Input.KEY_E)){
-			c.attack();
-		}
+		
+		
 		c.determineDirection();
 		if(controllerManager != null){
 			controllerManager.pollControllers();

@@ -4,8 +4,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class IceMap extends Map
 {
-	public IceMap(GameWorld gW, String backgroundFileLocation) {
-		super(gW, backgroundFileLocation);
+	public IceMap(GameWorld gW, String backgroundFileLocation, String musicFileLocation) {
+		super(gW, backgroundFileLocation, musicFileLocation);
 		// TODO Auto-generated constructor stub
 	}
 

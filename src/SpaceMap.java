@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class SpaceMap extends Map
 {
-	public SpaceMap(GameWorld gW, String backgroundFileLocation) {
-		super(gW, backgroundFileLocation);
+	public SpaceMap(GameWorld gW, String backgroundFileLocation, String musicFileLocation) {
+		super(gW, backgroundFileLocation, musicFileLocation);
 	}
 
 	String backgroundFileLocation;
@@ -98,6 +98,7 @@ public class SpaceMap extends Map
 		spawnList.add(new Location(13,5));
 	}
 	protected void setCrateSpawnPoints(){
+		crateList = new ArrayList<Location>();
 		crateList.add(new Location(5,3));
 		crateList.add(new Location(9,3));
 		crateList.add(new Location(4,6));
