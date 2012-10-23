@@ -39,10 +39,12 @@ public abstract class Map {
 		return backgroundFileLocation;
 	}
 	
-	public abstract void setCharacterSpawns();
-
+	protected abstract void setCharacterSpawns();
+	protected abstract void setCrateSpawnPoints();
 	public ArrayList<Location> getCharacterSpawns() {
-		// TODO Auto-generated method stub
 		return spawnList;
+	} 
+	public ArrayList<Location> getCrateSpawns() {
+		return crateList;
 	} 
 }

@@ -88,12 +88,19 @@ public class SpaceMap extends Map
 		addBlock(14,6,"/assets/Art/Stages/Space/laser-vert.png",BlockType.Lethal,15,0,30,0);
 		addBlock(14,7,"/assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,0); 
 		setCharacterSpawns();
+		setCrateSpawnPoints();
 	}
-	public void setCharacterSpawns() {
+	protected void setCharacterSpawns() {
 		spawnList = new ArrayList<Location>();
-		spawnList.add(new Location(5,3));
-		spawnList.add(new Location(9,3));
-		spawnList.add(new Location(4,6));
-		spawnList.add(new Location(10,6));
+		spawnList.add(new Location(2,1));
+		spawnList.add(new Location(1,5));
+		spawnList.add(new Location(12,1));
+		spawnList.add(new Location(13,5));
+	}
+	protected void setCrateSpawnPoints(){
+		crateList.add(new Location(5,3));
+		crateList.add(new Location(9,3));
+		crateList.add(new Location(4,6));
+		crateList.add(new Location(10,6));
 	}
 }

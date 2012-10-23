@@ -53,14 +53,14 @@ public class SpaceMap2 extends Map
 	}
 
 	@Override
-	public void setCharacterSpawns() {
+	protected void setCharacterSpawns() {
 		spawnList = new ArrayList<Location>();
 		spawnList.add(new Location(0,1));
 		spawnList.add(new Location(14,1));
 		spawnList.add(new Location(0,6));
 		spawnList.add(new Location(14,6));
 	}
-	public void setCrateSpawnPoints() {
+	protected void setCrateSpawnPoints() {
 		crateList = new ArrayList<Location>();
 		crateList.add(new Location(6,13));
 		crateList.add(new Location(7,2));

@@ -64,16 +64,24 @@ public class IceMap extends Map
 		addBlock(14,7,"/assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,0);
 		addBlock(12, 6, "/assets/Art/Stages/Volcano/iceplatform.png", BlockType.Passable,0,0,0,63);
 
-
 		setCharacterSpawns();
+		setCrateSpawnPoints();
 	}
 
 	@Override
-	public void setCharacterSpawns() {
+	protected void setCharacterSpawns() {
 		spawnList = new ArrayList<Location>();
 		spawnList.add(new Location(0,1));
 		spawnList.add(new Location(14,1));
 		spawnList.add(new Location(0,6));
 		spawnList.add(new Location(14,6));
+	}
+	protected void setCrateSpawnPoints() {
+		crateList = new ArrayList<Location>();
+		crateList.add(new Location(6,13));
+		crateList.add(new Location(7,2));
+		crateList.add(new Location(8,13));
+		crateList.add(new Location(4,3));
+		crateList.add(new Location(10,3));
 	}
 }

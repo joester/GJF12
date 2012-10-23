@@ -77,4 +77,9 @@ public class ClockMap extends Map {
 		spawnList.add(new Location(0,6));
 		spawnList.add(new Location(14,6));
 	}
+	@Override
+	protected void setCrateSpawnPoints() {
+		// TODO Auto-generated method stub
+		
+	}
 }
