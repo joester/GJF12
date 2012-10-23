@@ -32,8 +32,8 @@ public class LavaMap extends Map
 		addBlock(6,7,"/assets/Art/Stages/Volcano/submergededge.png",BlockType.Impassable);
 		addBlock(7,7,"/assets/Art/Stages/Volcano/lava.png",BlockType.Lethal);
 		addBlock(4,3,"/assets/Art/Stages/genericcrate.png",BlockType.Crate);
-		addBlock(4,4,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
-		addBlock(5,4,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
+		addBlock(4,4,"/assets/Art/Stages/Volcano/edge.png",BlockType.Impassable);
+		addBlock(5,4,"/assets/Art/Stages/Volcano/edge-right.png",BlockType.Impassable);
 		
 		addBlock(4,0,"/assets/Art/Stages/Volcano/stalactites-leftedge.png",BlockType.Lethal);
 		addBlock(5,0,"/assets/Art/Stages/Volcano/stalactites.png",BlockType.Lethal);
@@ -46,8 +46,8 @@ public class LavaMap extends Map
 		addBlock(6,3,"/assets/Art/Stages/Volcano/platform.png",BlockType.Passable);
 		addBlock(7,3,"/assets/Art/Stages/Volcano/platform.png",BlockType.Passable);
 		addBlock(8,3,"/assets/Art/Stages/Volcano/platform.png",BlockType.Passable);
-		addBlock(9,4,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
-		addBlock(10,4,"/assets/Art/Stages/Volcano/block.png",BlockType.Impassable);
+		addBlock(9,4,"/assets/Art/Stages/Volcano/edge.png",BlockType.Impassable);
+		addBlock(10,4,"/assets/Art/Stages/Volcano/edge-right.png",BlockType.Impassable);
 		addBlock(10,3,"/assets/Art/Stages/genericcrate.png",BlockType.Crate);
 		addBlock(8,7,"/assets/Art/Stages/Volcano/submerged-left.png",BlockType.Impassable);
 		addBlock(9,7,"/assets/Art/Stages/Volcano/submergedblock.png",BlockType.Impassable);
