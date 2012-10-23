@@ -68,7 +68,7 @@ public class SpaceMap extends Map
 		
 		addBlock(10,0,"/assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,0);
 		addBlock(10,4,"/assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,0);
-		addBlock(10,7,"/assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
+		addBlock(10,7,"/assets/Art/Stages/Space/block.png",BlockType.Impassable,0,0,0,0);
 		
 		addBlock(11,7,"/assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,0); 
 		
