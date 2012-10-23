@@ -230,7 +230,7 @@ public class GameWorld
 				if (p.getRectangle().intersects(c.getHitBox()))
 				{			
 					c.modifyHealth(p.damage);
-					listOfProjectiles.remove(p);
+					projectilesToBeRemoved.add(p);
 				}
 
 				for (Item i : itemsOnMap)
