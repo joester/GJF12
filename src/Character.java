@@ -284,6 +284,7 @@ public class Character extends Entity{
 			Image[] imagelist = new Image[cols[count]];
 			int imageListTrack = 0;
 			renderEnt(img, img.getWidth() / cols[count], img.getHeight());
+			
 			if(toFlipped){
 				for(int j = cols[count] - 1; j >= 0; j --){
 					imagelist[imageListTrack] = animation.getImage(j); 
@@ -296,6 +297,7 @@ public class Character extends Entity{
 			
 			animation.stopAt(animation.getFrameCount() - 1);
 			animationSet.add(animation);
+			System.out.println(animationSet.size());
 		}
 		currentAnimation = animationSet.get(2);
 	}
@@ -354,7 +356,11 @@ public class Character extends Entity{
 		}
 		selectAnimation();
 		setHitBox(xCoord, yCoord);
-		currentAnimation.update(1);
+		if(currentAnimation.equals(animationSet.get(3)) || 
+			currentAnimation.equals(animationSet.get(7))){
+			currentAnimation.update(100);
+		}
+		currentAnimation.update(10);
 
 
 		xVelocity = 0;
@@ -369,37 +375,48 @@ public class Character extends Entity{
 	private void selectAnimation(){
 		if(isFacingRight){
 			if(isJumping){
-				if(currentAnimation !=  animationSet.get(0))
+				if(currentAnimation != animationSet.get(0))
 					currentAnimation = animationSet.get(0);
 			}
 			else if(isPunching){
-				if(currentAnimation !=  animationSet.get(1))
+				if(currentAnimation != animationSet.get(1))
 					currentAnimation = animationSet.get(1);
 			}
-			else if(isIdle || isRunning){
-				if(currentAnimation !=  animationSet.get(2)){
+			else if(isIdle){
+				if(currentAnimation != animationSet.get(2)){
 					currentAnimation = animationSet.get(2);
+				}
+			}
+			else{
+				if(currentAnimation != animationSet.get(3)){
+					currentAnimation = animationSet.get(3);
 				}
 			}
 		}
 		else{
 			if(isJumping){
-				if(currentAnimation !=  animationSet.get(3))
-					currentAnimation = animationSet.get(3);	
+				if(currentAnimation !=  animationSet.get(4))
+					currentAnimation = animationSet.get(4);	
 			}
 			else if(isPunching){
-				if(currentAnimation !=  animationSet.get(4))
-					currentAnimation = animationSet.get(4);
-			}
-			else if(isIdle || isRunning){
-				if(currentAnimation !=  animationSet.get(5)){
+				if(currentAnimation !=  animationSet.get(5))
 					currentAnimation = animationSet.get(5);
+			}
+			else if(isIdle){
+				if(currentAnimation !=  animationSet.get(6)){
+					currentAnimation = animationSet.get(6);
+				}
+			}
+			else{
+				if(currentAnimation != animationSet.get(7)){
+					currentAnimation = animationSet.get(7);
 				}
 			}
 		}
 		isJumping = false;
 		isPunching = false;
-		isIdle = false;
+		isIdle = true;
+		isRunning = false;
 	}
 	
 	public void resetGravityCounter(){
