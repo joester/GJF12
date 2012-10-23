@@ -37,6 +37,10 @@ public class Character extends Entity{
 	private boolean isIdle;
 	private boolean isRunning;
 	public int gravityCounter;
+	GameWorld gW;
+	boolean hit;
+	
+	Projectile punchProjectile; 
 
 	int[] setOne = {Input.KEY_A, Input.KEY_W, Input.KEY_D, Input.KEY_S};
 	int[] setTwo = {Input.KEY_LEFT, Input.KEY_UP, Input.KEY_RIGHT, Input.KEY_DOWN};
@@ -45,7 +49,7 @@ public class Character extends Entity{
 	//Set<Body> bodies = new HashSet<Body>();
 
 
-	public Character(int x, int y, String player, int controls)
+	public Character(int x, int y, String player, GameWorld gW)
 	{
 		super(x,y, player);
 		name = player;
@@ -64,12 +68,8 @@ public class Character extends Entity{
 		itemName = null;
 		auxName = null;
 		jumpAvailable = true;
-		if(controls == 0){
-			setControls(setOne);
-		}
-		if(controls == 1){
-			setControls(setTwo);
-		}
+		
+		this.gW = gW;
 	}
 
 	public void setControls(int[] set){
@@ -142,10 +142,31 @@ public class Character extends Entity{
 
 	public void attack()
 	{
+		isPunching = true;
+		
 		if (hasItem)
 		{
-			//item.use();
+			item.use();
 		}
+		
+		else
+		{
+			punchProjectile = new Projectile(getX(), getY(), 0, 0, 0, 
+							  new Rectangle(getX() + 42, getY() + 42, 90, 12));
+			gW.listOfProjectiles.add(punchProjectile);			
+		}
+		for (Block b : gW.listOfBlocks)
+		{
+			if (punchProjectile.getHitBox().intersects(b.getHitBox()) && b.getBlockType() == BlockType.Crate)
+			{
+				gW.playRandomSound(gW.punchHit);
+				hit = true;
+				break;
+			}
+		}
+		
+		if (!hit)
+			gW.playRandomSound(gW.punchMiss);
 	}
 
 	public void determineDirection()
@@ -288,6 +309,7 @@ public class Character extends Entity{
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
+		hit = false;
 		time = delta;
 		if(xVelocity < 0){
 			if(canMoveLeft){

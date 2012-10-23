@@ -29,6 +29,9 @@ public class GameWorld
 	ControllerManager controllerManager;
 	private Image background;
 
+	ArrayList<Sound> punchHit;
+	ArrayList<Sound> punchMiss;
+	
 	public GameWorld(ControllerManager cm){
 		controllerManager = cm;
 	}
@@ -57,7 +60,9 @@ public class GameWorld
 
 	public void loadSounds() throws SlickException
 	{
-		ArrayList<Sound> sounds = new ArrayList<Sound>();
+		Sound background = new Sound("assets/SFX/Music/Rocket.wav");
+		background.loop();
+		
 		Sound punchHit1 = new Sound("assets/SFX/punch1Final.wav");
 		Sound punchHit2 = new Sound("assets/SFX/punch2Final.wav");
 		Sound punchHit3 = new Sound("assets/SFX/punch3Final.wav");
@@ -75,15 +80,33 @@ public class GameWorld
 		Sound spikes = new Sound("assets/SFX/spikesFallFinal.wav");
 		Sound ice = new Sound("assets/SFX/iceFinal.wav");
 		Sound movingSteel = new Sound("assets/SFX/movingSteelFinal.wav");
+		
+		punchHit = new ArrayList<Sound>();
+		punchMiss = new ArrayList<Sound>();
+		
+		punchHit.add(punchHit1);
+		punchHit.add(punchHit2);
+		punchHit.add(punchHit3);
+		
+		punchMiss.add(punchMiss1);
+		punchMiss.add(punchMiss2);
+		punchMiss.add(punchMiss3);
+		
+		
 
 	}
 
+	public void playRandomSound(ArrayList<Sound> soundList)
+	{
+		soundList.get((int)(soundList.size() * Math.random())).play();
+	}
+	
 	public void loadChars() throws SlickException{
 		List<Character> chars = new ArrayList<Character>();
-		chars.add(new Character(0, 0, "player1", 0));
-		chars.add(new Character(0, 0, "player2", 0));
-		chars.add(new Character(0, 0, "player3", 1));
-		chars.add(new Character(0, 0, "player4", 1));
+		chars.add(new Character(0, 0, "player1", this));
+		chars.add(new Character(0, 0, "player2", this));
+		chars.add(new Character(0, 0, "player3", this));
+		chars.add(new Character(0, 0, "player4", this));
 		for(Character c : chars){
 			c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
 			listOfCharacters.add(c);
@@ -205,7 +228,7 @@ public class GameWorld
 			{
 				if (p.getRectangle().intersects(c.getHitBox()))
 				{			
-					c.modifyHealth(-p.damage);
+					c.modifyHealth(p.damage);
 					listOfProjectiles.remove(p);
 				}
 
@@ -421,6 +444,10 @@ public class GameWorld
 				c.canMoveRight = true;
 			}
 		}
+		if(input.isKeyDown(Input.KEY_SPACE)){
+			c.attack();
+		}
+		c.determineDirection();
 		if(controllerManager != null){
 			controllerManager.pollControllers();
 			for(int i = 0; i < controllerManager.getControllerCount(); i++){
