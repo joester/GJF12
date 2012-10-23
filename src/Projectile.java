@@ -19,7 +19,7 @@ public class Projectile extends Entity
 	public Projectile (int xSpawnLocation, int ySpawnLocation, int xVelocity, int yVelocity,
 						int maxRange, Rectangle hitBox)
 	{
-		super(xSpawnLocation, ySpawnLocation, "hello");
+		super(xSpawnLocation, ySpawnLocation, "assets/Art/Transformations/wind.png");
 		this.xSpawnLocation = xSpawnLocation;
 		this.xCurrentLocation = xSpawnLocation;
 		this.ySpawnLocation = ySpawnLocation;
