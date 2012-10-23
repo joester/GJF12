@@ -117,7 +117,7 @@ public class Character extends Entity{
 	}
 
 
-	public void dropitem()
+	public void dropItem()
 	{
 		damage = baseDamage;
 		range = baseRange;

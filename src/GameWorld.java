@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.input.Controller;
+import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -41,6 +42,7 @@ public class GameWorld
 	public void init() throws IOException, SlickException 
 	{	 
 
+		
 		String earthFileLocation = "assets/Art/Transformations/icons/hammer.png";
 		String fireFileLocation = "assets/Art/Transformations/icons/bow.png";
 		String iceFileLocation = "assets/Art/Transformations/icons/shield.png";
@@ -250,7 +252,6 @@ public class GameWorld
 			{
 				if (c.getHitBox().intersects(i.getHitBox()) && !c.hasItem)
 				{
-					System.out.println("item picked up");
 					c.pickUpItem(i);
 					itemsToRemove.add(i);
 					c.hasItem = true;
@@ -418,6 +419,20 @@ public class GameWorld
 				c.hasDX = false;
 				c.jumpAvailable = false;
 				c.canMoveUp = true;
+			}
+			if(input.isKeyDown(Input.KEY_Q)){
+				c.dropItem();
+			}
+			if(input.isKeyDown(Input.KEY_E)){
+				for (Item i : itemsOnMap)
+				{
+					if (c.getHitBox().intersects(i.getHitBox()))
+					{
+						c.dropItem();
+						c.pickUpItem(i);
+						itemsToRemove.add(i);
+					}
+				}
 			}
 			if(input.isKeyDown(Input.KEY_D)){
 				c.xVelocity = 1;
