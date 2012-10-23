@@ -79,6 +79,7 @@ public class IceMap extends Map
 	protected void setCrateSpawnPoints() {
 		crateList = new ArrayList<Location>();
 		crateList.add(new Location(6,13));
+		
 		crateList.add(new Location(7,2));
 		crateList.add(new Location(8,13));
 		crateList.add(new Location(4,3));

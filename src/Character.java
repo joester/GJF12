@@ -119,6 +119,7 @@ public class Character extends Entity{
 
 	public void dropItem()
 	{
+		hasItem = false;
 		damage = baseDamage;
 		range = baseRange;
 		itemName = null;
@@ -130,15 +131,15 @@ public class Character extends Entity{
 		hasAuxItem = true;
 	}
 
-	public void useAux()
-	{
-		if (hasAuxItem == true)
-		{
-			auxItem.use();
-			hasAuxItem = false;
-			auxItem = null;
-		}
-	}
+//	public void useAux()
+//	{
+//		if (hasAuxItem == true)
+//		{
+//			auxItem.use();
+//			hasAuxItem = false;
+//			auxItem = null;
+//		}
+//	}
 
 	public void attack()
 	{
@@ -146,15 +147,15 @@ public class Character extends Entity{
 		
 		if (hasItem)
 		{
-			item.use();
+			item.use(gW);
 		}
 		
-		else
-		{
-			punchProjectile = new Projectile(getX(), getY(), 0, 0, 0, 
-							  new Rectangle(getX() + 42, getY() + 42, 90, 12));
-			gW.listOfProjectiles.add(punchProjectile);			
-		}
+		//else
+		//{
+		punchProjectile = new Projectile(getX(), getY(), 0, 0, 0, 
+						  new Rectangle(getX() + 42, getY() + 42, 40, 40));
+		gW.listOfProjectiles.add(punchProjectile);			
+		//}
 		for (Block b : gW.listOfBlocks)
 		{
 			if (punchProjectile.getHitBox().intersects(b.getHitBox()) && b.getBlockType() == BlockType.Crate)
@@ -299,7 +300,6 @@ public class Character extends Entity{
 			
 			animation.stopAt(animation.getFrameCount() - 1);
 			animationSet.add(animation);
-			System.out.println(animationSet.size());
 		}
 		currentAnimation = animationSet.get(2);
 	}

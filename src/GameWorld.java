@@ -394,7 +394,7 @@ public class GameWorld
 	//		{
 	//			if(block.getBlockType() == BlockType.Crate && Math.random() < .2)
 	//			{
-	//				Item toBeSpawned = chooseRandomItem();
+	//				Block toBeSpawned;
 	//				toBeSpawned.setX(block.getX());
 	//				toBeSpawned.setY(block.getY());
 	//				itemsOnMap.add(toBeSpawned);
@@ -420,10 +420,8 @@ public class GameWorld
 				c.jumpAvailable = false;
 				c.canMoveUp = true;
 			}
+
 			if(input.isKeyDown(Input.KEY_Q)){
-				c.dropItem();
-			}
-			if(input.isKeyDown(Input.KEY_E)){
 				for (Item i : itemsOnMap)
 				{
 					if (c.getHitBox().intersects(i.getHitBox()))
@@ -432,6 +430,10 @@ public class GameWorld
 						c.pickUpItem(i);
 						itemsToRemove.add(i);
 					}
+				}
+				for (Item i :itemsToRemove)
+				{
+					itemsOnMap.remove(i);
 				}
 			}
 			if(input.isKeyDown(Input.KEY_D)){
@@ -471,7 +473,7 @@ public class GameWorld
 				c.canMoveRight = true;
 			}
 		}
-		if(input.isKeyDown(Input.KEY_SPACE)){
+		if(input.isKeyDown(Input.KEY_E)){
 			c.attack();
 		}
 		c.determineDirection();

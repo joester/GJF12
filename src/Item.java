@@ -78,8 +78,10 @@ String fileLocation;
 		super.update(gc, delta);		
 	}
 	
-	public Projectile use()
-	{
-		return(new Projectile(xCoord, yCoord, xVelocity, yVelocity, range, hitBox));
+	
+	
+	public void use(GameWorld gW)
+	{		
+	    gW.listOfProjectiles.add(new Projectile(xCoord, yCoord, xVelocity, yVelocity, range, hitBox));
 	}
 }
