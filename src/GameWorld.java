@@ -31,6 +31,7 @@ public class GameWorld
 
 	ArrayList<Sound> punchHit;
 	ArrayList<Sound> punchMiss;
+	ArrayList<Block> removeCrates;
 	
 	public GameWorld(ControllerManager cm){
 		controllerManager = cm;
@@ -241,6 +242,18 @@ public class GameWorld
 					}
 				}
 			}
+			
+			for (Character c : listOfCharacters)
+			{
+				for (Item i : itemsOnMap)
+				{
+					if (c.getHitBox().intersects(i.getHitBox()) && !c.hasItem)
+					{
+						c.pickUpItem(i);
+						c.hasItem = true;
+					}
+				}
+			}
 
 			for(Block b: listOfBlocks){
 				if(!b.isPassible()){
@@ -249,7 +262,7 @@ public class GameWorld
 			}
 		}
 
-		ArrayList<Block> removeCrates = new ArrayList<Block>();
+		removeCrates = new ArrayList<Block>();
 		for (Block b: listOfBlocks)
 		{
 			if (b.getBlockType() == BlockType.Crate)
@@ -264,16 +277,16 @@ public class GameWorld
 						removeCrates.add(b);							
 					}
 				}	
-				for (Character c : listOfCharacters)
-				{
-					if (c.isMovingRight)
-					{
-						Item toBeAdded = chooseRandomItem();
-						toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
-						itemsOnMap.add(toBeAdded);
-						removeCrates.add(b);							
-					}
-				}
+//				for (Character c : listOfCharacters)
+//				{
+//					if (c.isMovingRight)
+//					{
+//						Item toBeAdded = chooseRandomItem();
+//						toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
+//						itemsOnMap.add(toBeAdded);
+//						removeCrates.add(b);							
+//					}
+//				}
 			}
 		}
 
