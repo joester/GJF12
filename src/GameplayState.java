@@ -1,6 +1,7 @@
 import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -13,6 +14,9 @@ public class GameplayState extends BasicGameState {
 	Character player = null;
 	Character player2 = null;
 	GameWorld gw = null;
+	Image[] uiImages = new Image[4];
+	int inLine;
+	int uiIntervals;
 
 	private ControllerManager controllerManager;
 	
@@ -42,6 +46,11 @@ public class GameplayState extends BasicGameState {
 			e.printStackTrace();
 		}
 		gw.init(gc);
+		uiImages[0] = new Image("assets/p1state.png");
+		uiImages[1] = new Image("assets/p2state.png");
+		uiImages[2] = new Image("assets/p3state.png");
+		uiImages[3] = new Image("assets/p4state.png");
+		inLine = gc.getHeight() - uiImages[0].getHeight() + 16;
 	}
 
 	@Override
@@ -50,6 +59,15 @@ public class GameplayState extends BasicGameState {
 	{
 		gw.render(gc, g);
 		
+		int dist = gc.getWidth() / 8;
+		uiIntervals = dist * 2;
+		
+		for(int i = 0; i < 4; i ++){
+			uiImages[i].draw(dist - 84, inLine, (float).75);
+			g.drawString((String)gw.listOfCharacters.get(0).displayHP(),
+				dist + (uiImages[i].getWidth() * 3 / 4) - 84, inLine + 16);
+			dist += uiIntervals;
+		}
 	}
 
 	@Override

@@ -11,7 +11,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Character extends Entity{
 
-	public int maxHealth, hP, damage, healthRegen, baseDamage, numRows, numCols;  
+	public int HP, damage, healthRegen, baseDamage, numRows, numCols;  
+	final int maxHealth = 20;
 	public String name, itemName, auxName;
 	public double range, baseRange;
 	boolean hasDX = false;
@@ -47,24 +48,18 @@ public class Character extends Entity{
 		hasAuxItem = false;
 		hasItem = false;
 		//Place holder numbers
-		hP = 100;
+		HP = 100;
 		baseDamage = 2;
 		wins = 0;
 		setHitBoxSize(42,80);
 		item = null;
 
-		this.name = name;
-		this.maxHealth = maxHealth;
-		hP = maxHealth;
+		HP = maxHealth;
 		damage = 5;
 		healthRegen = 1;
 		itemName = null;
 		auxName = null;
 		jumpAvailable = true;
-
-		this.numRows = numRows;
-		this.numCols = numCols;
-
 	}
 
 	public void setControls(int left, int up, int right, int down){
@@ -74,25 +69,30 @@ public class Character extends Entity{
 		controls[3] = down;
 	}
 
+	
 
+	//public Animation getAnimation(){
+		//return animation;
+	//}
 
-	public Animation getAnimation(){
-		return animation;
+	public String displayHP()
+	{
+		return "" + HP + "/" + maxHealth;
 	}
-
+	
 	public String getName()
 	{
 		return name;
 	}
 
-	public int gethP()
+	public int getHP()
 	{
-		return hP;
+		return HP;
 	}
 
 	public void modifyHealth(int deltaHealth)
 	{
-		hP += deltaHealth;		
+		HP += deltaHealth;		
 	}
 
 	public int getDamage()
@@ -276,6 +276,7 @@ public class Character extends Entity{
 			currentAnimation.restart();
 		}
 		g.draw(hitBox);
+		
 	}
 
 	@Override

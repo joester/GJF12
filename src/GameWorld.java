@@ -173,6 +173,10 @@ public class GameWorld
 				if(r.getY() <= 0){
 					c.canMoveUp = false;
 				}
+				if(r.getY() > gc.getHeight()){
+					c.modifyHealth(c.getHP());
+				}
+				
 			}
 		}
 
