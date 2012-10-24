@@ -532,7 +532,7 @@ public class GameWorld
 			}
 			if(input.isKeyDown(Input.KEY_UP)){
 				if(c.jumpAvailable){
-					c.yVelocity = -5;
+					c.yVelocity = -7;
 					c.hasDX = false;
 					c.jumpAvailable = false;
 					c.canMoveUp = true;
@@ -549,22 +549,41 @@ public class GameWorld
 			for(int i = 0; i < controllerManager.getControllerCount(); i++){
 				Controller ctr = controllerManager.getController(i);
 
-				if(ctr.getXAxisValue() < -0.75 && ctr.getYAxisValue() > -0.75 && ctr.getYAxisValue() < 0.75){
+				if(ctr.getXAxisValue() < -0.75 && ctr.getYAxisValue() < 0.75){
 
 					c.xVelocity = -1;
 					c.canMoveLeft = true;
 				}
-				else if(ctr.getXAxisValue() > 0.75 && ctr.getYAxisValue() > -0.75 && ctr.getYAxisValue() < 0.75){
+				else if(ctr.getXAxisValue() > 0.75 && ctr.getYAxisValue() < 0.75){
 
-					c.xVelocity = 1;
+					c.xVelocity = 3;
 					c.canMoveRight = true;
 				}
 				if(ctr.isButtonPressed(Button.A.buttonID)){
-
-					c.yVelocity = -3;
-					c.hasDX = false;
-					c.jumpAvailable = false;
-					c.canMoveUp = true;
+					if(c.jumpAvailable){
+						c.yVelocity = -5;
+						c.hasDX = false;
+						c.jumpAvailable = false;
+						c.canMoveUp = true;
+					}
+				}
+				if(ctr.isButtonPressed(Button.B.buttonID)){
+					for (Item item : itemsOnMap)
+					{
+						if (c.getHitBox().intersects(item.getHitBox()))
+						{
+							c.dropItem();
+							c.pickUpItem(item);
+							itemsToRemove.add(item);
+						}
+					}
+					for (Item item :itemsToRemove)
+					{
+						itemsOnMap.remove(item);
+					}
+				}
+				if(ctr.isButtonPressed(Button.X.buttonID)){
+					c.attack();
 				}
 			}
 		}
