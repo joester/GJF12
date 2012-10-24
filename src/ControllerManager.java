@@ -31,7 +31,7 @@ public class ControllerManager{
 			}
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
-			Sys.alert("Something went wrong!", e.getMessage());
+			//Sys.alert("Something went wrong!", e.getMessage());
 		}
 	}
 
