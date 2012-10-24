@@ -41,11 +41,11 @@ public class WinnerDisplayState extends BasicGameState{
 		g.setColor(Color.white);
 		Character winningPlayer = players.get(winner);
 		if(winningPlayer.wins >= winningPlayer.gW.winsNeeded){
-			g.drawString("Player " + winner + " Won!", gc.getWidth()/2 - 100, gc.getHeight()/2);
+			g.drawString("Player " + (winner + 1) + " Won!", gc.getWidth()/2 - 100, gc.getHeight()/2);
 			g.drawString("Press Enter to Continue", gc.getWidth()/2 - 100, gc.getHeight()/2 + 100);
 		}
 		else{
-			g.drawString("Player " + winner + " wins!", gc.getWidth()/2 - 100, gc.getHeight()/2);
+			g.drawString("Player " + (winner + 1) + " wins!", gc.getWidth()/2 - 100, gc.getHeight()/2);
 			g.drawString("Press Enter to Start Next Round", gc.getWidth()/2 - 100, gc.getHeight()/2 + 100);
 		}
 		
