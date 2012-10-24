@@ -24,7 +24,7 @@ public class DisplayManager extends StateBasedGame
 	
 	public static void main(String args[])throws SlickException{
 		AppGameContainer app = 
-			new AppGameContainer(new DisplayManager("Chibi Fighter"));
+			new AppGameContainer(new DisplayManager("Chibi Fighters"));
 		app.setDisplayMode(1280, 720, false);
 		app.setTargetFrameRate(60);
 		app.start();
