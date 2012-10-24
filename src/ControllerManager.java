@@ -1,5 +1,4 @@
 import org.lwjgl.LWJGLException;
-import org.lwjgl.Sys;
 import org.lwjgl.input.Controller;
 import org.lwjgl.input.Controllers;
 

@@ -1,5 +1,6 @@
 import java.util.List;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -32,6 +33,7 @@ public class CreditsState extends BasicGameState{
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		background.draw();
+		g.setColor(Color.white);
 		g.drawString("Press Space to Return to Main Menu",gc.getWidth()/2 - 150, gc.getHeight() - 100);
 		g.drawString("Credits Music 'Our Destiny' by Archie Monji",gc.getWidth()/2 - 200, gc.getHeight() - 50);
 		

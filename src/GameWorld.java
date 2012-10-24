@@ -72,8 +72,8 @@ public class GameWorld
 			}
 		}
 
+		iceMap.buildMap();
 		map = iceMap;
-		map.buildMap();
 		loadSounds();
 		setBackgroundImage();
 		loadChars();
@@ -81,7 +81,7 @@ public class GameWorld
 
 	public void loadSounds() throws SlickException
 	{
-		BGM = new Sound(map.getMusicFileLocation());
+		BGM = map.BGM;
 		BGM.loop();
 
 		Sound punchHit1 = new Sound("assets/SFX/punch1Final.wav");
@@ -371,11 +371,13 @@ public class GameWorld
 	}
 
 	public void setNextRound() throws IOException, SlickException {
+		
 		listOfBlocks = new ArrayList<Block>();
 		listOfPlatforms = new ArrayList<Platform>();
 		listOfProjectiles = new ArrayList<Projectile>();
 		map = getNextMap();
 		map.buildMap();
+		
 		for(int i = 0; i < numberOfPlayers; i++){
 			Character c = listOfPlayers.get(i);
 			c.reset();
@@ -386,7 +388,7 @@ public class GameWorld
 		listOfCharacters = new ArrayList<Character>(listOfPlayers);
 		setBackgroundImage();
 		BGM.stop();
-		BGM = new Sound(map.getMusicFileLocation());
+		BGM = map.BGM;
 		BGM.loop();
 	}
 
@@ -593,12 +595,7 @@ public class GameWorld
 	}
 
 	private void setBackgroundImage(){
-		try {
-			background = new Image(map.getBackgroundFileLocation());
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			Sys.alert("Something went wrong!", e.getMessage());
-		}
+		background = map.background;
 	}
 
 	public boolean checkIsRoundOver(){

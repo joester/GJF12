@@ -1,6 +1,5 @@
 import java.util.List;
 
-import org.lwjgl.Sys;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,6 +15,9 @@ public class WinnerDisplayState extends BasicGameState{
 	private int stateID = -1;
 	private int winner;
 	private List<Character> players;
+	Image background;
+	Character winningPlayer;
+	GameWorld gW;
 	public WinnerDisplayState(int stateID,
 			ControllerManager controllerManager) {
 		this.controllerManager = controllerManager;
@@ -24,6 +26,8 @@ public class WinnerDisplayState extends BasicGameState{
 
 	public void setWinner(int winnerID){
 		this.winner = winnerID;
+		winningPlayer = players.get(winner);
+		gW = winningPlayer.gW;
 	}
 	public void setPlayerList(List<Character> players){
 		this.players = players;
@@ -38,15 +42,13 @@ public class WinnerDisplayState extends BasicGameState{
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-			throws SlickException {
-		Character winningPlayer = players.get(winner);
-		GameWorld gW = winningPlayer.gW;
-		Image background = winningPlayer.gW.background;
+			throws SlickException {		
 		if(gW.map instanceof IceMap)
 			g.setColor(Color.black);
 		else
 			g.setColor(Color.white);
-		background.draw();
+		if(background != null)
+			background.draw();
 		
 		
 		if(winningPlayer.wins >= gW.winsNeeded){
@@ -67,14 +69,13 @@ public class WinnerDisplayState extends BasicGameState{
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		Input input = new Input(delta);
-		Character winningPlayer = players.get(winner);
+		
 		if(input.isKeyDown(Input.KEY_ENTER)){
 			if(winningPlayer.wins >= winningPlayer.gW.winsNeeded){
 				winningPlayer.gW.BGM.stop();
 				sbg.enterState(DisplayManager.CREDITS);
 			}
 			else{
-				
 				sbg.enterState(DisplayManager.GAMEPLAYSTATE);
 			}
 			

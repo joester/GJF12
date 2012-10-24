@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
+
 public abstract class Map {
 	public class Location{
 		int x,y;
@@ -13,16 +17,27 @@ public abstract class Map {
 	protected ArrayList<Location> crateList; 
 	private String backgroundFileLocation;
 	private String musicFileLocation;
-	
+	public Sound BGM;
+	public Image background;
+	protected ArrayList<Block> blockList;
 	public Map(GameWorld gW,String backgroundFileLocation, String musicFileLocation)
 	{
+		blockList = new ArrayList<Block>();
 		this.gW = gW;
 		this.backgroundFileLocation = backgroundFileLocation;
 		this.musicFileLocation = musicFileLocation;
+		try {
+			background = new Image(backgroundFileLocation);
+			BGM = new Sound(musicFileLocation);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void addBlock(int xCoordinate, int yCoordinate, String fileLocation, BlockType blockType, int xOffSet, int yOffSet, int sizeXOff,int sizeYOff)	
 	{
+		
 		gW.addBlock(new Block(	xCoordinate, 	
 								yCoordinate, 
 								fileLocation, 
@@ -53,4 +68,7 @@ public abstract class Map {
 	public ArrayList<Location> getCrateSpawns() {
 		return crateList;
 	} 
+	public ArrayList<Block> getBlockList(){
+		return blockList;
+	}
 }

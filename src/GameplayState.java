@@ -86,15 +86,13 @@ public class GameplayState extends BasicGameState {
 			Sys.alert("Something went wrong!", e.getMessage());
 		}
 		if(gW.checkIsRoundOver()){
+			WinnerDisplayState wds = (WinnerDisplayState) sbg.getState(DisplayManager.WINNERDISPLAYSTATE);
 			if(!gW.listOfCharacters.isEmpty()){
 				Character c = gW.listOfCharacters.get(0);
 				c.wins++;
-				WinnerDisplayState wds = (WinnerDisplayState) sbg.getState(DisplayManager.WINNERDISPLAYSTATE);
-				wds.setWinner(c.playerID);
 				wds.setPlayerList(gW.listOfPlayers);
-				sbg.enterState(DisplayManager.WINNERDISPLAYSTATE);
+				wds.setWinner(c.playerID);
 			}
-			gW.BGM.stop();
 			try {
 				gW.setNextRound();
 				
@@ -102,6 +100,8 @@ public class GameplayState extends BasicGameState {
 				// TODO Auto-generated catch block
 				Sys.alert("Something went wrong!", e.getMessage());
 			}
+			wds.background = gW.background.copy();
+			sbg.enterState(DisplayManager.WINNERDISPLAYSTATE);
 		}
 	}
 
