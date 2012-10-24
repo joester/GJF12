@@ -46,6 +46,7 @@ public class SpaceMap extends Map
 		addBlock(4,7,"assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,0);
 		
 		addBlock(5,0,"assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,0);
+		addBlock(5,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
 		addBlock(5,4,"assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,0);
 		addBlock(5,7,"assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
 		
@@ -61,6 +62,7 @@ public class SpaceMap extends Map
 		addBlock(8,7,"assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
 		
 		addBlock(9,0,"assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,0);
+		addBlock(9,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
 		addBlock(9,4,"assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,0);
 		addBlock(9,7,"assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
 		
@@ -91,8 +93,8 @@ public class SpaceMap extends Map
 	protected void setCharacterSpawns() {
 		spawnList = new ArrayList<Location>();
 		spawnList.add(new Location(2,1));
-		spawnList.add(new Location(1,5));
 		spawnList.add(new Location(12,1));
+		spawnList.add(new Location(1,5));
 		spawnList.add(new Location(13,5));
 	}
 	protected void setCrateSpawnPoints(){
