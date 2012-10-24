@@ -19,7 +19,7 @@ public abstract class Entity{
 		if(imageLocation != null){
 			String newLocation = "";
 			if(this instanceof Character){
-				newLocation = "/assets/Art/Characters/" + imageLocation
+				newLocation = "assets/Art/Characters/" + imageLocation
 						+ "/stand-spritesheet.png";
 				isCharacter = true;
 			}

@@ -15,7 +15,7 @@ public class Lightning extends Item
 		dropChance = false;
 		startUpTime = .01;
 		reloadTime = 800;
-		projectileImageLocation = "/assets/Art/Transformations/lightning.png";
+		projectileImageLocation = "assets/Art/Transformations/lightning.png";
 		hitBoxXPosOffSet = 10;
 		hitBoxYPosOffSet = 10;
 		hitBoxXOffSet = 20;

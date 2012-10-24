@@ -30,7 +30,7 @@ public class HowToState extends BasicGameState
 		message = "";
 		gW = new GameWorld(controllerManager);
 		try {
-			background = new Image("/assets/Art/howto.png");
+			background = new Image("assets/Art/howto.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,7 +54,7 @@ public class HowToState extends BasicGameState
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = new Input(delta);
-    	GameplayState gps = (GameplayState) sbg.getState(DisplayManager.GAMEPLAYSTATE);
+    	GameplayState gps = (GameplayState) sbg.getState(GameRunner.GAMEPLAYSTATE);
     	gW = gps.getGameWorld();
     	if(input.isKeyDown(Input.KEY_SPACE)){
     		try {
@@ -63,7 +63,7 @@ public class HowToState extends BasicGameState
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		sbg.enterState(DisplayManager.GAMEPLAYSTATE);
+    		sbg.enterState(GameRunner.GAMEPLAYSTATE);
     	}
     	/**for(int i = 0; i < controllerManager.getControllerCount(); i++){
     		if(controllerManager.getController(i).isButtonPressed(Button.A.buttonID)){

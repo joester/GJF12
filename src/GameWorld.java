@@ -24,10 +24,10 @@ public class GameWorld
 	String testString = "GameWorld Loaded.";
 	Map map;
 
-	IceMap iceMap = new IceMap(this,"/assets/Art/Background/bg_ice.jpg", "/assets/SFX/music/Ice.wav");
-	LavaMap lavaMap = new LavaMap(this,"/assets/Art/Background/bg_volcano.jpg", "/assets/SFX/music/Volcano.wav");
-	SpaceMap spaceMap = new SpaceMap(this,"/assets/Art/Background/bg_space.jpg", "/assets/SFX/music/Space.wav");
-	ClockMap clockMap = new ClockMap(this,"/assets/Art/Background/bg_space.jpg","/assets/SFX/music/Ice.wav");
+	IceMap iceMap = new IceMap(this,"assets/Art/Background/bg_ice.jpg", "assets/SFX/music/Ice.wav");
+	LavaMap lavaMap = new LavaMap(this,"assets/Art/Background/bg_volcano.jpg", "assets/SFX/music/Volcano.wav");
+	SpaceMap spaceMap = new SpaceMap(this,"assets/Art/Background/bg_space.jpg", "assets/SFX/music/Space.wav");
+	ClockMap clockMap = new ClockMap(this,"assets/Art/Background/bg_space.jpg","assets/SFX/music/Ice.wav");
 	ControllerManager controllerManager;
 	private Image background;
 

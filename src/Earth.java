@@ -18,7 +18,7 @@ EARTH  5  1(3 if above) 1 Yes 0.05, 0.01
 		dropChance = true;
 		startUpTime = .05;
 		reloadTime = 1500;	
-		projectileImageLocation = "/assets/Art/Transformations/boulder.png";
+		projectileImageLocation = "assets/Art/Transformations/boulder.png";
 		hitBoxXPosOffSet = 10;
 		hitBoxYPosOffSet = 10;
 		hitBoxXOffSet = 20;

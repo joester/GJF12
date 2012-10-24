@@ -15,7 +15,7 @@ public class Ice extends Item
 		dropChance = false;
 		startUpTime = .25;
 		reloadTime = 1200;
-		projectileImageLocation = "/assets/Art/Transformations/ice.png";
+		projectileImageLocation = "assets/Art/Transformations/ice.png";
 		hitBoxXPosOffSet = 10;
 		hitBoxYPosOffSet = 10;
 		hitBoxXOffSet = 20;

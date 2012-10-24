@@ -8,6 +8,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 //import org.newdawn.slick.tests.xml.Entity;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class Character extends Entity{
 
@@ -269,16 +270,16 @@ public class Character extends Entity{
 		jumpHeight = 0;
 
 		Image[] i = new Image[10];
-		i[0] = new Image("/assets/Art/Characters/" + name + "/jump-spritesheet.png");
-		i[1] = new Image("/assets/Art/Characters/" + name + "/punch-spritesheet.png");
-		i[2] = new Image("/assets/Art/Characters/" + name + "/stand-spritesheet.png");
-		i[3] = new Image("/assets/Art/Characters/" + name + "/run-spritesheet.png");
-		i[4] = new Image("/assets/Art/Characters/" + name + "/hurt-spritesheet.png");
-		i[5] = new Image("/assets/Art/Characters/" + name + "/jump-spritesheet.png").getFlippedCopy(true, false);
-		i[6] = new Image("/assets/Art/Characters/" + name + "/punch-spritesheet.png").getFlippedCopy(true, false);
-		i[7] = new Image("/assets/Art/Characters/" + name + "/stand-spritesheet.png").getFlippedCopy(true, false);
-		i[8] = new Image("/assets/Art/Characters/" + name + "/run-spritesheet.png").getFlippedCopy(true, false);
-		i[9] = new Image("/assets/Art/Characters/" + name + "/hurt-spritesheet.png").getFlippedCopy(true, false);
+		i[0] = new Image("assets/Art/Characters/" + name + "/jump-spritesheet.png");
+		i[1] = new Image("assets/Art/Characters/" + name + "/punch-spritesheet.png");
+		i[2] = new Image("assets/Art/Characters/" + name + "/stand-spritesheet.png");
+		i[3] = new Image("assets/Art/Characters/" + name + "/run-spritesheet.png");
+		i[4] = new Image("assets/Art/Characters/" + name + "/hurt-spritesheet.png");
+		i[5] = new Image("assets/Art/Characters/" + name + "/jump-spritesheet.png").getFlippedCopy(true, false);
+		i[6] = new Image("assets/Art/Characters/" + name + "/punch-spritesheet.png").getFlippedCopy(true, false);
+		i[7] = new Image("assets/Art/Characters/" + name + "/stand-spritesheet.png").getFlippedCopy(true, false);
+		i[8] = new Image("assets/Art/Characters/" + name + "/run-spritesheet.png").getFlippedCopy(true, false);
+		i[9] = new Image("assets/Art/Characters/" + name + "/hurt-spritesheet.png").getFlippedCopy(true, false);
 		int[] cols = {4,2,3,9,2};
 		int count = 0;
 		boolean toFlipped = false;

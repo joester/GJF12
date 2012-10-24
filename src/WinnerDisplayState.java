@@ -62,11 +62,11 @@ public class WinnerDisplayState extends BasicGameState{
 		if(input.isKeyDown(Input.KEY_ENTER)){
 			if(winningPlayer.wins >= winningPlayer.gW.winsNeeded){
 				winningPlayer.gW.BGM.stop();
-				sbg.enterState(DisplayManager.CREDITS);
+				sbg.enterState(GameRunner.CREDITS);
 			}
 			else{
 				
-				sbg.enterState(DisplayManager.GAMEPLAYSTATE);
+				sbg.enterState(GameRunner.GAMEPLAYSTATE);
 			}
 			
 		}

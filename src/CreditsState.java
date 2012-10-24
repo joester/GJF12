@@ -47,7 +47,7 @@ public class CreditsState extends BasicGameState{
 		
 		if(input.isKeyDown(Input.KEY_SPACE)){
 			BGM.stop();
-			sbg.enterState(DisplayManager.MAINMENUSTATE);
+			sbg.enterState(GameRunner.MAINMENUSTATE);
 		}
 		
 	}

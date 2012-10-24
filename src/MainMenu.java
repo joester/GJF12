@@ -3,6 +3,7 @@
 import java.awt.Font;
 import java.io.IOException;
 
+import org.lwjgl.Sys;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -31,10 +32,9 @@ public class MainMenu extends BasicGameState
 		message = "";
 		gW = new GameWorld(controllerManager);
 		try {
-			background = new Image("/assets/Art/opening_screen3.jpg");
+			background = new Image("assets/Art/opening_screen3.jpg");
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Sys.alert("Could not open", "Missing Image");
 		}
 	}
 	
@@ -58,7 +58,7 @@ public class MainMenu extends BasicGameState
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = new Input(delta);
-    	GameplayState gps = (GameplayState) sbg.getState(DisplayManager.GAMEPLAYSTATE);
+    	GameplayState gps = (GameplayState) sbg.getState(GameRunner.GAMEPLAYSTATE);
     	gW = gps.getGameWorld();
     	if(input.isKeyDown(Input.KEY_2)){
     		gW.numberOfPlayers = 2;
@@ -74,7 +74,7 @@ public class MainMenu extends BasicGameState
 
     	}
     	if(input.isKeyDown(Input.KEY_ENTER)){
-    		sbg.enterState(DisplayManager.HOWTOSTATE);
+    		sbg.enterState(GameRunner.HOWTOSTATE);
     	}
     	/**for(int i = 0; i < controllerManager.getControllerCount(); i++){
     		if(controllerManager.getController(i).isButtonPressed(Button.A.buttonID)){

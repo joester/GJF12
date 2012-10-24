@@ -15,7 +15,7 @@ public class Fire extends Item
 		dropChance = false;
 		startUpTime = .01;
 		reloadTime = 600;
-		projectileImageLocation = "/assets/Art/Transformations/fireball.png";
+		projectileImageLocation = "assets/Art/Transformations/fireball.png";
 		hitBoxXPosOffSet = 5;
 		hitBoxYPosOffSet = 30;
 		hitBoxXOffSet = 10;

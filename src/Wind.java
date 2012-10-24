@@ -16,7 +16,7 @@ public class Wind extends Item
 		dropChance = true;
 		startUpTime = .01;
 		reloadTime = 1000;
-		projectileImageLocation = "/assets/Art/Transformations/wind.png";
+		projectileImageLocation = "assets/Art/Transformations/wind.png";
 		hitBoxXPosOffSet = 10;
 		hitBoxYPosOffSet = 10;
 		hitBoxXOffSet = 20;

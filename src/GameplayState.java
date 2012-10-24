@@ -73,7 +73,7 @@ public class GameplayState extends BasicGameState {
 		
 		Input input = new Input(delta);
 		if(input.isKeyDown(Input.KEY_P)){
-			sbg.enterState(DisplayManager.PAUSESTATE);
+			sbg.enterState(GameRunner.PAUSESTATE);
 		}
 		
 		try
@@ -89,10 +89,10 @@ public class GameplayState extends BasicGameState {
 			if(!gW.listOfCharacters.isEmpty()){
 				Character c = gW.listOfCharacters.get(0);
 				c.wins++;
-				WinnerDisplayState wds = (WinnerDisplayState) sbg.getState(DisplayManager.WINNERDISPLAYSTATE);
+				WinnerDisplayState wds = (WinnerDisplayState) sbg.getState(GameRunner.WINNERDISPLAYSTATE);
 				wds.setWinner(c.playerID);
 				wds.setPlayerList(gW.listOfPlayers);
-				sbg.enterState(DisplayManager.WINNERDISPLAYSTATE);
+				sbg.enterState(GameRunner.WINNERDISPLAYSTATE);
 			}
 			gW.BGM.stop();
 			try {
