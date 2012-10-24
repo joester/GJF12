@@ -1,4 +1,5 @@
 import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Controller;
 import org.lwjgl.input.Controllers;
 
@@ -30,7 +31,7 @@ public class ControllerManager{
 			}
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Sys.alert("Something went wrong!", e.getMessage());
 		}
 	}
 

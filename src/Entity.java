@@ -1,3 +1,4 @@
+import org.lwjgl.Sys;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -33,7 +34,7 @@ public abstract class Entity{
 				}
 			} catch (SlickException e) {
 				System.out.println("Image not found for " + this.getClass());
-				e.printStackTrace();
+				Sys.alert("Something went wrong!", e.getMessage());
 			}
 			}
 		xCoord = x * MapEntity.BLOCKSIZE;

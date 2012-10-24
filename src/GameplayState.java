@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+import org.lwjgl.Sys;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -73,7 +74,7 @@ public class GameplayState extends BasicGameState {
 		
 		Input input = new Input(delta);
 		if(input.isKeyDown(Input.KEY_P)){
-			sbg.enterState(GameRunner.PAUSESTATE);
+			sbg.enterState(DisplayManager.PAUSESTATE);
 		}
 		
 		try
@@ -82,17 +83,16 @@ public class GameplayState extends BasicGameState {
 		}
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Sys.alert("Something went wrong!", e.getMessage());
 		}
 		if(gW.checkIsRoundOver()){
 			if(!gW.listOfCharacters.isEmpty()){
 				Character c = gW.listOfCharacters.get(0);
 				c.wins++;
-				WinnerDisplayState wds = (WinnerDisplayState) sbg.getState(GameRunner.WINNERDISPLAYSTATE);
+				WinnerDisplayState wds = (WinnerDisplayState) sbg.getState(DisplayManager.WINNERDISPLAYSTATE);
 				wds.setWinner(c.playerID);
 				wds.setPlayerList(gW.listOfPlayers);
-				sbg.enterState(GameRunner.WINNERDISPLAYSTATE);
+				sbg.enterState(DisplayManager.WINNERDISPLAYSTATE);
 			}
 			gW.BGM.stop();
 			try {
@@ -100,7 +100,7 @@ public class GameplayState extends BasicGameState {
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Sys.alert("Something went wrong!", e.getMessage());
 			}
 		}
 	}

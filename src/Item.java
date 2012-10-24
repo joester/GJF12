@@ -63,7 +63,6 @@ public class Item extends Entity {
 
 	public void use(GameWorld gW,Character c)
 	{		
-		System.out.println(c.isFacingRight);
 		int x;
 		int y;
 		if(c.isFacingRight){

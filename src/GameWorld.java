@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.Sys;
 import org.lwjgl.input.Controller;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -27,9 +28,9 @@ public class GameWorld
 	IceMap iceMap = new IceMap(this,"assets/Art/Background/bg_ice.jpg", "assets/SFX/music/Ice.wav");
 	LavaMap lavaMap = new LavaMap(this,"assets/Art/Background/bg_volcano.jpg", "assets/SFX/music/Volcano.wav");
 	SpaceMap spaceMap = new SpaceMap(this,"assets/Art/Background/bg_space.jpg", "assets/SFX/music/Space.wav");
-	ClockMap clockMap = new ClockMap(this,"assets/Art/Background/bg_space.jpg","assets/SFX/music/Ice.wav");
+	//ClockMap clockMap = new ClockMap(this,"assets/Art/Background/bg_space.jpg","assets/SFX/music/Ice.wav");
 	ControllerManager controllerManager;
-	private Image background;
+	Image background;
 
 	ArrayList<Sound> punchHit;
 	ArrayList<Sound> punchMiss;
@@ -67,7 +68,7 @@ public class GameWorld
 				i.projectileImage = new Image(i.projectileImageLocation);
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Sys.alert("Something went wrong!", e.getMessage());
 			}
 		}
 
@@ -596,7 +597,7 @@ public class GameWorld
 			background = new Image(map.getBackgroundFileLocation());
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Sys.alert("Something went wrong!", e.getMessage());
 		}
 	}
 

@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 
+import org.lwjgl.Sys;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -33,7 +34,7 @@ public class HowToState extends BasicGameState
 			background = new Image("assets/Art/howto.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Sys.alert("Something went wrong!", e.getMessage());
 		}
 	}
 	
@@ -54,16 +55,15 @@ public class HowToState extends BasicGameState
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = new Input(delta);
-    	GameplayState gps = (GameplayState) sbg.getState(GameRunner.GAMEPLAYSTATE);
+    	GameplayState gps = (GameplayState) sbg.getState(DisplayManager.GAMEPLAYSTATE);
     	gW = gps.getGameWorld();
     	if(input.isKeyDown(Input.KEY_SPACE)){
     		try {
 				gW.init();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Sys.alert("Something went wrong!", e.getMessage());
 			}
-    		sbg.enterState(GameRunner.GAMEPLAYSTATE);
+    		sbg.enterState(DisplayManager.GAMEPLAYSTATE);
     	}
     	/**for(int i = 0; i < controllerManager.getControllerCount(); i++){
     		if(controllerManager.getController(i).isButtonPressed(Button.A.buttonID)){

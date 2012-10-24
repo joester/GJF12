@@ -46,7 +46,7 @@ public class PauseState extends BasicGameState
 		Input input = new Input(delta);
 		
 		if(input.isKeyDown(Input.KEY_ESCAPE)){
-			sbg.enterState(GameRunner.GAMEPLAYSTATE);
+			sbg.enterState(DisplayManager.GAMEPLAYSTATE);
 		}
 		
 	}

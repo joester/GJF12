@@ -1,8 +1,5 @@
 
 
-import java.awt.Font;
-import java.io.IOException;
-
 import org.lwjgl.Sys;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -58,7 +55,7 @@ public class MainMenu extends BasicGameState
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = new Input(delta);
-    	GameplayState gps = (GameplayState) sbg.getState(GameRunner.GAMEPLAYSTATE);
+    	GameplayState gps = (GameplayState) sbg.getState(DisplayManager.GAMEPLAYSTATE);
     	gW = gps.getGameWorld();
     	if(input.isKeyDown(Input.KEY_2)){
     		gW.numberOfPlayers = 2;
@@ -74,7 +71,7 @@ public class MainMenu extends BasicGameState
 
     	}
     	if(input.isKeyDown(Input.KEY_ENTER)){
-    		sbg.enterState(GameRunner.HOWTOSTATE);
+    		sbg.enterState(DisplayManager.HOWTOSTATE);
     	}
     	/**for(int i = 0; i < controllerManager.getControllerCount(); i++){
     		if(controllerManager.getController(i).isButtonPressed(Button.A.buttonID)){

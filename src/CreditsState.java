@@ -7,7 +7,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 
@@ -47,7 +46,7 @@ public class CreditsState extends BasicGameState{
 		
 		if(input.isKeyDown(Input.KEY_SPACE)){
 			BGM.stop();
-			sbg.enterState(GameRunner.MAINMENUSTATE);
+			sbg.enterState(DisplayManager.MAINMENUSTATE);
 		}
 		
 	}

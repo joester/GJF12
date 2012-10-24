@@ -8,7 +8,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 //import org.newdawn.slick.tests.xml.Entity;
-import org.newdawn.slick.util.ResourceLoader;
 
 public class Character extends Entity{
 
