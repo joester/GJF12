@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Controller;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -13,6 +14,7 @@ import org.newdawn.slick.geom.Rectangle;
 public class GameWorld
 {
 
+	public final int winsNeeded = 3;
 	List<Block> listOfBlocks = new ArrayList<Block>();
 	List<Platform> listOfPlatforms = new ArrayList<Platform>();
 	List<Projectile> listOfProjectiles = new ArrayList<Projectile>();
@@ -21,7 +23,7 @@ public class GameWorld
 	List<Item> itemsOnMap = new ArrayList<Item>();
 	String testString = "GameWorld Loaded.";
 	Map map;
-	
+
 	IceMap iceMap = new IceMap(this,"/assets/Art/Background/bg_ice.jpg", "/assets/SFX/music/Ice.wav");
 	LavaMap lavaMap = new LavaMap(this,"/assets/Art/Background/bg_volcano.jpg", "/assets/SFX/music/Volcano.wav");
 	SpaceMap spaceMap = new SpaceMap(this,"/assets/Art/Background/bg_space.jpg", "/assets/SFX/music/Space.wav");
@@ -34,6 +36,9 @@ public class GameWorld
 	ArrayList<Block> removeCrates;
 	ArrayList<Item> itemsToRemove;
 	public ArrayList<Projectile> projectilesToBeRemoved;
+	public int numberOfPlayers = 2;
+	List<Character> listOfPlayers;
+	Sound BGM;
 
 	public GameWorld(ControllerManager cm){
 		controllerManager = cm;
@@ -41,7 +46,10 @@ public class GameWorld
 
 	public void init() throws IOException, SlickException 
 	{	 
-
+		listOfBlocks = new ArrayList<Block>();
+		listOfPlatforms = new ArrayList<Platform>();
+		listOfProjectiles = new ArrayList<Projectile>();
+		listOfCharacters = new ArrayList<Character>();
 
 		String earthFileLocation = "assets/Art/Transformations/icons/hammer.png";
 		String fireFileLocation = "assets/Art/Transformations/icons/bow.png";
@@ -56,25 +64,24 @@ public class GameWorld
 		listOfItems.add(new Wind(0, 0, windFileLocation,0,0));
 		for(Item i : listOfItems){
 			try {
-				  i.projectileImage = new Image(i.projectileImageLocation);
+				i.projectileImage = new Image(i.projectileImageLocation);
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		loadSounds();
-
-		map = lavaMap;
+		map = iceMap;
 		map.buildMap();
+		loadSounds();
 		setBackgroundImage();
 		loadChars();
 	}
 
 	public void loadSounds() throws SlickException
 	{
-		Sound background = new Sound("assets/SFX/music/Volcano.wav");
-		background.loop();
+		BGM = new Sound(map.getMusicFileLocation());
+		BGM.loop();
 
 		Sound punchHit1 = new Sound("assets/SFX/punch1Final.wav");
 		Sound punchHit2 = new Sound("assets/SFX/punch2Final.wav");
@@ -115,16 +122,16 @@ public class GameWorld
 	}
 
 	public void loadChars() throws SlickException{
-
-		List<Character> chars = new ArrayList<Character>();
 		List<Map.Location> characterSpawns = map.getCharacterSpawns();
-		for(int i = 0; i < map.getCharacterSpawns().size(); i++){
+		listOfPlayers = new ArrayList<Character>();
+		for(int i = 0; i < numberOfPlayers ; i++){
 			int j = i+1;
 			Map.Location loc = characterSpawns.get(i);
-			chars.add(new Character(loc.x, loc.y, "player" + j, this));
-		}
-		for(Character c : chars){
+			Character c = new Character(loc.x, loc.y, "player" + j, this);
+			c.setPlayerID(i);
+			c.init();
 			c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
+			listOfPlayers.add(c);
 			listOfCharacters.add(c);
 		}
 	}
@@ -255,7 +262,7 @@ public class GameWorld
 					{			
 						projectilesToBeRemoved.add(p);
 					}
-					
+
 				}
 			}
 		}
@@ -268,7 +275,6 @@ public class GameWorld
 				{
 					c.pickUpItem(i);
 					itemsToRemove.add(i);
-					c.hasItem = true;
 				}
 			}
 		}
@@ -283,7 +289,7 @@ public class GameWorld
 					if (p.getHitBox().intersects(b.getHitBox()))
 					{
 						Item toBeAdded = chooseRandomItem();
-						toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
+						toBeAdded.setLocation(b.getX() + 30,b.getY());
 						itemsOnMap.add(toBeAdded);
 						removeCrates.add(b);		
 					}
@@ -315,22 +321,14 @@ public class GameWorld
 			listOfProjectiles.remove(p);
 	}
 
-	public void init(GameContainer gc) throws SlickException{
-		for(Character c : listOfCharacters){
-			c.init(gc);
-		}
-	}
-
-
-
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
-		for(int i = 0; i < listOfCharacters.size(); i++){
+		for(int i = 0; i < numberOfPlayers; i++){
 			assignActionToPlayer(gc,i,delta);
 		}
 		for (Character c : listOfCharacters)
 		{
-			c.yVelocity += .1;
+			c.yVelocity += .15;
 		}
 		checkForCollisions(gc);
 
@@ -341,15 +339,22 @@ public class GameWorld
 		//spawnItems();
 
 
-
+		ArrayList<Character> charactersToBeRemoved = new ArrayList<Character>();
 		for (Character c: listOfCharacters)
 		{
 			try{
 				c.update(gc, delta);
+				if(c.getHP() <= 0){
+					charactersToBeRemoved.add(c);
+				}
 			}catch(Exception e){
 
 			}			
 		}
+		for(Character c: charactersToBeRemoved){
+			listOfCharacters.remove(c);
+		}
+
 		projectilesToBeRemoved = new ArrayList<Projectile>();
 		for (Projectile p : listOfProjectiles)
 		{
@@ -362,7 +367,26 @@ public class GameWorld
 		{
 			i.update(gc, delta);
 		}
+	}
 
+	public void setNextRound() throws IOException, SlickException {
+		listOfBlocks = new ArrayList<Block>();
+		listOfPlatforms = new ArrayList<Platform>();
+		listOfProjectiles = new ArrayList<Projectile>();
+		map = getNextMap();
+		map.buildMap();
+		for(int i = 0; i < numberOfPlayers; i++){
+			Character c = listOfPlayers.get(i);
+			c.reset();
+			Map.Location loc = map.getCharacterSpawns().get(i);
+			c.setLocation(loc.x * MapEntity.BLOCKSIZE, loc.y * MapEntity.BLOCKSIZE);
+			c.setHitBox(c.xCoord, c.yCoord);
+		}
+		listOfCharacters = new ArrayList<Character>(listOfPlayers);
+		setBackgroundImage();
+		BGM.stop();
+		BGM = new Sound(map.getMusicFileLocation());
+		BGM.loop();
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException{
@@ -418,26 +442,30 @@ public class GameWorld
 	}
 
 	public void assignActionToPlayer(GameContainer gc, int characterIndex,int delta){
-		Character c = listOfCharacters.get(characterIndex);
+		Character c = listOfPlayers.get(characterIndex);
 		Input input = gc.getInput();
-		
+		if(c == null){
+			return;
+		}
 		if(characterIndex == 0){
 			if(input.isKeyDown(Input.KEY_A)){
-				listOfCharacters.get(0).xVelocity = -1;
+				c.xVelocity = -3;
 				c.canMoveLeft = true;
 			}
 			if(input.isKeyDown(Input.KEY_W)){
-				c.yVelocity = -3;
-				c.hasDX = false;
-				c.jumpAvailable = false;
-				c.canMoveUp = true;
+				if(c.jumpAvailable){
+					c.yVelocity = -7;
+					c.hasDX = false;
+					c.jumpAvailable = false;
+					c.canMoveUp = true;
+				}
 			}
-			
+
 			if(input.isKeyDown(Input.KEY_SPACE))
 				c.attack();
 
 			if(input.isKeyDown(Input.KEY_Q)){
-				
+
 				for (Item i : itemsOnMap)
 				{
 					if (c.getHitBox().intersects(i.getHitBox()))
@@ -453,23 +481,25 @@ public class GameWorld
 				}
 			}
 			if(input.isKeyDown(Input.KEY_D)){
-				c.xVelocity = 1;
+				c.xVelocity = 3;
 				c.canMoveRight = true;
 			}
 		}
-			
-			
-			
+
+
+
 		if(characterIndex == 1){
 			if(input.isKeyDown(Input.KEY_NUMPAD4)){
-				c.xVelocity = -1;
+				c.xVelocity = -3;
 				c.canMoveLeft = true;
 			}
 			if(input.isKeyDown(Input.KEY_NUMPAD8)){
-				c.yVelocity = -3;
-				c.hasDX = false;
-				c.jumpAvailable = false;
-				c.canMoveUp = true;
+				if(c.jumpAvailable){
+					c.yVelocity = -7;
+					c.hasDX = false;
+					c.jumpAvailable = false;
+					c.canMoveUp = true;
+				}
 			}
 			if(input.isKeyDown(Input.KEY_NUMPAD7)){
 				for (Item i : itemsOnMap)
@@ -487,33 +517,33 @@ public class GameWorld
 				}
 			}
 			if(input.isKeyDown(Input.KEY_NUMPAD6)){
-				c.xVelocity = 1;
+				c.xVelocity = 3;
 				c.canMoveRight = true;
 			}
 			if(input.isKeyDown(Input.KEY_NUMPAD0)){
 				c.attack();
 			}
 		}
-		
+
 		if(characterIndex == 2){
 			if(input.isKeyDown(Input.KEY_LEFT)){
-				c.xVelocity = -1;
+				c.xVelocity = -3;
 				c.canMoveLeft = true;
 			}
 			if(input.isKeyDown(Input.KEY_UP)){
-				c.yVelocity = -3;
-				c.hasDX = false;
-				c.jumpAvailable = false;
-				c.canMoveUp = true;
+				if(c.jumpAvailable){
+					c.yVelocity = -5;
+					c.hasDX = false;
+					c.jumpAvailable = false;
+					c.canMoveUp = true;
+				}
 			}
 			if(input.isKeyDown(Input.KEY_RIGHT)){
-				c.xVelocity = 1;
+				c.xVelocity = 3;
 				c.canMoveRight = true;
 			}
-
 		}
-		c.determineDirection();
-		/**
+
 		if(controllerManager != null){
 			controllerManager.pollControllers();
 			for(int i = 0; i < controllerManager.getControllerCount(); i++){
@@ -538,7 +568,8 @@ public class GameWorld
 				}
 			}
 		}
-		c.determineDirection();**/
+		c.determineDirection();
+
 	}
 
 	private void setBackgroundImage(){
@@ -548,6 +579,23 @@ public class GameWorld
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public boolean checkIsRoundOver(){
+		return listOfCharacters.size() <= 1;
+	}
+
+	public Map getNextMap() {
+		if(map instanceof IceMap){
+			return lavaMap;
+		}
+		else if(map instanceof LavaMap){
+			return spaceMap;
+		}
+		else{
+			return iceMap;
+		}
+
 	}
 
 }

@@ -14,7 +14,7 @@ public abstract class Map {
 	private String backgroundFileLocation;
 	private String musicFileLocation;
 	
-	public Map(GameWorld gW,String backgroundFileLocation, String musicLocation)
+	public Map(GameWorld gW,String backgroundFileLocation, String musicFileLocation)
 	{
 		this.gW = gW;
 		this.backgroundFileLocation = backgroundFileLocation;

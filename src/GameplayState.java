@@ -14,7 +14,7 @@ public class GameplayState extends BasicGameState {
 	
 	Character player = null;
 	Character player2 = null;
-	GameWorld gw = null;
+	GameWorld gW;
 	Image[] uiImages = new Image[4];
 	int inLine;
 	int uiIntervals;
@@ -22,35 +22,24 @@ public class GameplayState extends BasicGameState {
 	private ControllerManager controllerManager;
 	
 	
-	public GameplayState(int stateID, GameWorld gw, ControllerManager controllerManager){
+	public GameplayState(int stateID, ControllerManager controllerManager){
 		this.stateID = stateID;
-		this.gw = gw;
 		this.controllerManager = controllerManager;
+		gW = new GameWorld(controllerManager);
 	}
 
-	
-	
-	//Collision Testing
-	
+	public GameWorld getGameWorld(){
+		return gW;
+	}
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 		throws SlickException
 	{
-		try
-		{
-			gw.init();
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		gw.init(gc);
-		uiImages[0] = new Image("assets/p1state.png");
-		uiImages[1] = new Image("assets/p2state.png");
-		uiImages[2] = new Image("assets/p3state.png");
-		uiImages[3] = new Image("assets/p4state.png");
+		uiImages[0] = new Image("assets/Art/p1state.png");
+		uiImages[1] = new Image("assets/Art/p2state.png");
+		uiImages[2] = new Image("assets/Art/p3state.png");
+		uiImages[3] = new Image("assets/Art/p4state.png");
 		inLine = gc.getHeight() - uiImages[0].getHeight() + 16;
 	}
 
@@ -58,19 +47,22 @@ public class GameplayState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 		throws SlickException
 	{
-		gw.render(gc, g);
+		gW.render(gc, g);
 		
 		int dist = gc.getWidth() / 8;
 		uiIntervals = dist * 2;
 		
-		for(int i = 0; i < 4; i ++){
+		for(int i = 0; i < gW.numberOfPlayers; i ++){
 			uiImages[i].draw(dist - 84, inLine, (float).75);
-			gw.listOfCharacters.get(i).currentAnimation.getCurrentFrame().draw(dist - 84, inLine, (float).75);
-			if(gw.listOfCharacters.get(i).hasItem){
-				gw.listOfCharacters.get(i).item.image.draw(dist - 45, inLine + 4, (float) .9);
+			Character c = gW.listOfPlayers.get(i);
+			c.currentAnimation.getCurrentFrame().draw(dist - 84, inLine, (float).75);
+			if(c.hasItem){
+				c.item.image.draw(dist - 45, inLine + 4, (float) .9);
 			}
-			g.drawString((String)gw.listOfCharacters.get(i).displayHP(),
+			g.drawString((String)c.displayHP(),
 				dist + (uiImages[i].getWidth() * 3 / 4) - 84, inLine + 16);
+			g.drawString(c.wins + "/" +gW.winsNeeded,
+					dist - (uiImages[i].getWidth() * 3 / 4), inLine + 16);
 			dist += uiIntervals;
 		}
 	}
@@ -86,15 +78,35 @@ public class GameplayState extends BasicGameState {
 		
 		try
 		{
-			gw.update(gc, delta);
+			gW.update(gc, delta);
 		}
 		catch (InterruptedException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(gW.checkIsRoundOver()){
+			if(!gW.listOfCharacters.isEmpty()){
+				Character c = gW.listOfCharacters.get(0);
+				c.wins++;
+				WinnerDisplayState wds = (WinnerDisplayState) sbg.getState(DisplayManager.WINNERDISPLAYSTATE);
+				wds.setWinner(c.playerID);
+				wds.setPlayerList(gW.listOfPlayers);
+				sbg.enterState(DisplayManager.WINNERDISPLAYSTATE);
+			}
+			gW.BGM.stop();
+			try {
+				gW.setNextRound();
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
-	
+
+
+
 
 	@Override
 	public int getID()

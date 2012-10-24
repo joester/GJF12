@@ -44,7 +44,7 @@ public class Item extends Entity {
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		g.draw(hitBox);
+		//g.draw(hitBox);
 		image.draw(xCoord, yCoord);
 	}
 
@@ -72,7 +72,7 @@ public class Item extends Entity {
 			gW.listOfProjectiles.add(new Projectile(x, y,
 					projectileImage, 
 					projectileXSpeed, projectileYSpeed, 
-					projectileRange,
+					damage, projectileRange,
 					hitBoxXPosOffSet,hitBoxYPosOffSet,hitBoxXOffSet,hitBoxYOffSet,
 					c,gW));
 		}
@@ -80,9 +80,9 @@ public class Item extends Entity {
 			x = c.xCoord - projectileImage.getWidth();
 			y = c.yCoord;
 			gW.listOfProjectiles.add(new Projectile(x, y,
-					projectileImage,
+					projectileImage.getFlippedCopy(true, false),
 					-projectileXSpeed, projectileYSpeed, 
-					projectileRange,
+					damage, projectileRange,
 					hitBoxXPosOffSet,hitBoxYPosOffSet,hitBoxXOffSet,hitBoxYOffSet,
 					c,gW));
 		}

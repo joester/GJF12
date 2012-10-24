@@ -9,12 +9,12 @@ public class Lightning extends Item
 	
 	public Lightning(int x, int y, String i, int xVel, int yVel){
 		super(x, y, i, xVel, yVel);
-		damage = 2;
-		projectileRange = 400;
+		damage = 3;
+		projectileRange = 600;
 		projectileXSpeed = 3;
 		dropChance = false;
 		startUpTime = .01;
-		reloadTime = .01;
+		reloadTime = 800;
 		projectileImageLocation = "/assets/Art/Transformations/lightning.png";
 		hitBoxXPosOffSet = 10;
 		hitBoxYPosOffSet = 10;

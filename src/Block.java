@@ -44,7 +44,7 @@ public class Block extends MapEntity {
 	public void render(GameContainer gc, Graphics g)
 	{
 		image.draw(xCoord, yCoord, 1);	
-		g.draw(hitBox);
+		//g.draw(hitBox);
 	}
 
 

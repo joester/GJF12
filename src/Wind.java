@@ -10,12 +10,12 @@ public class Wind extends Item
 	
 	public Wind(int x, int y, String i, int xVel, int yVel){
 		super(x, y, i, xVel, yVel);
-		damage = 1;
+		damage = 2;
 		projectileRange = 500;
-		projectileXSpeed = 4;
+		projectileXSpeed = 3;
 		dropChance = true;
 		startUpTime = .01;
-		reloadTime = 1;
+		reloadTime = 1000;
 		projectileImageLocation = "/assets/Art/Transformations/wind.png";
 		hitBoxXPosOffSet = 10;
 		hitBoxYPosOffSet = 10;

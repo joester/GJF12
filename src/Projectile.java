@@ -20,7 +20,7 @@ public class Projectile extends Entity
 	
 	int hitBoxXOffSet;
 	int hitBoxYOffSet;
-	public Projectile (int xSpawnLocation, int ySpawnLocation, Image image, int xVelocity, int yVelocity,
+	public Projectile (int xSpawnLocation, int ySpawnLocation, Image image, int xVelocity, int yVelocity, int damage,
 						int maxRange, Rectangle hitBox, Character owner, GameWorld gW)
 	{
 		super(xSpawnLocation, ySpawnLocation);
@@ -33,12 +33,13 @@ public class Projectile extends Entity
 		this.yVelocity = yVelocity;
 		this.hitBox = hitBox;		
 		this.maxRange = maxRange;
+		this.damage = damage;
 		this.owner = owner;
 		this.image = image;
 	}
 
 	public Projectile(int xSpawnLocation, int ySpawnLocation, Image image,
-			int projectileXSpeed, int projectileYSpeed, int projectileRange,
+			int projectileXSpeed, int projectileYSpeed, int damage, int projectileRange,
 			int hitBoxXPosOffSet, int hitBoxYPosOffSet, int hitBoxXOffSet, int hitBoxYOffSet, Character c, GameWorld gW) {
 		super(xSpawnLocation, ySpawnLocation,null);
 		this.gW = gW;
@@ -49,6 +50,7 @@ public class Projectile extends Entity
 		xVelocity = projectileXSpeed;
 		yVelocity = projectileYSpeed;	
 		maxRange = projectileRange;
+		this.damage = damage;
 		owner = c;
 		this.image = image;
 		this.hitBoxXOffSet = hitBoxXPosOffSet;
@@ -66,7 +68,7 @@ public class Projectile extends Entity
 		//update projectile's location
 		currentXLocation += xVelocity;
 		currentYLocation += yVelocity;
-		System.out.println(getDistanceTravelled() );
+
 		if (getDistanceTravelled() >= maxRange)
 		{
 			gW.projectilesToBeRemoved.add(this);
@@ -88,7 +90,6 @@ public class Projectile extends Entity
 	@Override
 	public void render(GameContainer gc, Graphics g)
 	{
-		g.draw(hitBox);
 		if(image != null){
 			image.draw(currentXLocation, currentYLocation, 1);	
 		}

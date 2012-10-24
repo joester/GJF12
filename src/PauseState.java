@@ -1,4 +1,5 @@
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -25,7 +26,7 @@ public class PauseState extends BasicGameState
 	public void init(GameContainer gc, StateBasedGame sbg)
 		throws SlickException
 	{
-		pauseMenu = new Image("assets/pause.png");
+		pauseMenu = new Image("assets/Art/pause.png");
 		
 	}
 
@@ -34,6 +35,8 @@ public class PauseState extends BasicGameState
 		throws SlickException
 	{
 		pauseMenu.draw(0,0);
+		g.setColor(Color.white);
+		g.drawString("Press Escape to Unpause", gc.getWidth()/2 - 100, gc.getHeight()/2 + 100);
 	}
 
 	@Override

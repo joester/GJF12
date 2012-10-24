@@ -9,16 +9,16 @@ public class Fire extends Item
 	public Fire(int x, int y, String i, int xVelocity, int yVelocity)
 	{
 		super(x, y, i, xVelocity, yVelocity);
-		damage = 3;
-		projectileRange = 400;
-		projectileXSpeed = 3;
+		damage = 2;
+		projectileRange = 500;
+		projectileXSpeed = 4;
 		dropChance = false;
 		startUpTime = .01;
-		reloadTime = .9;
+		reloadTime = 600;
 		projectileImageLocation = "/assets/Art/Transformations/fireball.png";
 		hitBoxXPosOffSet = 5;
-		hitBoxYPosOffSet = 5;
+		hitBoxYPosOffSet = 30;
 		hitBoxXOffSet = 10;
-		hitBoxYOffSet = 10;
+		hitBoxYOffSet = 50;
 	}
 }

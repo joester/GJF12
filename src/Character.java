@@ -28,14 +28,11 @@ public class Character extends Entity{
 	Auxillary auxItem;
 	ArrayList<Animation> animationSet = new ArrayList<Animation>();
 	Animation currentAnimation;
-	int time;
-	boolean attackFlag;
 	private boolean isPunching;
 	boolean isFacingRight;
 	private boolean isJumping;
 	private boolean isIdle;
 	private boolean isRunning;
-	public int gravityCounter;
 	GameWorld gW;
 	boolean hit, isHit;
 
@@ -43,6 +40,9 @@ public class Character extends Entity{
 
 	int[] setOne = {Input.KEY_A, Input.KEY_W, Input.KEY_D, Input.KEY_S};
 	int[] setTwo = {Input.KEY_LEFT, Input.KEY_UP, Input.KEY_RIGHT, Input.KEY_DOWN};
+	private double baseAttackCoolDown;
+	private double attackCoolDown;
+	public int playerID;
 
 	//GameWorld gameWorld = new GameWorld();
 	//Set<Body> bodies = new HashSet<Body>();
@@ -54,9 +54,11 @@ public class Character extends Entity{
 		name = player;
 		hasAuxItem = false;
 		hasItem = false;
+		baseAttackCoolDown = 600;
+		attackCoolDown = 0;
 		//Place holder numbers
 		HP = 100;
-		baseDamage = 2;
+		baseDamage = 1;
 		wins = 0;
 		setHitBoxSize(42,80);
 		item = null;
@@ -143,35 +145,37 @@ public class Character extends Entity{
 
 	public void attack()
 	{
-		isPunching = true;
-
-		if (hasItem)
-		{
-			item.use(gW, this);
-		}
-		else{
-			//else
-			//{
-			if(isFacingRight)
-				punchProjectile = new Projectile(getX() + 42, getY(), null, 0, 0, 0, 
-					new Rectangle(getX() + 42, getY(), 20, 40), this,gW);
-			else
-				punchProjectile = new Projectile(getX() - 42, getY(), null, 0, 0, 0, 
-						new Rectangle(getX() - 42, getY(), 20, 40), this,gW);
-			gW.listOfProjectiles.add(punchProjectile);	
-		}
-		//}
-		for (Block b : gW.listOfBlocks)
-		{
-			if (punchProjectile.getHitBox().intersects(b.getHitBox()) && b.getBlockType() == BlockType.Crate)
-			{	
-				gW.playRandomSound(gW.punchHit);
-				hit = true;
-				break;
+		if(attackCoolDown <= 0){
+			isPunching = true;
+			if (hasItem)
+			{
+				item.use(gW, this);
+				attackCoolDown = item.reloadTime;
 			}
-			gW.projectilesToBeRemoved.add(punchProjectile);
-		}
+			else{
+				//else
+				//{
+				if(isFacingRight)
+					punchProjectile = new Projectile(getX() + 42, getY(), null, 0, 0, baseDamage, 0, 
+							new Rectangle(getX() + 42, getY(), 20, 40), this,gW);
+				else
+					punchProjectile = new Projectile(getX() - 42, getY(), null, 0, 0, baseDamage, 0, 
+							new Rectangle(getX() - 42, getY(), 20, 40), this,gW);
+				gW.listOfProjectiles.add(punchProjectile);	
+				for (Block b : gW.listOfBlocks)
+				{
+					if (punchProjectile.getHitBox().intersects(b.getHitBox()) && b.getBlockType() == BlockType.Crate)
+					{	
+						gW.playRandomSound(gW.punchHit);
+						hit = true;
+						break;
+					}
+					gW.projectilesToBeRemoved.add(punchProjectile);
+				}
+				attackCoolDown = baseAttackCoolDown;
+			}
 
+		}
 		//if (!hit)
 		//gW.playRandomSound(gW.punchMiss);
 	}
@@ -261,8 +265,7 @@ public class Character extends Entity{
 	}
 	//}
 
-	@Override
-	public void init(GameContainer gc) throws SlickException{
+	public void init() throws SlickException{
 		jumpHeight = 0;
 
 		Image[] i = new Image[10];
@@ -289,7 +292,7 @@ public class Character extends Entity{
 			}
 			Image[] imagelist = new Image[cols[count]];
 			int imageListTrack = 0;
-			
+
 			if(img.equals(i[3]) || img.equals(i[8]))
 				renderEnt(img, img.getWidth() / cols[count], img.getHeight(),100);
 			else
@@ -303,7 +306,7 @@ public class Character extends Entity{
 					animation = new Animation(imagelist, 100);
 				else
 					animation = new Animation(imagelist, 300);
-				
+
 			}
 
 			count += 1;
@@ -321,7 +324,7 @@ public class Character extends Entity{
 		if(currentAnimation.isStopped()){
 			currentAnimation.restart();
 		}
-		g.draw(hitBox);
+		//g.draw(hitBox);
 
 	}
 
@@ -329,7 +332,6 @@ public class Character extends Entity{
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
 		hit = false;
-		time = delta;
 		if(xVelocity < 0){
 			if(canMoveLeft){
 				xCoord += xVelocity;
@@ -352,9 +354,7 @@ public class Character extends Entity{
 				yCoord += yVelocity;
 			}
 		}
-		//System.out.println((canMoveDown && isMovingDown) || (canMoveUp && isMovingUp));
-		//System.out.println(yVelocity);
-		//System.out.println(xVelocity);
+		
 		isJumping = !(Math.abs(yVelocity) < 1) && (canMoveDown || isMovingDown);
 
 		isRunning = !isJumping && xVelocity != 0;
@@ -368,11 +368,14 @@ public class Character extends Entity{
 		}
 		selectAnimation();
 		setHitBox(xCoord, yCoord);
-		
+
 
 		xVelocity = 0;
-		gravityCounter++;
-
+	
+		attackCoolDown -= delta;
+		if(attackCoolDown < 0){
+			attackCoolDown = 0;
+		}
 		canMoveUp = true;
 		canMoveDown = true;
 		canMoveRight = true;
@@ -437,7 +440,37 @@ public class Character extends Entity{
 		isMovingRight = false;
 	}
 
-	public void resetGravityCounter(){
-		gravityCounter = 0;
+	public void setPlayerID(int playerID){
+		this.playerID = playerID;
+	}
+
+	@Override
+	public void init(GameContainer arg0) throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void reset() {
+		isJumping = false;
+		isPunching = false;
+		isIdle = false;
+		isRunning = false;
+		isMovingRight = false;
+		isMovingUp = isMovingRight = isMovingLeft = isMovingDown = false;;
+		canMoveUp = canMoveRight = canMoveLeft =  canMoveDown = false;
+		isJumpingLeft = isJumpingRight = movingLeft = movingRight = punchLeft = punchRight = false;
+		
+		hasAuxItem = false;
+		hasItem = false;
+		attackCoolDown = 0;
+		//Place holder numbers
+		item = null;
+
+		HP = maxHealth;
+
+		itemName = null;
+		auxName = null;
+		jumpAvailable = true;
+		
 	}
 }

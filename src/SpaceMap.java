@@ -6,8 +6,6 @@ public class SpaceMap extends Map
 		super(gW, backgroundFileLocation, musicFileLocation);
 	}
 
-	String backgroundFileLocation;
-	
 	public void buildMap()
 	{
 		//addBlock( X-Coordinate, Y-Coordinate, blockFileLocation, blockType );

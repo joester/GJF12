@@ -1,5 +1,8 @@
 
 
+import java.awt.Font;
+import java.io.IOException;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -18,34 +21,60 @@ public class MainMenu extends BasicGameState
 	ControllerManager controllerManager;
 	int stateID = -1;
 	Image background = null;
-	
+	GameWorld gW;
+	private String message;
 	
 	
 	public MainMenu(int stateID, ControllerManager controllerManager){
 		this.stateID = stateID;
 		this.controllerManager = controllerManager;
+		message = "";
+		gW = new GameWorld(controllerManager);
+		try {
+			background = new Image("/assets/Art/opening_screen3.jpg");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public int getID(){
 		return stateID;
 	}
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		 background = new Image("/assets/opening_screen3.jpg");
+		 
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-    	background.draw();
+    	if(background != null)
+    		background.draw(); 
     	g.setColor(Color.black);
-    	
     	g.drawString("Press Enter to Start", gc.getWidth()/2 - 100, gc.getHeight()/2);
+    	g.setColor(Color.white);
+    	g.drawString("Press 2 - 4 to Set Number of Players", 50, 550);
+    	g.drawString(message, 50,600);
     	
     }
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = new Input(delta);
-    	
+    	GameplayState gps = (GameplayState) sbg.getState(DisplayManager.GAMEPLAYSTATE);
+    	gW = gps.getGameWorld();
+    	if(input.isKeyDown(Input.KEY_2)){
+    		gW.numberOfPlayers = 2;
+    		message = "Number of Players Set to 2"; 
+    	}
+    	if(input.isKeyDown(Input.KEY_3)){
+        	gW.numberOfPlayers = 3;
+        	message = "Number of Players Set to 3"; 
+    	}
+        if(input.isKeyDown(Input.KEY_4)){
+           	gW.numberOfPlayers = 4;
+           	message = "Number of Players Set to 4"; 
+
+    	}
     	if(input.isKeyDown(Input.KEY_ENTER)){
-    		sbg.enterState(DisplayManager.GAMEPLAYSTATE);
+    		sbg.enterState(DisplayManager.HOWTOSTATE);
     	}
     	/**for(int i = 0; i < controllerManager.getControllerCount(); i++){
     		if(controllerManager.getController(i).isButtonPressed(Button.A.buttonID)){

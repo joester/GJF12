@@ -6,9 +6,6 @@ public class IceMap extends Map
 		super(gW, backgroundFileLocation, musicFileLocation);
 		// TODO Auto-generated constructor stub
 	}
-
-	String backgroundFileLocation;
-	
 	public void buildMap()
 	{
 		//addBlock( X-Coordinate, Y-Coordinate, blockFileLocation, blockType );
