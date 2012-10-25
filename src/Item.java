@@ -30,7 +30,7 @@ public class Item extends Entity {
 	protected int hitBoxYPosOffSet;
 	protected int hitBoxXOffSet;
 	protected int hitBoxYOffSet;
-	private final int floatRange = 10;
+	private final int floatRange = 8;
 	private float spawnYPosition;
 
 	
@@ -59,8 +59,6 @@ public class Item extends Entity {
 	public void update(GameContainer gc, int delta) throws SlickException,
 	InterruptedException
 	{
-		System.out.println(yCoord + " "+ spawnYPosition);
-		System.out.println("" + Math.abs(yCoord - spawnYPosition));
 		yCoord += yVelocity;
 		if(Math.abs(yCoord - spawnYPosition) > floatRange)
 				yVelocity *= -1;
