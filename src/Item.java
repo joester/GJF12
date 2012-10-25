@@ -30,15 +30,18 @@ public class Item extends Entity {
 	protected int hitBoxYPosOffSet;
 	protected int hitBoxXOffSet;
 	protected int hitBoxYOffSet;
+	private final int floatRange = 10;
+	private float spawnYPosition;
 
+	
 	public Item (int x, int y, String fileLocation, int xVel, int yVel)
 	{	 
 		super(x, y, fileLocation);
 		//Sets the hit box
 		super.setHitBox(x, y, 45, 45);	
-
+		spawnYPosition = yCoord;
 		this.xVelocity = xVel;
-		this.yVelocity = yVel;
+		this.yVelocity = 1;
 	}
 
 	@Override
@@ -56,18 +59,22 @@ public class Item extends Entity {
 	public void update(GameContainer gc, int delta) throws SlickException,
 	InterruptedException
 	{
-		super.update(gc, delta);		
+		System.out.println(yCoord + " "+ spawnYPosition);
+		System.out.println("" + Math.abs(yCoord - spawnYPosition));
+		yCoord += yVelocity;
+		if(Math.abs(yCoord - spawnYPosition) > floatRange)
+				yVelocity *= -1;
+		
+		super.update(gc, delta);
 	}
 
 
 
 	public void use(GameWorld gW,Character c)
 	{		
-		int x;
-		int y;
 		if(c.isFacingRight){
-			x = (int)(c.xCoord+c.getHitBox().getWidth()/2);
-			y = c.yCoord;
+			int x = (int)(c.xCoord+c.getHitBox().getWidth()/2);
+			int y = (int) c.yCoord;
 			gW.listOfProjectiles.add(new Projectile(x, y,
 					projectileImage, 
 					projectileXSpeed, projectileYSpeed, 
@@ -76,8 +83,8 @@ public class Item extends Entity {
 					c,gW));
 		}
 		else{
-			x = (int) (c.xCoord - projectileImage.getWidth()/2);
-			y = c.yCoord;
+			int x = (int) (c.xCoord - projectileImage.getWidth()/2);
+			int y = (int) c.yCoord;
 			gW.listOfProjectiles.add(new Projectile(x, y,
 					projectileImage.getFlippedCopy(true, false),
 					-projectileXSpeed, projectileYSpeed, 
@@ -85,5 +92,10 @@ public class Item extends Entity {
 					hitBoxXPosOffSet,hitBoxYPosOffSet,hitBoxXOffSet,hitBoxYOffSet,
 					c,gW));
 		}
+	}
+
+	public void setYSpawn(int y) {
+		spawnYPosition = y;
+		
 	}
 }

@@ -38,7 +38,7 @@ public class Ice extends Item
 					c,gW));
 		}
 		else{
-			x = (c.xCoord - projectileImage.getWidth()/2 - 30);
+			x = (int)(c.xCoord - projectileImage.getWidth()/2 - 30);
 			y = (int)(c.yCoord + projectileRange);
 			gW.listOfProjectiles.add(new IceProjectile(x, y,
 					projectileImage.getFlippedCopy(true, false),

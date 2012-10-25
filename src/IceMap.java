@@ -49,7 +49,7 @@ public class IceMap extends Map
 		addBlock(10,4,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,0);
 		addBlock(10,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
 		addBlock(8,7,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,0);
-		addBlock(9,7,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,0);
+		addBlock(9,7,"assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable,0,0,0,0);
 		addBlock(10,7,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,0);
 		addBlock(14,2,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,0);
 		addBlock(11,7,"assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal,0,21,0,21);

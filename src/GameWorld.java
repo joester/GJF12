@@ -296,6 +296,7 @@ public class GameWorld
 					{
 						Item toBeAdded = chooseRandomItem();
 						toBeAdded.setLocation(b.getX() + 30,b.getY());
+						toBeAdded.setYSpawn(b.getY());
 						itemsOnMap.add(toBeAdded);
 						removeCrates.add(b);		
 					}
@@ -376,7 +377,7 @@ public class GameWorld
 	}
 
 	public void setNextRound() throws IOException, SlickException {
-
+		
 		listOfBlocks = new ArrayList<Block>();
 		listOfPlatforms = new ArrayList<Platform>();
 		listOfProjectiles = new ArrayList<Projectile>();
