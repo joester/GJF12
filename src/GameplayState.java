@@ -1,6 +1,8 @@
+
 import java.io.IOException;
 
 import org.lwjgl.Sys;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -48,8 +50,10 @@ public class GameplayState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 		throws SlickException
 	{
+		
 		gW.render(gc, g);
 		
+		g.setColor(Color.white);
 		int dist = gc.getWidth() / 8;
 		uiIntervals = dist * 2;
 		
