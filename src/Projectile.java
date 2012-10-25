@@ -17,7 +17,6 @@ public class Projectile extends Entity
 	int maxRange;
 	GameWorld gW;
 	Character owner;
-	
 	int hitBoxXOffSet;
 	int hitBoxYOffSet;
 	public Projectile (int xSpawnLocation, int ySpawnLocation, Image image, int xVelocity, int yVelocity, int damage,
@@ -64,11 +63,10 @@ public class Projectile extends Entity
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
-		super.update(gc, delta);
 		//update projectile's location
 		currentXLocation += xVelocity;
 		currentYLocation += yVelocity;
-
+		
 		if (getDistanceTravelled() >= maxRange)
 		{
 			gW.projectilesToBeRemoved.add(this);

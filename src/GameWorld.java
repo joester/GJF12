@@ -245,25 +245,30 @@ public class GameWorld
 		projectilesToBeRemoved = new ArrayList<Projectile>();
 		for (Projectile p : listOfProjectiles)
 		{
-			for (Character c : listOfCharacters)
-			{
-				if(p.owner != c){
-					if (p.getHitBox().intersects(c.getHitBox()))
-					{			
-						c.modifyHealth(p.damage);
-						projectilesToBeRemoved.add(p);
+			if(p instanceof IceProjectile){
+				IceProjectile ip = (IceProjectile) p;
+				ip.CheckCollisions(this);
+			}
+			else{
+				for (Character c : listOfCharacters)
+				{
+					if(p.owner != c){
+						if (p.getHitBox().intersects(c.getHitBox()))
+						{			
+							c.modifyHealth(p.damage);
+							projectilesToBeRemoved.add(p);
+						}
 					}
 				}
-			}
 
+				for(Block b: listOfBlocks){
+					if(b.blockType != BlockType.Passable && b.getBlockType() != BlockType.Crate){
+						if (p.getHitBox().intersects(b.getHitBox()))
+						{			
+							projectilesToBeRemoved.add(p);
+						}
 
-			for(Block b: listOfBlocks){
-				if(b.blockType != BlockType.Passable && b.getBlockType() != BlockType.Crate){
-					if (p.getHitBox().intersects(b.getHitBox()))
-					{			
-						projectilesToBeRemoved.add(p);
 					}
-
 				}
 			}
 		}
@@ -371,13 +376,14 @@ public class GameWorld
 	}
 
 	public void setNextRound() throws IOException, SlickException {
-		
+
 		listOfBlocks = new ArrayList<Block>();
 		listOfPlatforms = new ArrayList<Platform>();
 		listOfProjectiles = new ArrayList<Projectile>();
+		itemsOnMap = new ArrayList<Item>();
 		map = getNextMap();
 		map.buildMap();
-		
+
 		for(int i = 0; i < numberOfPlayers; i++){
 			Character c = listOfPlayers.get(i);
 			c.reset();
@@ -492,11 +498,11 @@ public class GameWorld
 
 
 		if(characterIndex == 1){
-			if(input.isKeyDown(Input.KEY_NUMPAD4)){
+			if(input.isKeyDown(Input.KEY_J) || input.isKeyDown(Input.KEY_NUMPAD4)){ 
 				c.xVelocity = -3;
 				c.canMoveLeft = true;
 			}
-			if(input.isKeyDown(Input.KEY_NUMPAD8)){
+			if(input.isKeyDown(Input.KEY_I) || input.isKeyDown(Input.KEY_NUMPAD8)){ //KEY_NUMPAD8
 				if(c.jumpAvailable){
 					c.yVelocity = -7;
 					c.hasDX = false;
@@ -504,7 +510,7 @@ public class GameWorld
 					c.canMoveUp = true;
 				}
 			}
-			if(input.isKeyDown(Input.KEY_NUMPAD7)){
+			if(input.isKeyDown(Input.KEY_O) || input.isKeyDown(Input.KEY_NUMPAD7)){//KEY_NUMPAD7
 				for (Item i : itemsOnMap)
 				{
 					if (c.getHitBox().intersects(i.getHitBox()))
@@ -519,11 +525,11 @@ public class GameWorld
 					itemsOnMap.remove(i);
 				}
 			}
-			if(input.isKeyDown(Input.KEY_NUMPAD6)){
+			if(input.isKeyDown(Input.KEY_L) || input.isKeyDown(Input.KEY_NUMPAD6)){//NUMPAD6
 				c.xVelocity = 3;
 				c.canMoveRight = true;
 			}
-			if(input.isKeyDown(Input.KEY_NUMPAD0)){
+			if(input.isKeyDown(Input.KEY_U) || input.isKeyDown(Input.KEY_NUMPAD0)){//NUMPAD0
 				c.attack();
 			}
 		}
@@ -542,6 +548,25 @@ public class GameWorld
 				}
 			}
 			if(input.isKeyDown(Input.KEY_RIGHT)){
+				c.xVelocity = 3;
+				c.canMoveRight = true;
+			}
+		}
+
+		if(characterIndex == 3){
+			if(input.isKeyDown(Input.KEY_F)){
+				c.xVelocity = -3;
+				c.canMoveLeft = true;
+			}
+			if(input.isKeyDown(Input.KEY_T)){
+				if(c.jumpAvailable){
+					c.yVelocity = -7;
+					c.hasDX = false;
+					c.jumpAvailable = false;
+					c.canMoveUp = true;
+				}
+			}
+			if(input.isKeyDown(Input.KEY_H)){
 				c.xVelocity = 3;
 				c.canMoveRight = true;
 			}

@@ -66,7 +66,7 @@ public class Item extends Entity {
 		int x;
 		int y;
 		if(c.isFacingRight){
-			x = (int)(c.xCoord+c.getHitBox().getWidth());
+			x = (int)(c.xCoord+c.getHitBox().getWidth()/2);
 			y = c.yCoord;
 			gW.listOfProjectiles.add(new Projectile(x, y,
 					projectileImage, 
@@ -76,7 +76,7 @@ public class Item extends Entity {
 					c,gW));
 		}
 		else{
-			x = c.xCoord - projectileImage.getWidth();
+			x = (int) (c.xCoord - projectileImage.getWidth()/2);
 			y = c.yCoord;
 			gW.listOfProjectiles.add(new Projectile(x, y,
 					projectileImage.getFlippedCopy(true, false),
