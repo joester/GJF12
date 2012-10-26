@@ -92,13 +92,6 @@ public class Projectile extends Entity
 
 	}
 
-	@Override
-	public void init(GameContainer gc)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
 	public Character getOwner() {
 		return owner;
 	}

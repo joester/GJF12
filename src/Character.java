@@ -444,12 +444,6 @@ public class Character extends Entity{
 		this.playerID = playerID;
 	}
 
-	@Override
-	public void init(GameContainer arg0) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void reset() {
 		isJumping = false;
 		isPunching = false;

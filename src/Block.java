@@ -32,13 +32,6 @@ public class Block extends MapEntity {
 
 
 	@Override
-	public void init(GameContainer arg0) throws SlickException
-	{
-		
-	}
-
-
-	@Override
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
 		super.update(gc, delta);		

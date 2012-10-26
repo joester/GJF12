@@ -20,13 +20,6 @@ public class Platform extends MapEntity{
 	}
 
 	@Override
-	public void init(GameContainer gc)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
 		super.update(gc, delta);	

@@ -52,10 +52,6 @@ public class Item extends Entity {
 	}
 
 	@Override
-	public void init(GameContainer gc) throws SlickException{
-	}
-
-	@Override
 	public void update(GameContainer gc, int delta) throws SlickException,
 	InterruptedException
 	{
