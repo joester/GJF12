@@ -5,7 +5,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 
-public class Projectile extends Entity
+public abstract class Projectile extends Entity
 {
 	protected int currentXLocation;
 	protected int currentYLocation;
@@ -115,28 +115,7 @@ public class Projectile extends Entity
 		this.damage = damage;
 	}
 
-	public void checkCollisions() {
-		for (Character c : gW.getListOfCharacters())
-		{
-			if(owner != c){
-				if (getHitBox().intersects(c.getHitBox()))
-				{			
-					c.modifyHealth(damage);
-					gW.removeProjectile(this);
-				}
-			}
-		}
-
-		for(Block b: gW.getListOfBlocks()){
-			if(b.blockType == BlockType.Impassable){
-				if (getHitBox().intersects(b.getHitBox()))
-				{			
-					gW.removeProjectile(this);
-				}
-
-			}
-		}
-	}		
+	public abstract void checkCollisions();
 }
 
 

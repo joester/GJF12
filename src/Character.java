@@ -156,10 +156,10 @@ public class Character extends Entity{
 				//else
 				//{
 				if(isFacingRight)
-					punchProjectile = new Projectile(getX() + 42, getY(), null, 0, 0, baseDamage, 0, 
+					punchProjectile = new BasicProjectile(getX() + 42, getY(), null, 0, 0, baseDamage, 0, 
 							new Rectangle(getX() + 42, getY(), 20, 40), this,gW);
 				else
-					punchProjectile = new Projectile(getX() - 42, getY(), null, 0, 0, baseDamage, 0, 
+					punchProjectile = new BasicProjectile(getX() - 42, getY(), null, 0, 0, baseDamage, 0, 
 							new Rectangle(getX() - 42, getY(), 20, 40), this,gW);
 				gW.getListOfProjectiles().add(punchProjectile);	
 				for (Block b : gW.getListOfBlocks())

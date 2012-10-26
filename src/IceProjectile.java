@@ -25,7 +25,8 @@ public class IceProjectile extends Projectile {
 		this.isRight = isRight;
 	}
 
-	public void CheckCollisions(GameWorld gW){
+	@Override
+	public void checkCollisions(){
 		for (Character c : gW.getListOfCharacters())
 		{
 			if(owner != c){
@@ -131,5 +132,4 @@ public class IceProjectile extends Projectile {
 		//keeps rectangle in line with sprite
 		setHitBox(currentXLocation + hitBoxXPosOffSet, currentYLocation + hitBoxYPosOffSet);
 	}
-
 }
