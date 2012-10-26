@@ -30,7 +30,7 @@ public class Ice extends Item
 		if(c.isFacingRight){
 			x = (int)(c.xCoord+c.getHitBox().getWidth()/2 + 30);
 			y = (int)(c.yCoord + projectileRange);
-			gW.listOfProjectiles.add(new IceProjectile(x, y,
+			gW.getListOfProjectiles().add(new IceProjectile(x, y,
 					projectileImage, 
 					projectileXSpeed, projectileYSpeed, 
 					damage, projectileRange, true,
@@ -40,7 +40,7 @@ public class Ice extends Item
 		else{
 			x = (int)(c.xCoord - projectileImage.getWidth()/2 - 30);
 			y = (int)(c.yCoord + projectileRange);
-			gW.listOfProjectiles.add(new IceProjectile(x, y,
+			gW.getListOfProjectiles().add(new IceProjectile(x, y,
 					projectileImage.getFlippedCopy(true, false),
 					-projectileXSpeed, projectileYSpeed, 
 					damage, projectileRange, false,

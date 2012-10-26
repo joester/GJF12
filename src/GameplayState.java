@@ -25,10 +25,10 @@ public class GameplayState extends BasicGameState {
 	private ControllerManager controllerManager;
 	
 	
-	public GameplayState(int stateID, ControllerManager controllerManager){
+	public GameplayState(int stateID, ControllerManager controllerManager, GameWorld gW){
 		this.stateID = stateID;
 		this.controllerManager = controllerManager;
-		gW = new GameWorld(controllerManager);
+		this.gW = gW;
 	}
 
 	public GameWorld getGameWorld(){
@@ -44,6 +44,7 @@ public class GameplayState extends BasicGameState {
 		uiImages[2] = new Image("assets/Art/p3state.png");
 		uiImages[3] = new Image("assets/Art/p4state.png");
 		inLine = gc.getHeight() - uiImages[0].getHeight() + 16;
+		
 	}
 
 	@Override
@@ -57,9 +58,9 @@ public class GameplayState extends BasicGameState {
 		int dist = gc.getWidth() / 8;
 		uiIntervals = dist * 2;
 		
-		for(int i = 0; i < gW.numberOfPlayers; i ++){
+		for(int i = 0; i < gW.getNumberOfPlayers(); i ++){
 			uiImages[i].draw(dist - 84, inLine, (float).75);
-			Character c = gW.listOfPlayers.get(i);
+			Character c = gW.getListOfPlayers().get(i);
 			c.currentAnimation.getCurrentFrame().draw(dist - 84, inLine, (float).75);
 			if(c.hasItem){
 				c.item.image.draw(dist - 45, inLine + 4, (float) .9);
@@ -75,7 +76,6 @@ public class GameplayState extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{
-		
 		Input input = new Input(delta);
 		if(input.isKeyDown(Input.KEY_P)){
 			sbg.enterState(DisplayManager.PAUSESTATE);
@@ -90,11 +90,12 @@ public class GameplayState extends BasicGameState {
 			Sys.alert("Something went wrong!", e.getMessage());
 		}
 		if(gW.checkIsRoundOver()){
+			System.out.println("d");
 			WinnerDisplayState wds = (WinnerDisplayState) sbg.getState(DisplayManager.WINNERDISPLAYSTATE);
-			if(!gW.listOfCharacters.isEmpty()){
-				Character c = gW.listOfCharacters.get(0);
+			if(!gW.getListOfCharacters().isEmpty()){
+				Character c = gW.getListOfCharacters().get(0);
 				c.wins++;
-				wds.setPlayerList(gW.listOfPlayers);
+				wds.setPlayerList(gW.getListOfPlayers());
 				wds.setWinner(c.playerID);
 			}
 			try {
@@ -104,7 +105,7 @@ public class GameplayState extends BasicGameState {
 				// TODO Auto-generated catch block
 				Sys.alert("Something went wrong!", e.getMessage());
 			}
-			wds.background = gW.background.copy();
+			wds.setBackground(gW.getBackground().copy());
 			sbg.enterState(DisplayManager.WINNERDISPLAYSTATE);
 		}
 	}

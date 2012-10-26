@@ -17,8 +17,8 @@ public abstract class Map {
 	protected ArrayList<Location> crateList; 
 	private String backgroundFileLocation;
 	private String musicFileLocation;
-	public Sound BGM;
-	public Image background;
+	private Sound BGM;
+	private Image background;
 	protected ArrayList<Block> blockList;
 	public Map(GameWorld gW,String backgroundFileLocation, String musicFileLocation)
 	{
@@ -27,7 +27,7 @@ public abstract class Map {
 		this.backgroundFileLocation = backgroundFileLocation;
 		this.musicFileLocation = musicFileLocation;
 		try {
-			background = new Image(backgroundFileLocation);
+			setBackground(new Image(backgroundFileLocation));
 			BGM = new Sound(musicFileLocation);
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
@@ -70,5 +70,17 @@ public abstract class Map {
 	} 
 	public ArrayList<Block> getBlockList(){
 		return blockList;
+	}
+
+	public Image getBackground() {
+		return background;
+	}
+
+	public void setBackground(Image background) {
+		this.background = background;
+	}
+	
+	public Sound getBGM(){
+		return BGM;
 	}
 }

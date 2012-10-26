@@ -25,11 +25,10 @@ public class HowToState extends BasicGameState
 	private String message;
 	
 	
-	public HowToState(int stateID, ControllerManager controllerManager){
+	public HowToState(int stateID, ControllerManager controllerManager, GameWorld gW){
 		this.stateID = stateID;
 		this.controllerManager = controllerManager;
-		message = "";
-		gW = new GameWorld(controllerManager);
+		this.gW = gW;
 		try {
 			background = new Image("assets/Art/howto.png");
 		} catch (SlickException e) {
@@ -55,14 +54,8 @@ public class HowToState extends BasicGameState
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = new Input(delta);
-    	GameplayState gps = (GameplayState) sbg.getState(DisplayManager.GAMEPLAYSTATE);
-    	gW = gps.getGameWorld();
     	if(input.isKeyDown(Input.KEY_SPACE)){
-    		try {
-				gW.init();
-			} catch (IOException e) {
-				Sys.alert("Something went wrong!", e.getMessage());
-			}
+    		gW.getBGM().loop();
     		sbg.enterState(DisplayManager.GAMEPLAYSTATE);
     	}
     	/**for(int i = 0; i < controllerManager.getControllerCount(); i++){

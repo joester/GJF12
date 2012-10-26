@@ -8,25 +8,25 @@ import javax.imageio.ImageIO;
 
 public class Auxillary
 {
-public String name;
-public int damage;
-public double range;
-public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
-BufferedImage img = null;
+	public String name;
+	public int damage;
+	public double range;
+	public ArrayList<BufferedImage> pics= new ArrayList<BufferedImage>();
+	BufferedImage img = null;
 
-public void whatever(BufferedImage i, int w, int h)
-{
-	// divide width of the BufferedImage by the wdth set by parameter to get number of rows. do same for height/columns. 
-	int rows = i.getWidth(null) / w;
-	int columns = i.getHeight(null) / h;
-	for(int x = 0; x < rows; x++)
+	public void whatever(BufferedImage i, int w, int h)
 	{
-		for(int y = 0; y < columns; y++)
+		// divide width of the BufferedImage by the wdth set by parameter to get number of rows. do same for height/columns. 
+		int rows = i.getWidth(null) / w;
+		int columns = i.getHeight(null) / h;
+		for(int x = 0; x < rows; x++)
 		{
-			pics.add(i.getSubimage(x*w, y*h, w, h));
+			for(int y = 0; y < columns; y++)
+			{
+				pics.add(i.getSubimage(x*w, y*h, w, h));
+			}
 		}
 	}
-}
 	public void imageReciever(String s)
 	{
 		try 
@@ -35,11 +35,11 @@ public void whatever(BufferedImage i, int w, int h)
 		}
 		catch(IOException e)
 		{
-		
+
 		}
 	}
 	public void use()
 	{
-	
+
 	}
 }

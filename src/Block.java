@@ -22,23 +22,6 @@ public class Block extends MapEntity {
 	{
 		return blockType;
 	}
-	
-	
-	//checks on what type the blocks are.
-	public boolean isLethal(){		
-		return blockType == BlockType.Lethal;
-	}
-	
-	public boolean isPassible(){
-		
-		return blockType == BlockType.Passable;
-	}
-	
-	public boolean isImpassible(){
-		
-		return blockType == BlockType.Impassable;
-	}
-
 
 	@Override
 	public void render(GameContainer gc, Graphics g)

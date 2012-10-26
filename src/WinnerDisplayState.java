@@ -15,13 +15,14 @@ public class WinnerDisplayState extends BasicGameState{
 	private int stateID = -1;
 	private int winner;
 	private List<Character> players;
-	Image background;
-	Character winningPlayer;
-	GameWorld gW;
+	private Image background;
+	private Character winningPlayer;
+	private GameWorld gW;
 	public WinnerDisplayState(int stateID,
-			ControllerManager controllerManager) {
+			ControllerManager controllerManager, GameWorld gW) {
 		this.controllerManager = controllerManager;
 		this.stateID  = stateID;
+		this.gW = gW;
 	}
 
 	public void setWinner(int winnerID){
@@ -36,49 +37,46 @@ public class WinnerDisplayState extends BasicGameState{
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		// TODO Auto-generated method stub
+
 
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {		
-		if(gW.map instanceof IceMap)
+		if(gW.getMap() instanceof IceMap)
 			g.setColor(Color.black);
 		else
 			g.setColor(Color.white);
-		if(background != null)
-			background.draw();
-		
-		
-		if(winningPlayer.wins >= gW.winsNeeded){
-			g.drawString("Player " + (winner + 1) + " Won!", gc.getWidth()/2 - 75, gc.getHeight()/2 - 100);
-			g.drawString("Press Enter to Continue", gc.getWidth()/2 - 125, gc.getHeight()/2 + 100);
+		if(getBackground() != null)
+			getBackground().draw();
+
+		if(winningPlayer != null){
+			if(winningPlayer.wins >= gW.winsNeeded){
+				g.drawString("Player " + (winner + 1) + " Won!", gc.getWidth()/2 - 75, gc.getHeight()/2 - 100);
+				g.drawString("Press Enter to Continue", gc.getWidth()/2 - 125, gc.getHeight()/2 + 100);
+			}
+			else{
+				g.drawString("Player " + (winner + 1)  + " wins!", gc.getWidth()/2 - 75, gc.getHeight()/2 - 100);
+				g.drawString("Press Enter to Start Next Round", gc.getWidth()/2 - 125, gc.getHeight()/2 + 100);
+			}
 		}
-		else{
-			g.drawString("Player " + (winner + 1)  + " wins!", gc.getWidth()/2 - 75, gc.getHeight()/2 - 100);
-			g.drawString("Press Enter to Start Next Round", gc.getWidth()/2 - 125, gc.getHeight()/2 + 100);
-		}
-		
-
-
-
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		Input input = new Input(delta);
-		
+
 		if(input.isKeyDown(Input.KEY_ENTER)){
 			if(winningPlayer.wins >= winningPlayer.gW.winsNeeded){
-				winningPlayer.gW.BGM.stop();
+				winningPlayer.gW.getBGM().stop();
 				sbg.enterState(DisplayManager.CREDITS);
 			}
 			else{
 				sbg.enterState(DisplayManager.GAMEPLAYSTATE);
 			}
-			
+
 		}
 	}
 
@@ -86,6 +84,14 @@ public class WinnerDisplayState extends BasicGameState{
 	public int getID() {
 		// TODO Auto-generated method stub
 		return stateID;
+	}
+
+	public Image getBackground() {
+		return background;
+	}
+
+	public void setBackground(Image background) {
+		this.background = background;
 	}
 
 }

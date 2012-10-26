@@ -18,9 +18,11 @@ public class CreditsState extends BasicGameState{
 	private List<Character> players;
 	private Sound BGM;
 	private Image background;
-	public CreditsState(int stateID, ControllerManager controllerManager) {
+	private GameWorld gW;
+	public CreditsState(int stateID, ControllerManager controllerManager, GameWorld gW) {
 		this.controllerManager = controllerManager;
 		this.stateID  = stateID;
+		this.gW = gW;
 	}
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)

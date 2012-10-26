@@ -1,5 +1,7 @@
 
 
+import java.io.IOException;
+
 import org.lwjgl.Sys;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -23,11 +25,11 @@ public class MainMenu extends BasicGameState
 	private String message;
 	
 	
-	public MainMenu(int stateID, ControllerManager controllerManager){
+	public MainMenu(int stateID, ControllerManager controllerManager, GameWorld gW){
 		this.stateID = stateID;
 		this.controllerManager = controllerManager;
+		this.gW = gW;
 		message = "";
-		gW = new GameWorld(controllerManager);
 		try {
 			background = new Image("assets/Art/opening_screen3.jpg");
 		} catch (SlickException e) {
@@ -55,22 +57,26 @@ public class MainMenu extends BasicGameState
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = new Input(delta);
-    	GameplayState gps = (GameplayState) sbg.getState(DisplayManager.GAMEPLAYSTATE);
-    	gW = gps.getGameWorld();
     	if(input.isKeyDown(Input.KEY_2)){
-    		gW.numberOfPlayers = 2;
+    		gW.setNumberOfPlayers(2);
     		message = "Number of Players Set to 2"; 
     	}
     	if(input.isKeyDown(Input.KEY_3)){
-        	gW.numberOfPlayers = 3;
+        	gW.setNumberOfPlayers(3);
         	message = "Number of Players Set to 3"; 
     	}
         if(input.isKeyDown(Input.KEY_4)){
-           	gW.numberOfPlayers = 4;
+           	gW.setNumberOfPlayers(4);
            	message = "Number of Players Set to 4"; 
 
     	}
     	if(input.isKeyDown(Input.KEY_ENTER)){
+    		try {
+				gW.init();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				Sys.alert("Something went wrong!", e.getMessage());
+			}
     		sbg.enterState(DisplayManager.HOWTOSTATE);
     	}
     	/**for(int i = 0; i < controllerManager.getControllerCount(); i++){

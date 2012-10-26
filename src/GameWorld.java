@@ -16,33 +16,34 @@ public class GameWorld
 {
 
 	public final int winsNeeded = 3;
-	List<Block> listOfBlocks = new ArrayList<Block>();
-	List<Platform> listOfPlatforms = new ArrayList<Platform>();
-	List<Projectile> listOfProjectiles = new ArrayList<Projectile>();
-	List<Character> listOfCharacters = new ArrayList<Character>();
-	List<Item> listOfItems = new ArrayList<Item>();
-	List<Item> itemsOnMap = new ArrayList<Item>();
-	String testString = "GameWorld Loaded.";
-	Map map;
+	private List<Block> listOfBlocks;;
+	private List<Platform> listOfPlatforms;;
+	private List<Projectile> listOfProjectiles;
+	private List<Character> listOfCharacters;
+	private List<Item> listOfItems;
+	private List<Item> itemsOnMap;
+	private List<Map> listOfMaps;
+	private Map map;
 
-	IceMap iceMap = new IceMap(this,"assets/Art/Background/bg_ice.jpg", "assets/SFX/music/Ice.wav");
-	LavaMap lavaMap = new LavaMap(this,"assets/Art/Background/bg_volcano.jpg", "assets/SFX/music/Volcano.wav");
-	SpaceMap spaceMap = new SpaceMap(this,"assets/Art/Background/bg_space.jpg", "assets/SFX/music/Space.wav");
+	private IceMap iceMap = new IceMap(this,"assets/Art/Background/bg_ice.jpg", "assets/SFX/music/Ice.wav");
+	private LavaMap lavaMap = new LavaMap(this,"assets/Art/Background/bg_volcano.jpg", "assets/SFX/music/Volcano.wav");
+	private SpaceMap spaceMap = new SpaceMap(this,"assets/Art/Background/bg_space.jpg", "assets/SFX/music/Space.wav");
 	//ClockMap clockMap = new ClockMap(this,"assets/Art/Background/bg_space.jpg","assets/SFX/music/Ice.wav");
-	ControllerManager controllerManager;
-	Image background;
+	private ControllerManager controllerManager;
+	private Image background;
 
-	ArrayList<Sound> punchHit;
-	ArrayList<Sound> punchMiss;
-	ArrayList<Block> removeCrates;
-	ArrayList<Item> itemsToRemove;
-	public ArrayList<Projectile> projectilesToBeRemoved;
-	public int numberOfPlayers = 2;
-	List<Character> listOfPlayers;
-	Sound BGM;
+	public ArrayList<Sound> punchHit;
+	public ArrayList<Sound> punchMiss;
+	private ArrayList<Block> removeCrates;
+	private ArrayList<Item> itemsToRemove;
+	private ArrayList<Projectile> projectilesToBeRemoved;
+	private int numberOfPlayers;
+	private List<Character> listOfPlayers;
+	private Sound BGM;
 
 	public GameWorld(ControllerManager cm){
 		controllerManager = cm;
+		numberOfPlayers = 2;
 	}
 
 	public void init() throws IOException, SlickException 
@@ -51,6 +52,10 @@ public class GameWorld
 		listOfPlatforms = new ArrayList<Platform>();
 		listOfProjectiles = new ArrayList<Projectile>();
 		listOfCharacters = new ArrayList<Character>();
+		projectilesToBeRemoved =  new ArrayList<Projectile>();
+		listOfItems = new ArrayList<Item>();
+		itemsOnMap = new ArrayList<Item>();
+		listOfMaps = new ArrayList<Map>();
 
 		String earthFileLocation = "assets/Art/Transformations/icons/hammer.png";
 		String fireFileLocation = "assets/Art/Transformations/icons/bow.png";
@@ -71,7 +76,7 @@ public class GameWorld
 				Sys.alert("Something went wrong!", e.getMessage());
 			}
 		}
-
+		
 		iceMap.buildMap();
 		map = iceMap;
 		loadSounds();
@@ -81,8 +86,7 @@ public class GameWorld
 
 	public void loadSounds() throws SlickException
 	{
-		BGM = map.BGM;
-		BGM.loop();
+		setBGM(map.getBGM());
 
 		Sound punchHit1 = new Sound("assets/SFX/punch1Final.wav");
 		Sound punchHit2 = new Sound("assets/SFX/punch2Final.wav");
@@ -125,14 +129,14 @@ public class GameWorld
 	public void loadChars() throws SlickException{
 		List<Map.Location> characterSpawns = map.getCharacterSpawns();
 		listOfPlayers = new ArrayList<Character>();
-		for(int i = 0; i < numberOfPlayers ; i++){
+		for(int i = 0; i < getNumberOfPlayers() ; i++){
 			int j = i+1;
 			Map.Location loc = characterSpawns.get(i);
 			Character c = new Character(loc.x, loc.y, "player" + j, this);
 			c.setPlayerID(i);
 			c.init();
 			c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
-			listOfPlayers.add(c);
+			getListOfPlayers().add(c);
 			listOfCharacters.add(c);
 		}
 	}
@@ -242,35 +246,10 @@ public class GameWorld
 
 		itemsToRemove = new ArrayList<Item>();
 
-		projectilesToBeRemoved = new ArrayList<Projectile>();
+		projectilesToBeRemoved.clear();
 		for (Projectile p : listOfProjectiles)
 		{
-			if(p instanceof IceProjectile){
-				IceProjectile ip = (IceProjectile) p;
-				ip.CheckCollisions(this);
-			}
-			else{
-				for (Character c : listOfCharacters)
-				{
-					if(p.owner != c){
-						if (p.getHitBox().intersects(c.getHitBox()))
-						{			
-							c.modifyHealth(p.damage);
-							projectilesToBeRemoved.add(p);
-						}
-					}
-				}
-
-				for(Block b: listOfBlocks){
-					if(b.blockType != BlockType.Passable && b.getBlockType() != BlockType.Crate){
-						if (p.getHitBox().intersects(b.getHitBox()))
-						{			
-							projectilesToBeRemoved.add(p);
-						}
-
-					}
-				}
-			}
+			p.checkCollisions();
 		}
 
 		for (Character c : listOfCharacters)
@@ -330,7 +309,7 @@ public class GameWorld
 
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
-		for(int i = 0; i < numberOfPlayers; i++){
+		for(int i = 0; i < getNumberOfPlayers(); i++){
 			assignActionToPlayer(gc,i,delta);
 		}
 		for (Character c : listOfCharacters)
@@ -362,7 +341,7 @@ public class GameWorld
 			listOfCharacters.remove(c);
 		}
 
-		projectilesToBeRemoved = new ArrayList<Projectile>();
+		projectilesToBeRemoved.clear();
 		for (Projectile p : listOfProjectiles)
 		{
 			p.update(gc, delta);	
@@ -385,22 +364,22 @@ public class GameWorld
 		map = getNextMap();
 		map.buildMap();
 
-		for(int i = 0; i < numberOfPlayers; i++){
-			Character c = listOfPlayers.get(i);
+		for(int i = 0; i < getNumberOfPlayers(); i++){
+			Character c = getListOfPlayers().get(i);
 			c.reset();
 			Map.Location loc = map.getCharacterSpawns().get(i);
 			c.setLocation(loc.x * MapEntity.BLOCKSIZE, loc.y * MapEntity.BLOCKSIZE);
 			c.setHitBox(c.xCoord, c.yCoord);
 		}
-		listOfCharacters = new ArrayList<Character>(listOfPlayers);
+		listOfCharacters = new ArrayList<Character>(getListOfPlayers());
 		setBackgroundImage();
-		BGM.stop();
-		BGM = map.BGM;
-		BGM.loop();
+		getBGM().stop();
+		setBGM(map.getBGM());
+		getBGM().loop();
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException{
-		background.draw();
+		getBackground().draw();
 		for(Item i : itemsOnMap)
 		{
 			i.render(gc, g);
@@ -452,7 +431,7 @@ public class GameWorld
 	}
 
 	public void assignActionToPlayer(GameContainer gc, int characterIndex,int delta){
-		Character c = listOfPlayers.get(characterIndex);
+		Character c = getListOfPlayers().get(characterIndex);
 		Input input = gc.getInput();
 		if(c == null){
 			return;
@@ -621,14 +600,14 @@ public class GameWorld
 	}
 
 	private void setBackgroundImage(){
-		background = map.background;
+		background = map.getBackground();
 	}
 
 	public boolean checkIsRoundOver(){
 		return listOfCharacters.size() <= 1;
 	}
 
-	public Map getNextMap() {
+	private Map getNextMap() {
 		if(map instanceof IceMap){
 			return lavaMap;
 		}
@@ -641,5 +620,32 @@ public class GameWorld
 
 	}
 
+	public Image getBackground() {
+		return background;
+	}
+	
+	public void removeProjectile(Projectile projectileToRemove){
+		projectilesToBeRemoved.add(projectileToRemove);
+	}
+
+	public int getNumberOfPlayers() {
+		return numberOfPlayers;
+	}
+
+	public void setNumberOfPlayers(int numberOfPlayers) {
+		this.numberOfPlayers = numberOfPlayers;
+	}
+
+	public List<Character> getListOfPlayers() {
+		return listOfPlayers;
+	}
+
+	public Sound getBGM() {
+		return BGM;
+	}
+
+	public void setBGM(Sound BGM) {
+		this.BGM = BGM;
+	}
 }
 

@@ -16,10 +16,12 @@ public class PauseState extends BasicGameState
 	private final String ST_CONTINUE = "CONTINUE";
 	int stateID = -1;
 	private ControllerManager controllerManager;
+	private GameWorld gW;
 	
-	public PauseState(int stateID, ControllerManager controllerManager){
+	public PauseState(int stateID, ControllerManager controllerManager, GameWorld gW){
 		this.stateID = stateID;
 		this.controllerManager = controllerManager;
+		this.gW = gW;
 	}
 
 	@Override

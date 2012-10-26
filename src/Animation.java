@@ -5,11 +5,11 @@ import org.newdawn.slick.opengl.Texture;
 
 public class Animation
 {
-	ArrayList<Frame> frames;
-	long totTime;
-	int delta;
-	long curTime;
-	int frameIndex;
+	private ArrayList<Frame> frames;
+	private long totTime;
+	private int delta;
+	private long curTime;
+	private int frameIndex;
 	
 	public Animation(){
 		frames = new ArrayList<Frame>();

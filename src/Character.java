@@ -161,8 +161,8 @@ public class Character extends Entity{
 				else
 					punchProjectile = new Projectile(getX() - 42, getY(), null, 0, 0, baseDamage, 0, 
 							new Rectangle(getX() - 42, getY(), 20, 40), this,gW);
-				gW.listOfProjectiles.add(punchProjectile);	
-				for (Block b : gW.listOfBlocks)
+				gW.getListOfProjectiles().add(punchProjectile);	
+				for (Block b : gW.getListOfBlocks())
 				{
 					if (punchProjectile.getHitBox().intersects(b.getHitBox()) && b.getBlockType() == BlockType.Crate)
 					{	
@@ -170,7 +170,7 @@ public class Character extends Entity{
 						hit = true;
 						break;
 					}
-					gW.projectilesToBeRemoved.add(punchProjectile);
+					gW.removeProjectile(punchProjectile);
 				}
 				attackCoolDown = baseAttackCoolDown;
 			}

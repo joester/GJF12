@@ -26,22 +26,22 @@ public class IceProjectile extends Projectile {
 	}
 
 	public void CheckCollisions(GameWorld gW){
-		for (Character c : gW.listOfCharacters)
+		for (Character c : gW.getListOfCharacters())
 		{
 			if(owner != c){
 				if (getHitBox().intersects(c.getHitBox()))
 				{			
-					c.modifyHealth(damage);
-					gW.projectilesToBeRemoved.add(this);
+					c.modifyHealth(getDamage());
+					gW.removeProjectile(this);
 				}
 			}
 		}
-		for (Projectile p : gW.listOfProjectiles)
+		for (Projectile p : gW.getListOfProjectiles())
 		{
-			if(p != this && p.owner != owner){
+			if(p != this && p.getOwner() != owner){
 				if (getHitBox().intersects(p.getHitBox()))
 				{			
-					gW.projectilesToBeRemoved.add(p);
+					gW.removeProjectile(p);
 				}
 			}
 		}
@@ -115,7 +115,7 @@ public class IceProjectile extends Projectile {
 			if(delayDuration <= 0){
 				if (getDistanceTravelled() >= maxRange)	{
 					if(lingerDuration <= 0)
-						gW.projectilesToBeRemoved.add(this);
+						gW.removeProjectile(this);
 					else
 						lingerDuration -= delta;
 				}
@@ -129,7 +129,7 @@ public class IceProjectile extends Projectile {
 		}
 
 		//keeps rectangle in line with sprite
-		setHitBox(currentXLocation + hitBoxXOffSet, currentYLocation + hitBoxYOffSet);
+		setHitBox(currentXLocation + hitBoxXPosOffSet, currentYLocation + hitBoxYPosOffSet);
 	}
 
 }
