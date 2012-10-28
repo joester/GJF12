@@ -4,11 +4,14 @@ import org.newdawn.slick.SlickException;
 
 
 
-public class Block extends MapEntity {	
-	public Block(int x, int y, String imageLocation, BlockType b, int xOffSet,int yOffSet, int sizeXOff, int sizeYOff) {
-		super(x, y,imageLocation);		
-		blockType = b;
-		setHitBox(getX() + xOffSet,getY() + yOffSet,MapEntity.BLOCKSIZE - sizeXOff, MapEntity.BLOCKSIZE - sizeYOff);
+public class Block extends Entity {	
+	public static final int BLOCKSIZE = 84;
+	protected BlockType blockType;
+	public Block(int x, int y, String imageLocation, BlockType blockType, int hitBoxXPosOffset,int hitBoxYPosOffset, int hitBoxXOffset, int hitBoxYOffset) {
+		super(x * BLOCKSIZE, y * BLOCKSIZE,imageLocation);		
+		this.blockType = blockType;	
+		hitBox.setSize(BLOCKSIZE, BLOCKSIZE);
+		setHitBoxOffsets(hitBoxXPosOffset,hitBoxYPosOffset,hitBoxXOffset,hitBoxYOffset);
 	}
 
 	//Only use when block is Destructible
@@ -27,7 +30,7 @@ public class Block extends MapEntity {
 	public void render(GameContainer gc, Graphics g)
 	{
 		image.draw(xCoord, yCoord, 1);	
-		//g.draw(hitBox);
+		g.draw(hitBox);
 	}
 
 

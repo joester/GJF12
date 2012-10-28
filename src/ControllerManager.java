@@ -17,8 +17,8 @@ public class ControllerManager{
 			Controllers.create();
 			for(int i = 0; i < Controllers.getControllerCount(); i++){
 				Controller c = Controllers.getController(i);
-				c.setXAxisDeadZone(.75f);
-				c.setYAxisDeadZone(.75f);
+				c.setXAxisDeadZone(DEFAULT_DEAD_ZONE);
+				c.setYAxisDeadZone(DEFAULT_DEAD_ZONE);
 			}
 			buttonWasPressed = new boolean[getControllerCount()][Controllers.getController(0).getButtonCount()];
 			//c = controller index

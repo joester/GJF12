@@ -13,9 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class CreditsState extends BasicGameState{
 	private ControllerManager controllerManager;
-	private int stateID = -1;
-	private int winner;
-	private List<Character> players;
+	private int stateID;
 	private Sound BGM;
 	private Image background;
 	private GameWorld gW;

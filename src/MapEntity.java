@@ -13,14 +13,6 @@ public abstract class MapEntity extends Entity {
 		yCoord = y;
 	}
 	
-	public int getX(){
-		return (int) getHitBox().getX();
-	}
-	
-	public int getY(){
-		return (int) getHitBox().getY();
-	}
-	
 	public BlockType getBlockType(){
 		return blockType;
 	}

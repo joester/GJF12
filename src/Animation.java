@@ -7,7 +7,6 @@ public class Animation
 {
 	private ArrayList<Frame> frames;
 	private long totTime;
-	private int delta;
 	private long curTime;
 	private int frameIndex;
 	

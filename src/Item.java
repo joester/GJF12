@@ -8,40 +8,31 @@ import org.newdawn.slick.geom.Rectangle;
 public class Item extends Entity {
 	protected double startUpTime, reloadTime;
 	protected int damage;
-	protected int xVelocity;
-	protected int yVelocity;
+	protected float xVelocity;
+	protected float yVelocity;
 	protected String name;
 	protected boolean dropChance;
 	
 	//fields pertaining to instantiating projectiles
-	protected int projectileRange;
-	protected int projectileXSpeed;
-	protected int projectileYSpeed = 0;
+	protected float projectileRange;
+	protected float projectileXSpeed;
+	protected float projectileYSpeed;
 	protected String projectileImageLocation;
 	protected Image projectileImage;
 	protected Rectangle projectileHitBox;
-	
-	//For managing size and position of hitbox relative to the image
-	//x + xposoffset = adjusts placement of hitbox relative to position
-	//y + yposoffset = adjusts placement of hitbox relative to position
-	//h - xoffset = adjusts size of hitbox for offset on both sides
-	//h - yoffset = adjusts size of hitbox for offset on both sides
-	protected int hitBoxXPosOffSet;
-	protected int hitBoxYPosOffSet;
-	protected int hitBoxXOffSet;
-	protected int hitBoxYOffSet;
+	protected float pXPosOffset, pYPosOffset;
+	protected float pXOffset, pYOffset;
 	private final int floatRange = 8;
-	private float spawnYPosition;
+	private float ySpawnLocation;
 
 	
-	public Item (int x, int y, String fileLocation, int xVel, int yVel)
+	public Item (float x, float y, String fileLocation)
 	{	 
 		super(x, y, fileLocation);
 		//Sets the hit box
-		super.setHitBox(x, y, 45, 45);	
-		spawnYPosition = yCoord;
-		this.xVelocity = xVel;
-		this.yVelocity = 1;
+		setHitBoxSize(45, 45);	
+		ySpawnLocation = yCoord;
+		yVelocity = .25f;
 	}
 
 	@Override
@@ -56,7 +47,7 @@ public class Item extends Entity {
 	InterruptedException
 	{
 		yCoord += yVelocity;
-		if(Math.abs(yCoord - spawnYPosition) > floatRange)
+		if(Math.abs(yCoord - ySpawnLocation) > floatRange)
 				yVelocity *= -1;
 		
 		super.update(gc, delta);
@@ -67,29 +58,28 @@ public class Item extends Entity {
 	public void use(GameWorld gW,Character c)
 	{		
 		if(c.isFacingRight){
-			int x = (int)(c.xCoord+c.getHitBox().getWidth()/2);
-			int y = (int) c.yCoord;
+			float x = c.xCoord+c.getHitBox().getWidth()/2;
+			float y = c.yCoord;
 			gW.getListOfProjectiles().add(new Projectile(x, y,
 					projectileImage, 
 					projectileXSpeed, projectileYSpeed, 
 					damage, projectileRange,
-					hitBoxXPosOffSet,hitBoxYPosOffSet,hitBoxXOffSet,hitBoxYOffSet,
+					pXPosOffset,pYPosOffset,pXOffset,pYOffset,
 					c,gW));
 		}
 		else{
-			int x = (int) (c.xCoord - projectileImage.getWidth()/2);
-			int y = (int) c.yCoord;
+			float x = c.xCoord - projectileImage.getWidth()/2;
+			float y = c.yCoord;
 			gW.getListOfProjectiles().add(new Projectile(x, y,
 					projectileImage.getFlippedCopy(true, false),
 					-projectileXSpeed, projectileYSpeed, 
 					damage, projectileRange,
-					hitBoxXPosOffSet,hitBoxYPosOffSet,hitBoxXOffSet,hitBoxYOffSet,
+					pXPosOffset,pYPosOffset,pXOffset,pYOffset,
 					c,gW));
 		}
 	}
 
-	public void setYSpawn(int y) {
-		spawnYPosition = y;
-		
+	public void setYSpawnLocation(float y) {
+		ySpawnLocation = y;
 	}
 }

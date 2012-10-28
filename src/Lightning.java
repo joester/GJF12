@@ -1,3 +1,6 @@
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 
 
 public class Lightning extends Item
@@ -7,19 +10,26 @@ public class Lightning extends Item
  *	2 		1		 0.1 		No		 0.01, 0.01 
  */
 	
-	public Lightning(int x, int y, String i, int xVel, int yVel){
-		super(x, y, i, xVel, yVel);
+	public Lightning(float x, float y, String i){
+		super(x, y, i);
+		
+		projectileImageLocation = "assets/Art/Transformations/lightning.png";
+		try {
+			projectileImage = new Image(projectileImageLocation);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		
 		damage = 3;
 		projectileRange = 600;
 		projectileXSpeed = 3;
 		dropChance = false;
 		startUpTime = .01;
 		reloadTime = 800;
-		projectileImageLocation = "assets/Art/Transformations/lightning.png";
-		hitBoxXPosOffSet = 10;
-		hitBoxYPosOffSet = 10;
-		hitBoxXOffSet = 20;
-		hitBoxYOffSet = 20;
+		pXPosOffset = 10;
+		pYPosOffset = 10;
+		pXOffset = 20;
+		pYOffset = 20;
 		
 	}	
 }

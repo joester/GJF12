@@ -21,7 +21,7 @@ public class Character extends Entity{
 	Item item;
 	int wins;
 	int jumpHeight;
-	double xVelocity, yVelocity;
+	float xVelocity, yVelocity;
 	boolean isMovingUp, isMovingRight, isMovingLeft, isMovingDown;
 	boolean canMoveUp, canMoveRight, canMoveLeft, canMoveDown;
 	boolean jumpAvailable, isJumpingLeft, isJumpingRight, movingLeft, movingRight, punchLeft, punchRight;
@@ -50,7 +50,7 @@ public class Character extends Entity{
 
 	public Character(int x, int y, String player, GameWorld gW)
 	{
-		super(x,y, player);
+		super(x * Block.BLOCKSIZE,y * Block.BLOCKSIZE, player);
 		name = player;
 		hasAuxItem = false;
 		hasItem = false;
@@ -59,7 +59,7 @@ public class Character extends Entity{
 		//Place holder numbers
 		HP = 100;
 		baseDamage = 1;
-		wins = 0;
+		wins = 0;  
 		setHitBoxSize(42,80);
 		item = null;
 
@@ -263,7 +263,6 @@ public class Character extends Entity{
 			}
 		}
 	}
-	//}
 
 	public void init() throws SlickException{
 		jumpHeight = 0;
@@ -296,7 +295,7 @@ public class Character extends Entity{
 			if(img.equals(i[3]) || img.equals(i[8]))
 				renderEnt(img, img.getWidth() / cols[count], img.getHeight(),100);
 			else
-				renderEnt(img, img.getWidth() / cols[count], img.getHeight());
+				renderEnt(img, img.getWidth() / cols[count], img.getHeight(),300);
 			if(toFlipped){
 				for(int j = cols[count] - 1; j >= 0; j --){
 					imagelist[imageListTrack] = animation.getImage(j); 
@@ -324,8 +323,6 @@ public class Character extends Entity{
 		if(currentAnimation.isStopped()){
 			currentAnimation.restart();
 		}
-		//g.draw(hitBox);
-
 	}
 
 	@Override
@@ -355,8 +352,9 @@ public class Character extends Entity{
 			}
 		}
 		
-		isJumping = !(Math.abs(yVelocity) < 1) && (canMoveDown || isMovingDown);
+		isJumping = (canMoveDown && isMovingDown) || (isMovingUp && canMoveUp) || (isMovingUp && canMoveDown) || (!isMovingUp && canMoveDown);
 
+		jumpAvailable = !canMoveDown;
 		isRunning = !isJumping && xVelocity != 0;
 		isIdle = !isJumping && !isRunning;
 
@@ -367,7 +365,7 @@ public class Character extends Entity{
 			isFacingRight = false;
 		}
 		selectAnimation();
-		setHitBox(xCoord, yCoord);
+		setHitBoxLocation(xCoord, yCoord);
 
 
 		xVelocity = 0;
@@ -384,7 +382,7 @@ public class Character extends Entity{
 
 	private void selectAnimation(){
 		if(isFacingRight){
-			if(isJumping){
+			if(isJumping && !jumpAvailable){
 				if(currentAnimation != animationSet.get(0))
 					currentAnimation = animationSet.get(0);
 			}
@@ -409,7 +407,7 @@ public class Character extends Entity{
 			}
 		}
 		else{
-			if(isJumping){
+			if(isJumping && !jumpAvailable){
 				if(currentAnimation !=  animationSet.get(5))
 					currentAnimation = animationSet.get(5);	
 			}

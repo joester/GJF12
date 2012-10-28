@@ -12,13 +12,13 @@ public class IceProjectile extends Projectile {
 	private int cycles;
 	private boolean isRight;
 
-	public IceProjectile(int xSpawnLocation, int ySpawnLocation, Image image,
-			int projectileXSpeed, int projectileYSpeed, int damage,
-			int projectileRange, boolean isRight, int hitBoxXPosOffSet, int hitBoxYPosOffSet, 
-			int hitBoxXOffSet, int hitBoxYOffSet, Character c, GameWorld gW) {
+	public IceProjectile(float xSpawnLocation, float ySpawnLocation, Image image,
+			float projectileXSpeed, float projectileYSpeed, int damage,
+			float projectileRange, boolean isRight, float hitBoxXPosOffset, float hitBoxYPosOffset, 
+			float hitBoxXOffset, float hitBoxYOffset, Character c, GameWorld gW) {
 		super(xSpawnLocation, ySpawnLocation, image, projectileXSpeed,
-				projectileYSpeed, damage, projectileRange, hitBoxXPosOffSet,
-				hitBoxYPosOffSet, hitBoxXOffSet, hitBoxYOffSet, c, gW);
+				projectileYSpeed, damage, projectileRange, hitBoxXPosOffset,
+				hitBoxYPosOffset, hitBoxXOffset, hitBoxYOffset, c, gW);
 		delayDuration = 250;
 		lingerDuration = 125;
 		cycles = 3;
@@ -54,21 +54,19 @@ public class IceProjectile extends Projectile {
 		//update projectile's location
 		if(cycles - 1 == 2){
 			if(delayDuration <= 0){
-
 				if (getDistanceTravelled() >= maxRange)
 				{
 					if(lingerDuration <= 0){
 						if(isRight){
-							currentXLocation = (int) (xSpawnLocation + hitBox.getWidth());
+							xSpawnLocation = xCoord = xSpawnLocation + hitBox.getWidth();
 						}
 						else{
-							currentXLocation = (int) (xSpawnLocation - hitBox.getWidth());							
+							xSpawnLocation = xCoord = xSpawnLocation - hitBox.getWidth();							
 						}
-						currentYLocation = (int) (ySpawnLocation - hitBox.getHeight()/2);
-						maxRange -= (int) (hitBox.getHeight()/2);	
-						xSpawnLocation = currentXLocation;
-						ySpawnLocation = currentYLocation;
+						ySpawnLocation = yCoord = ySpawnLocation - hitBox.getHeight()/2;
+						maxRange -= hitBox.getHeight()/2;	
 						lingerDuration = 250;
+						delayDuration = 125;
 						cycles--;
 
 					}
@@ -76,60 +74,50 @@ public class IceProjectile extends Projectile {
 						lingerDuration -= delta;
 				}
 				else{
-					currentXLocation += xVelocity;
-					currentYLocation += yVelocity;
+					xCoord += xVelocity;
+					yCoord += yVelocity;
 				}
 			}
 			else{
 				delayDuration -= delta;
 			}}
 		else if(cycles - 1 == 1){
-			if(delayDuration <= 0){
-				if (getDistanceTravelled() >= maxRange)
-				{
-					if(lingerDuration <= 0){
-						if(isRight){
-							currentXLocation = (int) (xSpawnLocation + hitBox.getWidth());
-						}
-						else{
-							currentXLocation = (int) (xSpawnLocation - hitBox.getWidth());							
-						}
-						currentYLocation = (int) (ySpawnLocation - hitBox.getHeight()/2);
-						maxRange -= (int) (hitBox.getHeight()/2);	
-						xSpawnLocation = currentXLocation;
-						ySpawnLocation = currentYLocation;
-						lingerDuration = 250;
-						cycles--;
+			if (getDistanceTravelled() >= maxRange)
+			{
+				if(lingerDuration <= 0){
+					if(isRight){
+						xSpawnLocation = xCoord = xSpawnLocation + hitBox.getWidth();
 					}
-					else
-						lingerDuration -= delta;
+					else{
+						xSpawnLocation = xCoord = xSpawnLocation - hitBox.getWidth();							
+					}
+					ySpawnLocation = yCoord = ySpawnLocation - hitBox.getHeight()/2;
+					maxRange -= hitBox.getHeight()/2;	
+					lingerDuration = 250;
+					cycles--;
 				}
-				else{
-					currentXLocation += xVelocity;
-					currentYLocation += yVelocity;
-				}
+				else
+					lingerDuration -= delta;
 			}
-			else
-				delayDuration -= delta;
+			else{
+				xCoord += xVelocity;
+				yCoord += yVelocity;
+			}
 		}
 		else{
-			if(delayDuration <= 0){
-				if (getDistanceTravelled() >= maxRange)	{
-					if(lingerDuration <= 0)
-						gW.removeProjectile(this);
-					else
-						lingerDuration -= delta;
+			if (getDistanceTravelled() >= maxRange)	{
+				if(lingerDuration <= 0){
+					gW.removeProjectile(this);
 				}
-				else{
-					currentXLocation += xVelocity;
-					currentYLocation += yVelocity;
-				}
+				else
+					lingerDuration -= delta;
 			}
-			else
-				delayDuration -= delta;
+			else{
+				xCoord += xVelocity;
+				yCoord += yVelocity;
+			}
 		}
-
 		//keeps rectangle in line with sprite
-		setHitBox(currentXLocation + hitBoxXPosOffSet, currentYLocation + hitBoxYPosOffSet);
+		setHitBoxLocation(xCoord,yCoord);
 	}
 }
