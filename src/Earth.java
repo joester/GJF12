@@ -1,3 +1,6 @@
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 public class Earth extends Item
 {
 	/*
@@ -7,21 +10,26 @@ public class Earth extends Item
 
 EARTH  5  1(3 if above) 1 Yes 0.05, 0.01
 
-	 */
-	private int aboveRange = 3;
-	
-	public Earth(int x, int y, String i, int xVel, int yVel){
-		super(x, y, i, xVel, yVel);
+	 */	
+	public Earth(float x, float y, String i){
+		super(x, y, i);
+		
+		projectileImageLocation = "assets/Art/Transformations/boulder.png";
+		try {
+			projectileImage = new Image(projectileImageLocation);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		
 		damage = 5;
 		projectileRange = 150;
 		projectileXSpeed = 3; 
 		dropChance = true;
 		startUpTime = .05;
 		reloadTime = 1500;	
-		projectileImageLocation = "assets/Art/Transformations/boulder.png";
-		hitBoxXPosOffSet = 10;
-		hitBoxYPosOffSet = 10;
-		hitBoxXOffSet = 20;
-		hitBoxYOffSet = 20;
+		pXPosOffset = 10;
+		pYPosOffset = 10;
+		pXOffset = 20;
+		pYOffset = 20;
 	}
 }

@@ -57,26 +57,6 @@ public class GameWorld
 		itemsOnMap = new ArrayList<Item>();
 		listOfMaps = new ArrayList<Map>();
 
-		String earthFileLocation = "assets/Art/Transformations/icons/hammer.png";
-		String fireFileLocation = "assets/Art/Transformations/icons/bow.png";
-		String iceFileLocation = "assets/Art/Transformations/icons/shield.png";
-		String lightningFileLocation = "assets/Art/Transformations/icons/dagger.png";
-		String windFileLocation = "assets/Art/Transformations/icons/fan.png";
-
-		listOfItems.add(new Earth(0, 0, earthFileLocation,0,0));		
-		listOfItems.add(new Fire(0, 0, fireFileLocation,0,0));		
-		listOfItems.add(new Ice(0, 0, iceFileLocation,0,0));
-		listOfItems.add(new Lightning(0, 0, lightningFileLocation,0,0));
-		listOfItems.add(new Wind(0, 0, windFileLocation,0,0));
-		for(Item i : listOfItems){
-			try {
-				i.projectileImage = new Image(i.projectileImageLocation);
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				Sys.alert("Something went wrong!", e.getMessage());
-			}
-		}
-		
 		iceMap.buildMap();
 		map = iceMap;
 		loadSounds();
@@ -135,7 +115,7 @@ public class GameWorld
 			Character c = new Character(loc.x, loc.y, "player" + j, this);
 			c.setPlayerID(i);
 			c.init();
-			c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight());
+			c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight(),300);
 			getListOfPlayers().add(c);
 			listOfCharacters.add(c);
 		}
@@ -166,7 +146,7 @@ public class GameWorld
 		ArrayList<Character> toBeRemoved = new ArrayList<Character>();
 		//checking for character's collision with blocks
 		for (Character c : listOfCharacters){
-			Rectangle r = new Rectangle((int)(c.xCoord + c.xVelocity), (int)(c.yCoord + c.yVelocity), c.getHitBox().getWidth(), c.getHitBox().getHeight());
+			Rectangle r = new Rectangle(c.getHitBox().getX() + c.xVelocity, c.getHitBox().getY() + c.yVelocity, c.getHitBox().getWidth(), c.getHitBox().getHeight());
 			for (Block b : listOfBlocks){
 				if (r.intersects(b.getHitBox())){	
 					if (b.getBlockType() == BlockType.Lethal){
@@ -174,39 +154,48 @@ public class GameWorld
 					}
 					c.determineDirection();
 					if (c.isMovingLeft && b.getBlockType() != BlockType.Passable){
-						if(c.getX() >= b.getX() + b.getHitBox().getWidth())
-							c.canMoveLeft = false;
+						if(c.getHitBox().getX() >= b.getHitBox().getX() + b.getHitBox().getWidth())
+							if(c.getHitBox().getY() + c.getHitBox().getHeight() > b.getY()){
+								c.canMoveLeft = false;
+							}	
 						if (c.isMovingUp && b.getBlockType() != BlockType.Passable){
-							if(c.getY() >= b.getY() + b.getHitBox().getHeight()){
+							if(c.getHitBox().getY() >= b.getHitBox().getY() + b.getHitBox().getHeight()){
 								c.yVelocity = 0;
 								c.jumpAvailable = false;
 								c.canMoveUp = false;
 							}
 						}
 						else if (c.isMovingDown){
-							c.jumpAvailable = true;
-							if(c.getHitBox().getY() + c.getHitBox().getHeight() < b.getHitBox().getY()){
+							c.jumpAvailable = false;
+							if(c.getHitBox().getY() + c.getHitBox().getHeight() <= b.getHitBox().getY()){
 								c.yVelocity = 0;
+								c.setLocation(c.getHitBox().getX(), b.getHitBox().getY() - c.getHitBox().getHeight());
 								c.canMoveDown = false;
+								c.jumpAvailable = true;
 							}
 						}
+						
 					}
 					else if(c.isMovingRight && b.getBlockType() != BlockType.Passable){
 						//c.xVelocity = 0;
-						if(c.getX() + c.getHitBox().getWidth() <= b.getX())
-							c.canMoveRight = false;
+						if(c.getHitBox().getX() + c.getHitBox().getWidth() <= b.getHitBox().getX())
+							if(c.getHitBox().getY() + c.getHitBox().getHeight() > b.getY()){
+								c.canMoveRight = false;
+							}
 						if (c.isMovingUp && b.getBlockType() != BlockType.Passable){
-							if(c.getY() >= b.getHitBox().getY() + b.getHitBox().getHeight()){
+							if(c.getHitBox().getY() >= b.getHitBox().getY() + b.getHitBox().getHeight()){
 								c.yVelocity = 0;
 								c.jumpAvailable = false;
 								c.canMoveUp = false;
 							}
 						}
 						else if (c.isMovingDown){
-							c.jumpAvailable = true;
-							if(c.getHitBox().getY() + c.getHitBox().getHeight() < b.getHitBox().getY()){
+							c.jumpAvailable = false;
+							if(c.getHitBox().getY() + c.getHitBox().getHeight() <= b.getHitBox().getY()){
 								c.yVelocity = 0;
+								c.setLocation(c.getHitBox().getX(), b.getHitBox().getY()  - c.getHitBox().getHeight());
 								c.canMoveDown = false;
+								c.jumpAvailable = true;
 							}
 						}
 					}
@@ -217,10 +206,12 @@ public class GameWorld
 							c.canMoveUp = false;
 						}
 						else if (c.isMovingDown){
-							c.jumpAvailable = true;
-							if(c.getHitBox().getY() + c.getHitBox().getHeight() < b.getHitBox().getY()){
+							c.jumpAvailable = false;
+							if(c.getHitBox().getY() + c.getHitBox().getHeight() <= b.getHitBox().getY()){
 								c.yVelocity = 0;
+								c.setLocation(c.getHitBox().getX(), b.getHitBox().getY() - c.hitBox.getHeight());
 								c.canMoveDown = false;
+								c.jumpAvailable = true;
 							}
 						}
 					}
@@ -273,10 +264,11 @@ public class GameWorld
 				{
 					if (p.getHitBox().intersects(b.getHitBox()))
 					{
-						Item toBeAdded = chooseRandomItem();
-						toBeAdded.setLocation(b.getX() + 30,b.getY());
-						toBeAdded.setYSpawn(b.getY());
-						itemsOnMap.add(toBeAdded);
+						Item item = chooseRandomItem();
+						item.setLocation(b.getX() + (b.getImage().getWidth() - item.getImage().getWidth())/2, 
+								b.getY() + (b.getImage().getHeight() - item.getImage().getHeight())/2);
+						item.setYSpawnLocation(item.getY());
+						itemsOnMap.add(item);
 						removeCrates.add(b);		
 					}
 				}	
@@ -356,7 +348,7 @@ public class GameWorld
 	}
 
 	public void setNextRound() throws IOException, SlickException {
-		
+
 		listOfBlocks = new ArrayList<Block>();
 		listOfPlatforms = new ArrayList<Platform>();
 		listOfProjectiles = new ArrayList<Projectile>();
@@ -369,7 +361,7 @@ public class GameWorld
 			c.reset();
 			Map.Location loc = map.getCharacterSpawns().get(i);
 			c.setLocation(loc.x * MapEntity.BLOCKSIZE, loc.y * MapEntity.BLOCKSIZE);
-			c.setHitBox(c.xCoord, c.yCoord);
+			c.setHitBoxLocation(c.xCoord, c.yCoord);
 		}
 		listOfCharacters = new ArrayList<Character>(getListOfPlayers());
 		setBackgroundImage();
@@ -407,9 +399,16 @@ public class GameWorld
 
 
 
-	public Item chooseRandomItem()
-	{
-		return listOfItems.get((int)(listOfItems.size() * Math.random()));
+	public Item chooseRandomItem()	{
+		int itemID = (int)(5 * Math.random());
+		switch(itemID){
+		case 0: itemID = 0; return new Earth(0,0,"assets/Art/Transformations/icons/hammer.png"); 
+		case 1: itemID = 1; return new Fire(0,0,"assets/Art/Transformations/icons/bow.png"); 
+		case 2: itemID = 2; return new Ice(0,0,"assets/Art/Transformations/icons/shield.png"); 
+		case 3: itemID = 3; return new Lightning(0,0,"assets/Art/Transformations/icons/dagger.png"); 
+		case 4: itemID = 4; return new Wind(0,0,"assets/Art/Transformations/icons/fan.png"); 
+		default: return null;
+		}
 	}
 
 	//	public void spawnItems()
@@ -443,7 +442,7 @@ public class GameWorld
 			}
 			if(input.isKeyDown(Input.KEY_W)){
 				if(c.jumpAvailable){
-					c.yVelocity = -7;
+					c.yVelocity = -7.5f;
 					c.hasDX = false;
 					c.jumpAvailable = false;
 					c.canMoveUp = true;
@@ -484,7 +483,7 @@ public class GameWorld
 			}
 			if(input.isKeyDown(Input.KEY_I) || input.isKeyDown(Input.KEY_NUMPAD8)){ //KEY_NUMPAD8
 				if(c.jumpAvailable){
-					c.yVelocity = -7;
+					c.yVelocity = -7.5f;
 					c.hasDX = false;
 					c.jumpAvailable = false;
 					c.canMoveUp = true;
@@ -521,7 +520,7 @@ public class GameWorld
 			}
 			if(input.isKeyDown(Input.KEY_UP)){
 				if(c.jumpAvailable){
-					c.yVelocity = -7;
+					c.yVelocity = -7.5f;
 					c.hasDX = false;
 					c.jumpAvailable = false;
 					c.canMoveUp = true;
@@ -540,7 +539,7 @@ public class GameWorld
 			}
 			if(input.isKeyDown(Input.KEY_T)){
 				if(c.jumpAvailable){
-					c.yVelocity = -7;
+					c.yVelocity = -7.5f;
 					c.hasDX = false;
 					c.jumpAvailable = false;
 					c.canMoveUp = true;
@@ -569,7 +568,7 @@ public class GameWorld
 				}
 				if(ctr.isButtonPressed(Button.A.buttonID)){
 					if(c.jumpAvailable){
-						c.yVelocity = -5;
+						c.yVelocity = -7.5f;
 						c.hasDX = false;
 						c.jumpAvailable = false;
 						c.canMoveUp = true;
@@ -623,7 +622,7 @@ public class GameWorld
 	public Image getBackground() {
 		return background;
 	}
-	
+
 	public void removeProjectile(Projectile projectileToRemove){
 		projectilesToBeRemoved.add(projectileToRemove);
 	}

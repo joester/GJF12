@@ -90,7 +90,6 @@ public class GameplayState extends BasicGameState {
 			Sys.alert("Something went wrong!", e.getMessage());
 		}
 		if(gW.checkIsRoundOver()){
-			System.out.println("d");
 			WinnerDisplayState wds = (WinnerDisplayState) sbg.getState(DisplayManager.WINNERDISPLAYSTATE);
 			if(!gW.getListOfCharacters().isEmpty()){
 				Character c = gW.getListOfCharacters().get(0);

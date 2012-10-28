@@ -1,3 +1,6 @@
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 
 
 public class Fire extends Item
@@ -6,19 +9,26 @@ public class Fire extends Item
 	 * Damage Range Animation Speed Drop Startup, 
 	 * 3 Infinite 0.5, 4.5 bps No 0.01, 0.7-1 
 	 */
-	public Fire(int x, int y, String i, int xVelocity, int yVelocity)
+	public Fire(float x, float y, String i)
 	{
-		super(x, y, i, xVelocity, yVelocity);
+		super(x, y, i);
+		
+		projectileImageLocation = "assets/Art/Transformations/fireball.png";
+		try {
+			projectileImage = new Image(projectileImageLocation);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		
 		damage = 2;
 		projectileRange = 500;
 		projectileXSpeed = 4;
 		dropChance = false;
 		startUpTime = .01;
 		reloadTime = 600;
-		projectileImageLocation = "assets/Art/Transformations/fireball.png";
-		hitBoxXPosOffSet = 5;
-		hitBoxYPosOffSet = 30;
-		hitBoxXOffSet = 10;
-		hitBoxYOffSet = 50;
+		pXPosOffset = 5;
+		pYPosOffset = 30;
+		pXOffset = 10;
+		pYOffset = 50;
 	}
 }

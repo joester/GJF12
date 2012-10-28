@@ -8,103 +8,136 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 public abstract class Entity{
-	boolean isCharacter = false;
 	protected Image image;
 	protected Rectangle hitBox;
-	protected int xCoord;
-	protected int yCoord;
+	protected float xCoord, yCoord;
+	//For managing size and position of hitbox relative to the image
+	//x + xposoffset = adjusts placement of hitbox relative to position
+	//y + yposoffset = adjusts placement of hitbox relative to position
+	//h - xoffset = adjusts size of hitbox for offset on both sides
+	//h - yoffset = adjusts size of hitbox for offset on both sides
+	protected float hitBoxXPosOffset, hitBoxYPosOffset;
+	protected float hitBoxXOffset, hitBoxYOffset;
 	protected Animation animation;
 
-
-	public Entity(int x, int y, String imageLocation){
+	/**
+	 * Sets x,y position and creates a hitbox established at that position
+	 * and loads an image.
+	 * @param Sets x coordinate
+	 * @param Sets y coordinate
+	 * @param imageLocation Path to image
+	 */
+	public Entity(float x, float y, String imageLocation){
+		this(x, y);
 		if(imageLocation != null){
-			String newLocation = "";
-			if(this instanceof Character){
-				newLocation = "assets/Art/Characters/" + imageLocation
-						+ "/stand-spritesheet.png";
-				isCharacter = true;
-			}
-
-			try {
-				if(isCharacter){
-					image = new Image(newLocation);
+			try{
+				if(this instanceof Character){
+					image = new Image("assets/Art/Characters/" + imageLocation
+							+ "/stand-spritesheet.png");
 				}
 				else{
 					image = new Image(imageLocation);
 				}
-			} catch (SlickException e) {
+			}
+			catch (SlickException e) {
 				System.out.println("Image not found for " + this.getClass());
 				Sys.alert("Something went wrong!", e.getMessage());
 			}
-			}
-		xCoord = x * MapEntity.BLOCKSIZE;
-		yCoord = y * MapEntity.BLOCKSIZE;
+		}
+	}
+
+	/**
+	 * Sets x,y position and creates a hitbox established at that position
+	 * @param x	Sets x coordinate
+	 * @param y	Sets y coordinate
+	 */
+	public Entity(float x, float y) {
+		xCoord = x;
+		yCoord = y;
 		hitBox = new Rectangle(xCoord,yCoord,0,0);
 	}
 
-	public Entity(int xSpawnLocation, int ySpawnLocation) {
-		xCoord = xSpawnLocation;
-		yCoord = ySpawnLocation;
+	//-----------------Methods for managing the hitbox------------------------------//
+	/**
+	 * 
+	 * @param x The new x coordinate of the hitbox
+	 * @param y The new y coordinate of hitbox
+	 * @param w The new width of hitbox
+	 * @param h The new height of hitbox
+	 */
+	public void setHitBoxBounds(float x, float y, float w, float h){
+		hitBox.setBounds(xCoord + hitBoxXPosOffset, 
+				yCoord + hitBoxYPosOffset, 
+				image.getWidth() - hitBoxXOffset,
+				image.getHeight() - hitBoxYOffset);
 	}
 
-	public void setHitBox(int x, int y, int w, int h){
-		hitBox.setBounds(x,y, w, h);
+	/**
+	 * 
+	 * @param x The new x coordinate of the hitbox
+	 * @param y The new y coordinate of hitbox
+	 */
+	public void setHitBoxLocation(float x, float y){
+		hitBox.setLocation(x + hitBoxXPosOffset, y + hitBoxYPosOffset);
 	}
 
-	public void setHitBox(int x, int y){
-		hitBox.setX(x);
-		hitBox.setY(y);
+
+	/**
+	 * 
+	 * @param w The new width of hitbox
+	 * @param h The new height of hitbox
+	 */
+	public void setHitBoxSize(float w, float h) {
+		hitBox.setSize(w - hitBoxXOffset, h - hitBoxYOffset);
 	}
 
-	public void setHitBox(float x, float y){
-		hitBox.setX(x);
-		hitBox.setY(y);
-	}
-
+	/**
+	 * 
+	 * @return Rectangle hitBox
+	 */
 	public Rectangle getHitBox(){
 		return hitBox;
 	}
 
-	public void setLocation(int x, int y){
+	
+	public void setHitBoxOffsets(float hitBoxXPosOffset, float hitBoxYPosOffset, float hitBoxXOffset, float hitBoxYOffset){
+		this.hitBoxXPosOffset = hitBoxXPosOffset;
+		this.hitBoxYPosOffset = hitBoxYPosOffset;
+		this.hitBoxXOffset = hitBoxXOffset;
+		this.hitBoxYOffset = hitBoxYOffset;
+		setHitBoxBounds(xCoord + hitBoxXPosOffset, 
+				yCoord + hitBoxYPosOffset, 
+				image.getWidth() - hitBoxXOffset,
+				image.getHeight() - hitBoxYOffset);
+	}
+	//------------------Methods for managing position of entity---------------------//
+	public void setLocation(float x, float y){
 		xCoord = x;
 		yCoord = y;
+		setHitBoxLocation(x, y);
 	}
 
-	public int getX(){
+	public float getX(){
 		return xCoord;
 	}
 
-	public int getY(){
+	public float getY(){
 		return yCoord;
 	}
+	//------------------------------------------------------------------------------//
+	
 	public abstract void render(GameContainer arg0, Graphics arg1) throws SlickException;
 
-	public void update(GameContainer arg0, int arg1) throws SlickException, InterruptedException
-	{
-		hitBox.setX(xCoord);
-		hitBox.setY(yCoord);
+	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException{
+		setHitBoxLocation(xCoord,yCoord);
 	}
 
-	public void renderEnt(String str, int width, int height) throws SlickException{
-		Image img = new Image(str);
-		SpriteSheet sheet = new SpriteSheet(img, width, height);
-		animation = new Animation(sheet, 300);
-		animation.addFrame(new Image(str), 300);
-	}
-	public void renderEnt(Image img, int width, int height) throws SlickException{
-		SpriteSheet sheet = new SpriteSheet(img, width, height);
-		animation = new Animation(sheet, 300);
-	}
-	public void renderEnt(Image img, int width, int height,int duration) throws SlickException{
+	protected void renderEnt(Image img, int width, int height,int duration) throws SlickException{
 		SpriteSheet sheet = new SpriteSheet(img, width, height);
 		animation = new Animation(sheet, duration);
 	}
-	public void addFrame(String str, int width, int height) throws SlickException{
-		Image img = new Image(str);
-		animation.addFrame(img, 300);
-	}
-
-	public void setHitBoxSize(int w, int h) {
-		hitBox.setSize(w, h);
+	
+	public Image getImage(){
+		return image;
 	}
 }
