@@ -8,7 +8,7 @@ public class Block extends Entity {
 	public static final int BLOCKSIZE = 84;
 	protected BlockType blockType;
 	public Block(int x, int y, String imageLocation, BlockType blockType, int hitBoxXPosOffset,int hitBoxYPosOffset, int hitBoxXOffset, int hitBoxYOffset) {
-		super(x * BLOCKSIZE, y * BLOCKSIZE,imageLocation);		
+		super(x * BLOCKSIZE, y * BLOCKSIZE,imageLocation, null);		
 		this.blockType = blockType;	
 		hitBox.setSize(BLOCKSIZE, BLOCKSIZE);
 		setHitBoxOffsets(hitBoxXPosOffset,hitBoxYPosOffset,hitBoxXOffset,hitBoxYOffset);

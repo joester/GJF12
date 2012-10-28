@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
 
@@ -10,19 +11,12 @@ public class IceProjectile extends Projectile {
 	private int delayDuration;
 	private int lingerDuration;
 	private int cycles;
-	private boolean isRight;
 
-	public IceProjectile(float xSpawnLocation, float ySpawnLocation, Image image,
-			float projectileXSpeed, float projectileYSpeed, int damage,
-			float projectileRange, boolean isRight, float hitBoxXPosOffset, float hitBoxYPosOffset, 
-			float hitBoxXOffset, float hitBoxYOffset, Character c, GameWorld gW) {
-		super(xSpawnLocation, ySpawnLocation, image, projectileXSpeed,
-				projectileYSpeed, damage, projectileRange, hitBoxXPosOffset,
-				hitBoxYPosOffset, hitBoxXOffset, hitBoxYOffset, c, gW);
+	public IceProjectile(float xSpawnLocation, float ySpawnLocation, Item item, GameWorld gW) {
+		super(xSpawnLocation, ySpawnLocation, item, gW);
 		delayDuration = 250;
 		lingerDuration = 125;
 		cycles = 3;
-		this.isRight = isRight;
 	}
 
 	@Override
@@ -34,6 +28,7 @@ public class IceProjectile extends Projectile {
 				{			
 					c.modifyHealth(getDamage());
 					gW.removeProjectile(this);
+					gW.punchHit.get((int) (3 * Math.random())).play();
 				}
 			}
 		}
@@ -44,6 +39,13 @@ public class IceProjectile extends Projectile {
 				{			
 					gW.removeProjectile(p);
 				}
+			}
+		}
+		for(Block b: gW.getListOfBlocks()){
+			if(getHitBox().intersects(b.getHitBox()) && b.blockType == BlockType.Crate){
+				gW.spawnItem(b);
+				gW.removeCrate(b);
+				gW.playRandomSound(gW.punchHit);
 			}
 		}
 	}
@@ -57,7 +59,7 @@ public class IceProjectile extends Projectile {
 				if (getDistanceTravelled() >= maxRange)
 				{
 					if(lingerDuration <= 0){
-						if(isRight){
+						if(!isFlippedHorizontally){
 							xSpawnLocation = xCoord = xSpawnLocation + hitBox.getWidth();
 						}
 						else{
@@ -85,7 +87,7 @@ public class IceProjectile extends Projectile {
 			if (getDistanceTravelled() >= maxRange)
 			{
 				if(lingerDuration <= 0){
-					if(isRight){
+					if(!isFlippedHorizontally){
 						xSpawnLocation = xCoord = xSpawnLocation + hitBox.getWidth();
 					}
 					else{

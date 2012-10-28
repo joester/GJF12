@@ -33,7 +33,6 @@ public class Character extends Entity{
 	private boolean isJumping;
 	private boolean isIdle;
 	private boolean isRunning;
-	GameWorld gW;
 	boolean hit, isHit;
 
 	Projectile punchProjectile; 
@@ -50,7 +49,7 @@ public class Character extends Entity{
 
 	public Character(int x, int y, String player, GameWorld gW)
 	{
-		super(x * Block.BLOCKSIZE,y * Block.BLOCKSIZE, player);
+		super(x * Block.BLOCKSIZE,y * Block.BLOCKSIZE, player, gW);
 		name = player;
 		hasAuxItem = false;
 		hasItem = false;
@@ -69,8 +68,6 @@ public class Character extends Entity{
 		itemName = null;
 		auxName = null;
 		jumpAvailable = true;
-
-		this.gW = gW;
 	}
 
 	public void setControls(int[] set){
@@ -116,6 +113,7 @@ public class Character extends Entity{
 		itemName = item.name;
 		this.item = item;
 		hasItem = true;
+		item.setOwner(this);
 	}
 
 
@@ -125,6 +123,7 @@ public class Character extends Entity{
 		damage = baseDamage;
 		range = baseRange;
 		itemName = null;
+		item.setOwner(null);
 	}
 
 	public void pickUpAux(Auxillary auxItem)
@@ -149,35 +148,28 @@ public class Character extends Entity{
 			isPunching = true;
 			if (hasItem)
 			{
-				item.use(gW, this);
+				item.use(gW);
 				attackCoolDown = item.reloadTime;
 			}
 			else{
-				//else
-				//{
-				if(isFacingRight)
-					punchProjectile = new Projectile(getX() + 42, getY(), null, 0, 0, baseDamage, 0, 
-							new Rectangle(getX() + 42, getY(), 20, 40), this,gW);
-				else
-					punchProjectile = new Projectile(getX() - 42, getY(), null, 0, 0, baseDamage, 0, 
-							new Rectangle(getX() - 42, getY(), 20, 40), this,gW);
+				if(isFacingRight){
+					punchProjectile = new PunchProjectile(getX() + hitBox.getWidth(), getY(), this, gW);
+					punchProjectile.setLocation(getX() + hitBox.getWidth(),getY());
+				}
+				else{
+					punchProjectile = new PunchProjectile(getX(), getY()+ hitBox.getWidth(), this, gW);
+					punchProjectile.setLocation(getX() - punchProjectile.getHitBox().getWidth(),getY());
+				}
 				gW.getListOfProjectiles().add(punchProjectile);	
 				for (Block b : gW.getListOfBlocks())
 				{
-					if (punchProjectile.getHitBox().intersects(b.getHitBox()) && b.getBlockType() == BlockType.Crate)
-					{	
-						gW.playRandomSound(gW.punchHit);
-						hit = true;
-						break;
-					}
+					
 					gW.removeProjectile(punchProjectile);
 				}
 				attackCoolDown = baseAttackCoolDown;
 			}
 
 		}
-		//if (!hit)
-		//gW.playRandomSound(gW.punchMiss);
 	}
 
 	public void determineDirection()
@@ -319,6 +311,7 @@ public class Character extends Entity{
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
+		g.draw(hitBox);
 		currentAnimation.draw(xCoord, yCoord);
 		if(currentAnimation.isStopped()){
 			currentAnimation.restart();

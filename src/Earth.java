@@ -11,8 +11,8 @@ public class Earth extends Item
 EARTH  5  1(3 if above) 1 Yes 0.05, 0.01
 
 	 */	
-	public Earth(float x, float y, String i){
-		super(x, y, i);
+	public Earth(float x, float y, String i, GameWorld gW){
+		super(x, y, i, gW);
 		
 		projectileImageLocation = "assets/Art/Transformations/boulder.png";
 		try {
@@ -23,7 +23,7 @@ EARTH  5  1(3 if above) 1 Yes 0.05, 0.01
 		
 		damage = 5;
 		projectileRange = 150;
-		projectileXSpeed = 3; 
+		projectileXVelocity = 3; 
 		dropChance = true;
 		startUpTime = .05;
 		reloadTime = 1500;	

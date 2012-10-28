@@ -34,9 +34,9 @@ public class GameWorld
 
 	public ArrayList<Sound> punchHit;
 	public ArrayList<Sound> punchMiss;
-	private ArrayList<Block> removeCrates;
+	private ArrayList<Block> cratesToRemove;
 	private ArrayList<Item> itemsToRemove;
-	private ArrayList<Projectile> projectilesToBeRemoved;
+	private ArrayList<Projectile> projectilesToRemoved;
 	private int numberOfPlayers;
 	private List<Character> listOfPlayers;
 	private Sound BGM;
@@ -52,7 +52,9 @@ public class GameWorld
 		listOfPlatforms = new ArrayList<Platform>();
 		listOfProjectiles = new ArrayList<Projectile>();
 		listOfCharacters = new ArrayList<Character>();
-		projectilesToBeRemoved =  new ArrayList<Projectile>();
+		projectilesToRemoved =  new ArrayList<Projectile>();
+		itemsToRemove = new ArrayList<Item>();
+		cratesToRemove = new ArrayList<Block>();
 		listOfItems = new ArrayList<Item>();
 		itemsOnMap = new ArrayList<Item>();
 		listOfMaps = new ArrayList<Map>();
@@ -161,6 +163,7 @@ public class GameWorld
 						if (c.isMovingUp && b.getBlockType() != BlockType.Passable){
 							if(c.getHitBox().getY() >= b.getHitBox().getY() + b.getHitBox().getHeight()){
 								c.yVelocity = 0;
+								c.setLocation(c.getX(),b.getHitBox().getY() + b.getHitBox().getHeight());
 								c.jumpAvailable = false;
 								c.canMoveUp = false;
 							}
@@ -169,7 +172,7 @@ public class GameWorld
 							c.jumpAvailable = false;
 							if(c.getHitBox().getY() + c.getHitBox().getHeight() <= b.getHitBox().getY()){
 								c.yVelocity = 0;
-								c.setLocation(c.getHitBox().getX(), b.getHitBox().getY() - c.getHitBox().getHeight());
+								c.setLocation(c.getX(), b.getHitBox().getY() - c.getHitBox().getHeight());
 								c.canMoveDown = false;
 								c.jumpAvailable = true;
 							}
@@ -185,6 +188,7 @@ public class GameWorld
 						if (c.isMovingUp && b.getBlockType() != BlockType.Passable){
 							if(c.getHitBox().getY() >= b.getHitBox().getY() + b.getHitBox().getHeight()){
 								c.yVelocity = 0;
+								c.setLocation(c.getX(),b.getHitBox().getY() + b.getHitBox().getHeight());
 								c.jumpAvailable = false;
 								c.canMoveUp = false;
 							}
@@ -193,7 +197,7 @@ public class GameWorld
 							c.jumpAvailable = false;
 							if(c.getHitBox().getY() + c.getHitBox().getHeight() <= b.getHitBox().getY()){
 								c.yVelocity = 0;
-								c.setLocation(c.getHitBox().getX(), b.getHitBox().getY()  - c.getHitBox().getHeight());
+								c.setLocation(c.getX(), b.getHitBox().getY()  - c.getHitBox().getHeight());
 								c.canMoveDown = false;
 								c.jumpAvailable = true;
 							}
@@ -202,6 +206,7 @@ public class GameWorld
 					else{
 						if (c.isMovingUp && b.getBlockType() != BlockType.Passable){
 							c.yVelocity = 0;
+							c.setLocation(c.getX(),b.getHitBox().getY() + b.getHitBox().getHeight());
 							c.jumpAvailable = false;
 							c.canMoveUp = false;
 						}
@@ -209,7 +214,7 @@ public class GameWorld
 							c.jumpAvailable = false;
 							if(c.getHitBox().getY() + c.getHitBox().getHeight() <= b.getHitBox().getY()){
 								c.yVelocity = 0;
-								c.setLocation(c.getHitBox().getX(), b.getHitBox().getY() - c.hitBox.getHeight());
+								c.setLocation(c.getX(), b.getHitBox().getY() - c.hitBox.getHeight());
 								c.canMoveDown = false;
 								c.jumpAvailable = true;
 							}
@@ -224,6 +229,7 @@ public class GameWorld
 				}
 				if(r.getY() <= 0){
 					c.canMoveUp = false;
+					c.yVelocity = 0;
 				}
 				if(r.getY() > gc.getHeight()){
 					c.modifyHealth(c.getHP());
@@ -235,17 +241,14 @@ public class GameWorld
 		for (Character c : toBeRemoved)
 			listOfCharacters.remove(c);
 
-		itemsToRemove = new ArrayList<Item>();
-
-		projectilesToBeRemoved.clear();
 		for (Projectile p : listOfProjectiles)
 		{
 			p.checkCollisions();
 		}
 
-		for (Character c : listOfCharacters)
+		for (Item i : itemsOnMap)
 		{
-			for (Item i : itemsOnMap)
+			for (Character c : listOfCharacters)
 			{
 				if (c.getHitBox().intersects(i.getHitBox()) && !c.hasItem)
 				{
@@ -255,48 +258,18 @@ public class GameWorld
 			}
 		}
 
-		removeCrates = new ArrayList<Block>();
-		for (Block b: listOfBlocks)
-		{
-			if (b.getBlockType() == BlockType.Crate)
-			{
-				for (Projectile p : listOfProjectiles)
-				{
-					if (p.getHitBox().intersects(b.getHitBox()))
-					{
-						Item item = chooseRandomItem();
-						item.setLocation(b.getX() + (b.getImage().getWidth() - item.getImage().getWidth())/2, 
-								b.getY() + (b.getImage().getHeight() - item.getImage().getHeight())/2);
-						item.setYSpawnLocation(item.getY());
-						itemsOnMap.add(item);
-						removeCrates.add(b);		
-					}
-				}	
-				//				for (Character c : listOfCharacters)
-				//				{
-				//					if (c.isMovingRight)
-				//					{
-				//						Item toBeAdded = chooseRandomItem();
-				//						toBeAdded.setLocation(b.getX() + 30,b.getY() + 30);
-				//						itemsOnMap.add(toBeAdded);
-				//						removeCrates.add(b);							
-				//					}
-				//				}
-			}
-		}
-
 		for (Item i : itemsToRemove)
-		{
 			itemsOnMap.remove(i);	
-		}
+		itemsToRemove.clear();
 
-		for (Block b :removeCrates)
-		{
+
+		for (Block b :cratesToRemove)
 			listOfBlocks.remove(b);
-		}
+		cratesToRemove.clear();
 
-		for (Projectile p : projectilesToBeRemoved)
+		for (Projectile p : projectilesToRemoved)
 			listOfProjectiles.remove(p);
+		projectilesToRemoved.clear();
 	}
 
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
@@ -333,12 +306,12 @@ public class GameWorld
 			listOfCharacters.remove(c);
 		}
 
-		projectilesToBeRemoved.clear();
+		projectilesToRemoved.clear();
 		for (Projectile p : listOfProjectiles)
 		{
 			p.update(gc, delta);	
 		}
-		for (Projectile p : projectilesToBeRemoved)
+		for (Projectile p : projectilesToRemoved)
 			listOfProjectiles.remove(p);
 
 		for (Item i : itemsOnMap)
@@ -402,11 +375,11 @@ public class GameWorld
 	public Item chooseRandomItem()	{
 		int itemID = (int)(5 * Math.random());
 		switch(itemID){
-		case 0: itemID = 0; return new Earth(0,0,"assets/Art/Transformations/icons/hammer.png"); 
-		case 1: itemID = 1; return new Fire(0,0,"assets/Art/Transformations/icons/bow.png"); 
-		case 2: itemID = 2; return new Ice(0,0,"assets/Art/Transformations/icons/shield.png"); 
-		case 3: itemID = 3; return new Lightning(0,0,"assets/Art/Transformations/icons/dagger.png"); 
-		case 4: itemID = 4; return new Wind(0,0,"assets/Art/Transformations/icons/fan.png"); 
+		case 0: itemID = 0; return new Earth(0,0,"assets/Art/Transformations/icons/hammer.png", this); 
+		case 1: itemID = 1; return new Fire(0,0,"assets/Art/Transformations/icons/bow.png", this); 
+		case 2: itemID = 2; return new Ice(0,0,"assets/Art/Transformations/icons/shield.png", this); 
+		case 3: itemID = 3; return new Lightning(0,0,"assets/Art/Transformations/icons/dagger.png", this); 
+		case 4: itemID = 4; return new Wind(0,0,"assets/Art/Transformations/icons/fan.png", this); 
 		default: return null;
 		}
 	}
@@ -624,7 +597,7 @@ public class GameWorld
 	}
 
 	public void removeProjectile(Projectile projectileToRemove){
-		projectilesToBeRemoved.add(projectileToRemove);
+		projectilesToRemoved.add(projectileToRemove);
 	}
 
 	public int getNumberOfPlayers() {
@@ -645,6 +618,19 @@ public class GameWorld
 
 	public void setBGM(Sound BGM) {
 		this.BGM = BGM;
+	}
+	
+	public void removeCrate(Block crate){
+		cratesToRemove.add(crate);
+	}
+	
+	public void spawnItem(Block b){
+		Item item = chooseRandomItem();
+		item.setLocation(b.getX() + (b.getImage().getWidth() - item.getImage().getWidth())/2, 
+				b.getY() + (b.getImage().getHeight() - item.getImage().getHeight())/2);
+		item.setYSpawnLocation(item.getY());
+		itemsOnMap.add(item);
+		cratesToRemove.add(b);
 	}
 }
 

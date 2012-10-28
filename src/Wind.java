@@ -11,8 +11,8 @@ public class Wind extends Item
  */
 	private int push = 5;
 	
-	public Wind(float x, float y, String i){
-		super(x, y, i);
+	public Wind(float x, float y, String i, GameWorld gW){
+		super(x, y, i, gW);
 		
 		projectileImageLocation = "assets/Art/Transformations/wind.png";
 		try {
@@ -23,13 +23,13 @@ public class Wind extends Item
 		
 		damage = 2;
 		projectileRange = 500;
-		projectileXSpeed = 3;
+		projectileXVelocity = 3;
 		dropChance = true;
 		startUpTime = .01;
 		reloadTime = 1000;
 		pXPosOffset = 10;
-		pYPosOffset = 10;
+		pYPosOffset = 20;
 		pXOffset = 20;
-		pYOffset = 20;
+		pYOffset = 40;
 	}
 }

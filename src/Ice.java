@@ -10,8 +10,8 @@ public class Ice extends Item
  * 2 		1	 0.01			 No 0.25, 0.01 
  */
 	
-	public Ice(float x, float y, String i){
-		super(x, y, i);
+	public Ice(float x, float y, String i, GameWorld gW){
+		super(x, y, i, gW);
 		
 		projectileImageLocation = "assets/Art/Transformations/ice.png";
 		try {
@@ -22,41 +22,33 @@ public class Ice extends Item
 		
 		damage = 4;
 		projectileRange = 200;
-		projectileXSpeed = 0;
-		projectileYSpeed = -7;
+		projectileXVelocity = 0;
+		projectileYVelocity = -7;
 		dropChance = false;
 		startUpTime = .25;
 		reloadTime = 1000;
 		pXPosOffset = 10;
 		pYPosOffset = 10;
 		pXOffset = 20;
-		pYOffset = 20;
+		pYOffset = 0;
 	}
 	
 	@Override
-	public void use(GameWorld gW,Character c){
+	public void use(GameWorld gW){
 		float x;
 		float y;
-		projectileRange = 2 * c.getHitBox().getHeight();
-		if(c.isFacingRight){
-			x = c.xCoord+c.getHitBox().getWidth()/2 + 30;
-			y = c.yCoord + projectileRange;
-			gW.getListOfProjectiles().add(new IceProjectile(x, y,
-					projectileImage, 
-					projectileXSpeed, projectileYSpeed, 
-					damage, projectileRange, true,
-					pXPosOffset,pYPosOffset,pXOffset,pYOffset,
-					c,gW));
+		projectileRange = 2 * owner.getHitBox().getHeight();
+		if(owner.isFacingRight){
+			x = owner.xCoord+owner.getHitBox().getWidth()/2 + 30;
+			y = owner.yCoord + projectileRange;
+			gW.getListOfProjectiles().add(new IceProjectile(x, y, this, gW));
 		}
 		else{
-			x = c.xCoord - projectileImage.getWidth()/2 - 30;
-			y = c.yCoord + projectileRange;
-			gW.getListOfProjectiles().add(new IceProjectile(x, y,
-					projectileImage.getFlippedCopy(true, false),
-					-projectileXSpeed, projectileYSpeed, 
-					damage, projectileRange, false,
-					pXPosOffset,pYPosOffset,pXOffset,pYOffset,
-					c,gW));
+			x = owner.xCoord - projectileImage.getWidth()/2 - 30;
+			y = owner.yCoord + projectileRange;
+			Projectile p = new IceProjectile(x, y, this, gW);
+			gW.getListOfProjectiles().add(p);
+			p.flipImage(true, false);
 		}
 	}
 }

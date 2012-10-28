@@ -15,20 +15,21 @@ public class Item extends Entity {
 	
 	//fields pertaining to instantiating projectiles
 	protected float projectileRange;
-	protected float projectileXSpeed;
-	protected float projectileYSpeed;
+	protected float projectileXVelocity;
+	protected float projectileYVelocity;
 	protected String projectileImageLocation;
 	protected Image projectileImage;
 	protected Rectangle projectileHitBox;
 	protected float pXPosOffset, pYPosOffset;
 	protected float pXOffset, pYOffset;
+	protected Character owner;
 	private final int floatRange = 8;
 	private float ySpawnLocation;
 
 	
-	public Item (float x, float y, String fileLocation)
+	public Item (float x, float y, String fileLocation,GameWorld gW)
 	{	 
-		super(x, y, fileLocation);
+		super(x, y, fileLocation, gW);
 		//Sets the hit box
 		setHitBoxSize(45, 45);	
 		ySpawnLocation = yCoord;
@@ -55,31 +56,32 @@ public class Item extends Entity {
 
 
 
-	public void use(GameWorld gW,Character c)
+	public void use(GameWorld gW)
 	{		
-		if(c.isFacingRight){
-			float x = c.xCoord+c.getHitBox().getWidth()/2;
-			float y = c.yCoord;
-			gW.getListOfProjectiles().add(new Projectile(x, y,
-					projectileImage, 
-					projectileXSpeed, projectileYSpeed, 
-					damage, projectileRange,
-					pXPosOffset,pYPosOffset,pXOffset,pYOffset,
-					c,gW));
+		if(owner.isFacingRight){
+			float x = owner.xCoord+owner.getHitBox().getWidth()/2;
+			float y = owner.yCoord;
+			gW.getListOfProjectiles().add(new Projectile(x, y,this, gW));
 		}
 		else{
-			float x = c.xCoord - projectileImage.getWidth()/2;
-			float y = c.yCoord;
-			gW.getListOfProjectiles().add(new Projectile(x, y,
-					projectileImage.getFlippedCopy(true, false),
-					-projectileXSpeed, projectileYSpeed, 
-					damage, projectileRange,
-					pXPosOffset,pYPosOffset,pXOffset,pYOffset,
-					c,gW));
+			float x = owner.xCoord - projectileImage.getWidth()/2;
+			float y = owner.yCoord;
+			Projectile p = new Projectile(x, y, this, gW);
+			gW.getListOfProjectiles().add(p);
+			p.flipImage(true, false);
+			p.setXVelocity(-projectileXVelocity);
 		}
 	}
 
 	public void setYSpawnLocation(float y) {
 		ySpawnLocation = y;
+	}
+	
+	public Character getOwner(){
+		return owner;
+	}
+	
+	public void setOwner(Character owner){
+		this.owner = owner;
 	}
 }

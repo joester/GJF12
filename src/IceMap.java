@@ -16,21 +16,21 @@ public class IceMap extends Map
 		 * addSpawn(15,2, "arg", BlockType.CrateSpawn);
 		 * etc
 		 */
-		addBlock(0,7,"assets/Art/Stages/Volcano/icerightedge.png", BlockType.Impassable,0,0,0,0);
-		addBlock(0,2,"assets/Art/Stages/Volcano/icerightedge.png", BlockType.Impassable,0,0,0,0);
+		addBlock(0,7,"assets/Art/Stages/Volcano/icerightedge.png", BlockType.Impassable,0,0,0,8);
+		addBlock(0,2,"assets/Art/Stages/Volcano/icerightedge.png", BlockType.Impassable,0,0,0,8);
 		addBlock(1,7,"assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal,0,21,0,21);
 		addBlock(2,7,"assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal,0,21,0,21);
 		addBlock(3,7,"assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal,0,21,0,21);
 		addBlock(3,4,"assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable,0,0,0,63);
 		addBlock(2,6,"assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable,0,0,0,63);
 		//addBlock(3,7,"assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal);
-		addBlock(4,7,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,0);
-		addBlock(5,7,"assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable,0,0,0,0);
-		addBlock(6,7,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,0);
+		addBlock(4,7,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,8);
+		addBlock(5,7,"assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable,0,0,0,8);
+		addBlock(6,7,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,8);
 		addBlock(7,7,"assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal,0,21,0,21);
 		addBlock(4,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
-		addBlock(4,4,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,0);
-		addBlock(5,4,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,0);
+		addBlock(4,4,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,8);
+		addBlock(5,4,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,8);
 		//addBlock(5,0,"assets/Art/Stages/Volcano/icicles-left.png",BlockType.Lethal);
 		//in ice map the stalactites are gone?
 		/**
@@ -45,18 +45,18 @@ public class IceMap extends Map
 		addBlock(6,3,"assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable,0,0,0,63);
 		addBlock(7,3, "assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable,0,0,0,63);
 		addBlock(8,3,"assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable,0,0,0,63);
-		addBlock(9,4,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,0);
-		addBlock(10,4,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,0);
+		addBlock(9,4,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,8);
+		addBlock(10,4,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,8);
 		addBlock(10,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
-		addBlock(8,7,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,0);
-		addBlock(9,7,"assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable,0,0,0,0);
-		addBlock(10,7,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,0);
-		addBlock(14,2,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,0);
+		addBlock(8,7,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,8);
+		addBlock(9,7,"assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable,0,0,0,8);
+		addBlock(10,7,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,8);
+		addBlock(14,2,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,8);
 		addBlock(11,7,"assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal,0,21,0,21);
 		addBlock(11,4,"assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable,0,0,0,63);
 		addBlock(12,7,"assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal,0,21,0,21);
 		addBlock(13,7,"assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal,0,21,0,21);
-		addBlock(14,7,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,0);
+		addBlock(14,7,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,8);
 		addBlock(12, 6, "assets/Art/Stages/Volcano/iceplatform.png", BlockType.Passable,0,0,0,63);
 
 		setCharacterSpawns();

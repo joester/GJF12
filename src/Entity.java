@@ -19,6 +19,7 @@ public abstract class Entity{
 	protected float hitBoxXPosOffset, hitBoxYPosOffset;
 	protected float hitBoxXOffset, hitBoxYOffset;
 	protected Animation animation;
+	protected GameWorld gW;
 
 	/**
 	 * Sets x,y position and creates a hitbox established at that position
@@ -26,9 +27,10 @@ public abstract class Entity{
 	 * @param Sets x coordinate
 	 * @param Sets y coordinate
 	 * @param imageLocation Path to image
+	 * @param gW 
 	 */
-	public Entity(float x, float y, String imageLocation){
-		this(x, y);
+	public Entity(float x, float y, String imageLocation, GameWorld gW){
+		this(x, y, gW);
 		if(imageLocation != null){
 			try{
 				if(this instanceof Character){
@@ -50,10 +52,12 @@ public abstract class Entity{
 	 * Sets x,y position and creates a hitbox established at that position
 	 * @param x	Sets x coordinate
 	 * @param y	Sets y coordinate
+	 * @param gW 
 	 */
-	public Entity(float x, float y) {
+	public Entity(float x, float y, GameWorld gW) {
 		xCoord = x;
 		yCoord = y;
+		this.gW = gW;
 		hitBox = new Rectangle(xCoord,yCoord,0,0);
 	}
 
@@ -139,5 +143,9 @@ public abstract class Entity{
 	
 	public Image getImage(){
 		return image;
+	}
+	
+	public GameWorld getGameWorld(){
+		return gW;
 	}
 }

@@ -2,6 +2,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
 
@@ -13,39 +14,39 @@ public class Projectile extends Entity
 	protected float yVelocity;
 	protected int damage;
 	protected float maxRange;
-	protected GameWorld gW;
 	protected Character owner;
+	protected boolean isFlippedHorizontally;
+	protected boolean isFlippedVertically;
 
-	public Projectile (float xSpawnLocation, float ySpawnLocation, Image image, float xVelocity, float yVelocity, int damage,
-			float maxRange, Rectangle hitBox, Character owner, GameWorld gW)
-	{
-		super(xSpawnLocation, ySpawnLocation);
-		this.gW = gW;
+	public Projectile(float xSpawnLocation, float ySpawnLocation, Item item, GameWorld gW){
+		super(xSpawnLocation, ySpawnLocation, item.projectileImageLocation, gW);
 		this.xSpawnLocation = xSpawnLocation;
 		this.ySpawnLocation = ySpawnLocation;
-		this.xVelocity = xVelocity;
-		this.yVelocity = yVelocity;
-		this.hitBox = hitBox;		
-		this.maxRange = maxRange;
-		this.setDamage(damage);
-		this.setOwner(owner);
-		this.image = image;
+		xVelocity = item.projectileXVelocity;
+		yVelocity = item.projectileYVelocity;	
+		maxRange = item.projectileRange;
+		this.setDamage(item.damage);
+		setOwner(item.owner);
+		this.image = item.projectileImage;
+		setHitBoxOffsets(item.pXPosOffset, item.pYPosOffset, item.pXOffset, item.pYOffset);
 	}
 
-	public Projectile(float xSpawnLocation, float ySpawnLocation, Image image,
-			float projectileXSpeed, float projectileYSpeed, int damage, float projectileRange,
-			float hitBoxXPosOffset, float hitBoxYPosOffset, float hitBoxXOffset, float hitBoxYOffset, Character c, GameWorld gW) {
-		super(xSpawnLocation, ySpawnLocation,null);
-		this.gW = gW;
-		this.xSpawnLocation = xSpawnLocation;
-		this.ySpawnLocation = ySpawnLocation;
-		xVelocity = projectileXSpeed;
-		yVelocity = projectileYSpeed;	
-		maxRange = projectileRange;
-		this.setDamage(damage);
-		setOwner(c);
-		this.image = image;
-		setHitBoxOffsets(hitBoxXPosOffset, hitBoxYPosOffset, hitBoxXOffset, hitBoxYOffset);
+	public Projectile(float xSpawnLocation, float ySpawnLocation, GameWorld gW){
+		super(xSpawnLocation, ySpawnLocation, gW);
+	}
+
+	public void flipImage(boolean horizontal, boolean vertical){
+		isFlippedHorizontally = horizontal;
+		isFlippedVertically = vertical;
+		image = image.getFlippedCopy(horizontal, vertical);
+	}
+
+	public void setXVelocity(float projectileXVelocity){
+		xVelocity = projectileXVelocity;
+	}
+
+	public void setYVelocity(float vel){
+		yVelocity = vel;
 	}
 
 	@Override
@@ -105,17 +106,20 @@ public class Projectile extends Entity
 				{			
 					c.modifyHealth(damage);
 					gW.removeProjectile(this);
+					gW.punchHit.get((int) (3 * Math.random())).play();
 				}
 			}
 		}
-
 		for(Block b: gW.getListOfBlocks()){
-			if(b.blockType == BlockType.Impassable){
-				if (getHitBox().intersects(b.getHitBox()))
-				{			
+			if(getHitBox().intersects(b.getHitBox())){
+				if(b.blockType == BlockType.Impassable){		
 					gW.removeProjectile(this);
 				}
-
+				else if(b.blockType == BlockType.Crate){
+					gW.spawnItem(b);
+					gW.playRandomSound(gW.punchHit);
+					gW.removeProjectile(this);
+				}
 			}
 		}
 	}		

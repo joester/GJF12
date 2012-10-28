@@ -10,8 +10,8 @@ public class Lightning extends Item
  *	2 		1		 0.1 		No		 0.01, 0.01 
  */
 	
-	public Lightning(float x, float y, String i){
-		super(x, y, i);
+	public Lightning(float x, float y, String i, GameWorld gW){
+		super(x, y, i, gW);
 		
 		projectileImageLocation = "assets/Art/Transformations/lightning.png";
 		try {
@@ -22,7 +22,7 @@ public class Lightning extends Item
 		
 		damage = 3;
 		projectileRange = 600;
-		projectileXSpeed = 3;
+		projectileXVelocity = 3;
 		dropChance = false;
 		startUpTime = .01;
 		reloadTime = 800;
