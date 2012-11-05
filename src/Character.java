@@ -332,8 +332,6 @@ public class Character extends Entity{
 				xCoord += xVelocity;
 			}
 		}
-
-
 		if(yVelocity > 0){
 			if(canMoveDown){
 				yCoord += yVelocity;
