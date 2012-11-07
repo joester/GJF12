@@ -1,17 +1,18 @@
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 
 
 public class Block extends Entity {	
 	public static final int BLOCKSIZE = 84;
 	protected BlockType blockType;
-	public Block(int x, int y, String imageLocation, BlockType blockType, int hitBoxXPosOffset,int hitBoxYPosOffset, int hitBoxXOffset, int hitBoxYOffset) {
+	public Block(int x, int y, String imageLocation, BlockType blockType, Rectangle offsets) {
 		super(x * BLOCKSIZE, y * BLOCKSIZE,imageLocation, null);		
 		this.blockType = blockType;	
-		hitBox.setSize(BLOCKSIZE, BLOCKSIZE);
-		setHitBoxOffsets(hitBoxXPosOffset,hitBoxYPosOffset,hitBoxXOffset,hitBoxYOffset);
+		hitbox.setSize(BLOCKSIZE, BLOCKSIZE);
+		hitbox.setOffsets(offsets);
 	}
 
 	//Only use when block is Destructible
@@ -27,10 +28,10 @@ public class Block extends Entity {
 	}
 
 	@Override
-	public void render(GameContainer gc, Graphics g)
+	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		image.draw(xCoord, yCoord, 1);	
-		g.draw(hitBox);
+		super.render(gc,g);
 	}
 
 
