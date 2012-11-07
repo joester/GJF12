@@ -13,7 +13,7 @@ public class Character extends Entity{
 
 	public int HP, damage, healthRegen, baseDamage, numRows, numCols;  
 	final int maxHealth = 20;
-	public String name, itemName, auxName;
+	public String name, itemName;
 	public double range, baseRange;
 	boolean hasDX = false;
 	public int[] controls = new int[4];
@@ -25,7 +25,6 @@ public class Character extends Entity{
 	boolean isMovingUp, isMovingRight, isMovingLeft, isMovingDown;
 	boolean canMoveUp, canMoveRight, canMoveLeft, canMoveDown;
 	boolean jumpAvailable, isJumpingLeft, isJumpingRight, movingLeft, movingRight, punchLeft, punchRight;
-	Auxillary auxItem;
 	ArrayList<Animation> animationSet = new ArrayList<Animation>();
 	Animation currentAnimation;
 	private boolean isPunching;
@@ -36,6 +35,7 @@ public class Character extends Entity{
 	private boolean isKnockedBack;
 	private float KBDistance;
 	boolean hit, isHit;
+	boolean canMove = true;
 
 	Projectile punchProjectile; 
 
@@ -44,6 +44,8 @@ public class Character extends Entity{
 	private double baseAttackCoolDown;
 	private double attackCoolDown;
 	public int playerID;
+	long timer;
+	float timePassed = 1.0f;
 
 	//GameWorld gameWorld = new GameWorld();
 	//Set<Body> bodies = new HashSet<Body>();
@@ -52,8 +54,8 @@ public class Character extends Entity{
 	public Character(int x, int y, String player, World world)
 	{
 		super(x * Block.BLOCKSIZE,y * Block.BLOCKSIZE, player, world);
+		
 		name = player;
-		hasAuxItem = false;
 		hasItem = false;
 		baseAttackCoolDown = 600;
 		attackCoolDown = 0;
@@ -68,7 +70,6 @@ public class Character extends Entity{
 		damage = 5;
 		healthRegen = 1;
 		itemName = null;
-		auxName = null;
 		jumpAvailable = true;
 	}
 
@@ -82,10 +83,6 @@ public class Character extends Entity{
 		return "" + HP + "/" + maxHealth;
 	}
 
-	public String getName()
-	{
-		return name;
-	}
 
 	public int getHP()
 	{
@@ -123,24 +120,10 @@ public class Character extends Entity{
 		item.setOwner(null);
 	}
 
-	public void pickUpAux(Auxillary auxItem)
-	{
-		this.auxItem = auxItem;
-		hasAuxItem = true;
-	}
-
-	//	public void useAux()
-	//	{
-	//		if (hasAuxItem == true)
-	//		{
-	//			auxItem.use();
-	//			hasAuxItem = false;
-	//			auxItem = null;
-	//		}
-	//	}
 
 	public void attack()
 	{
+		timer = System.nanoTime();
 		if(attackCoolDown <= 0){
 			isPunching = true;
 			if (hasItem)
@@ -290,16 +273,17 @@ public class Character extends Entity{
 					imagelist[imageListTrack] = animation.getImage(j); 
 					imageListTrack += 1;
 				}
-				if(img.equals(i[3]) || img.equals(i[8]))
+				
+				
+				if(img.equals(i[8]))
 					animation = new Animation(imagelist, 100);
 				else
 					animation = new Animation(imagelist, 300);
-
 			}
 
 			count++;
 
-			animation.stopAt(animation.getFrameCount() - 1);
+			animation.stopAt(animation.getFrameCount());
 			animationSet.add(animation);
 		}
 		currentAnimation = animationSet.get(2);
@@ -308,16 +292,31 @@ public class Character extends Entity{
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		currentAnimation.draw(xCoord, yCoord);
-		if(currentAnimation.isStopped()){
-			currentAnimation.restart();
+		if(timePassed <= 30 && timer != 0 && isPunching){
+			canMove = false;
+			timePassed += (System.nanoTime() - timer) / 10000000;
+			System.out.println(timePassed);
+			timer = System.nanoTime();
+			if(timePassed > 30){
+				canMove = true;
+				isPunching = false;
+				currentAnimation.stop();
+				currentAnimation.restart();
+				timePassed = 0;
+			}
 		}
+		currentAnimation.draw(xCoord, yCoord);
+
 		super.render(gc,g);
 	}
-
-	@Override
-	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
-	{
+	
+	public void stopMovement(){
+		if(!canMove){
+			xVelocity = yVelocity = 0;
+		}
+	}
+	
+	public void setMovement(){
 		
 		if(xVelocity < 0){
 			if(canMoveLeft){
@@ -341,6 +340,23 @@ public class Character extends Entity{
 		}
 		if(isKnockedBack && KBDistance > 0 ){
 			KBDistance -= Math.abs(xVelocity);
+	}
+
+	@Override
+	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
+	{
+		if(canMove){
+			setMovement();
+		}
+
+		isJumping = (canMoveDown && isMovingDown) || (isMovingUp && canMoveUp) || (isMovingUp && canMoveDown) || (!isMovingUp && canMoveDown);
+
+		jumpAvailable = !canMoveDown;
+		isRunning = !isJumping && xVelocity != 0;
+		isIdle = !isJumping && !isRunning;
+
+		if(isMovingRight){
+			isFacingRight = true;
 		}
 		else{
 			if(isMovingRight){
@@ -356,8 +372,10 @@ public class Character extends Entity{
 			isIdle = !isJumping && !isRunning;
 			xVelocity = 0;
 		}
-
-		selectAnimation();
+		if(timePassed == 0){
+			selectAnimation();
+		}
+		
 		setLocation(xCoord, yCoord);
 		//super.update(gc, delta);
 	
@@ -426,7 +444,7 @@ public class Character extends Entity{
 			}
 		}
 		isJumping = false;
-		isPunching = false;
+		//isPunching = false;
 		isIdle = false;
 		isRunning = false;
 		isMovingRight = false;
@@ -447,7 +465,7 @@ public class Character extends Entity{
 		isKnockedBack = false;
 		KBDistance = 0;
 		canMoveUp = canMoveRight = canMoveLeft =  canMoveDown = false;
-		isJumpingLeft = isJumpingRight = movingLeft = movingRight = punchLeft = punchRight = false;
+		isJumpingLeft = isJumpingRight = movingLeft = movingRight = false;
 		xVelocity = 0;
 		yVelocity = 0;
 		hasAuxItem = false;
@@ -459,7 +477,6 @@ public class Character extends Entity{
 		HP = maxHealth;
 
 		itemName = null;
-		auxName = null;
 		jumpAvailable = true;	
 	}
 
