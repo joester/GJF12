@@ -124,21 +124,13 @@ public class World
 	//Updating and Rendering
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
-		for(int i = 0; i < getNumberOfPlayers(); i++){
-			assignActionToPlayer(gc,i,delta);
-		}
+		Input input = gc.getInput();
 		for (Character c : characters)
 		{
+			c.handleInput(input);
 			c.yVelocity += .15;
 		}
 		checkForCollisions(gc);
-
-
-
-
-
-		//spawnItems();
-
 
 		ArrayList<Character> charactersToBeRemoved = new ArrayList<Character>();
 		for (Character c: characters)
@@ -213,129 +205,8 @@ public class World
 			projectiles.remove(p);
 		projectilesToRemoved.clear();
 	}
-
+/**
 	public void assignActionToPlayer(GameContainer gc, int characterIndex,int delta){
-		Character c = getPlayers().get(characterIndex);
-		Input input = gc.getInput();
-		if(c == null){
-			return;
-		}
-		if(characterIndex == 0){
-			if(input.isKeyDown(Input.KEY_A)){
-				c.xVelocity = -3;
-				c.canMoveLeft = true;
-			}
-			if(input.isKeyDown(Input.KEY_W)){
-				if(c.jumpAvailable){
-					c.yVelocity = -7.5f;
-					c.hasDX = false;
-					c.jumpAvailable = false;
-					c.canMoveUp = true;
-				}
-			}
-
-			if(input.isKeyDown(Input.KEY_SPACE))
-				c.attack();
-
-			if(input.isKeyDown(Input.KEY_Q)){
-
-				for (Item i : itemsOnMap)
-				{
-					if (c.getHitbox().intersects(i.getHitbox()))
-					{
-						c.dropItem();
-						c.pickUpItem(i);
-						removeItem(i);
-					}
-				}
-				for (Item i :itemsToRemove)
-				{
-					itemsOnMap.remove(i);
-				}
-			}
-			if(input.isKeyDown(Input.KEY_D)){
-				c.xVelocity = 3;
-				c.canMoveRight = true;
-			}
-		}
-
-
-
-		if(characterIndex == 1){
-			if(input.isKeyDown(Input.KEY_J) || input.isKeyDown(Input.KEY_NUMPAD4)){ 
-				c.xVelocity = -3;
-				c.canMoveLeft = true;
-			}
-			if(input.isKeyDown(Input.KEY_I) || input.isKeyDown(Input.KEY_NUMPAD8)){ //KEY_NUMPAD8
-				if(c.jumpAvailable){
-					c.yVelocity = -7.5f;
-					c.hasDX = false;
-					c.jumpAvailable = false;
-					c.canMoveUp = true;
-				}
-			}
-			if(input.isKeyDown(Input.KEY_O) || input.isKeyDown(Input.KEY_NUMPAD7)){//KEY_NUMPAD7
-				for (Item i : itemsOnMap)
-				{
-					if (c.getHitbox().intersects(i.getHitbox()))
-					{
-						c.dropItem();
-						c.pickUpItem(i);
-						itemsToRemove.add(i);
-					}
-				}
-				for (Item i :itemsToRemove)
-				{
-					itemsOnMap.remove(i);
-				}
-			}
-			if(input.isKeyDown(Input.KEY_L) || input.isKeyDown(Input.KEY_NUMPAD6)){//NUMPAD6
-				c.xVelocity = 3;
-				c.canMoveRight = true;
-			}
-			if(input.isKeyDown(Input.KEY_U) || input.isKeyDown(Input.KEY_NUMPAD0)){//NUMPAD0
-				c.attack();
-			}
-		}
-
-		if(characterIndex == 2){
-			if(input.isKeyDown(Input.KEY_LEFT)){
-				c.xVelocity = -3;
-				c.canMoveLeft = true;
-			}
-			if(input.isKeyDown(Input.KEY_UP)){
-				if(c.jumpAvailable){
-					c.yVelocity = -7.5f;
-					c.hasDX = false;
-					c.jumpAvailable = false;
-					c.canMoveUp = true;
-				}
-			}
-			if(input.isKeyDown(Input.KEY_RIGHT)){
-				c.xVelocity = 3;
-				c.canMoveRight = true;
-			}
-		}
-
-		if(characterIndex == 3){
-			if(input.isKeyDown(Input.KEY_F)){
-				c.xVelocity = -3;
-				c.canMoveLeft = true;
-			}
-			if(input.isKeyDown(Input.KEY_T)){
-				if(c.jumpAvailable){
-					c.yVelocity = -7.5f;
-					c.hasDX = false;
-					c.jumpAvailable = false;
-					c.canMoveUp = true;
-				}
-			}
-			if(input.isKeyDown(Input.KEY_H)){
-				c.xVelocity = 3;
-				c.canMoveRight = true;
-			}
-		}
-
 		if(controllerManager != null){
 			controllerManager.pollControllers();
 			for(int i = 0; i < controllerManager.getControllerCount(); i++){
@@ -380,8 +251,7 @@ public class World
 			}
 		}
 		c.determineDirection();
-
-	}
+	}**/
 
 	//Modifying world
 	public void addBlock(Block block){

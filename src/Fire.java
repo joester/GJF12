@@ -21,11 +21,11 @@ public class Fire extends Item
 			e.printStackTrace();
 		}
 		
-		damage = 2;
-		projectileRange = 500;
+		damage = 3;
+		projectileRange = 1500;
 		projectileXVelocity = 4;
 		dropChance = false;
-		startUpTime = .01;
+		startUpTime = 10;
 		reloadTime = 600;
 		projectileOffsets = new Rectangle(5,30,10,50);
 	}

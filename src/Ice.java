@@ -10,7 +10,6 @@ public class Ice extends Item
  * Damage Range Animation Speed Drop Startup, 
  * 2 		1	 0.01			 No 0.25, 0.01 
  */
-	
 	public Ice(float x, float y, String i, World world){
 		super(x, y, i, world);
 		

@@ -24,7 +24,6 @@ public class Item extends Entity {
 	protected Character owner;
 	private final int floatRange = 8;
 	private float ySpawnLocation;
-
 	
 	public Item (float x, float y, String fileLocation,World world)
 	{	 

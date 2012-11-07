@@ -28,6 +28,5 @@ public class Lightning extends Item
 		startUpTime = .01;
 		reloadTime = 800;
 		projectileOffsets = new Rectangle(10,10,20,20);
-		
 	}	
 }
