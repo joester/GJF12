@@ -1,5 +1,7 @@
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 
@@ -14,9 +16,18 @@ public class Fire extends Item
 	{
 		super(x, y, i, world);
 		
-		projectileImageLocation = "assets/Art/Transformations/fireball.png";
+		int numFrames = 2;
+		Image sheet;
 		try {
-			projectileImage = new Image(projectileImageLocation);
+			sheet = new Image("assets/Art/Transformations/Animations/fire.png");
+			projectileWidth = sheet.getWidth() / numFrames;
+			projectileHeight = sheet.getHeight();
+			SpriteSheet ss = new SpriteSheet(sheet, projectileWidth, projectileHeight);
+			projectileRightAnimation = new Animation(ss, 100);	
+			projectileRightAnimation.stopAt(projectileRightAnimation.getFrameCount() - 1);
+			ss = new SpriteSheet(ss.getFlippedCopy(true, false), projectileWidth, projectileHeight);
+			projectileLeftAnimation = new Animation(ss , 100);	
+			projectileLeftAnimation.stopAt(projectileLeftAnimation.getFrameCount() - 1);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

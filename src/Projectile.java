@@ -1,3 +1,4 @@
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -14,6 +15,10 @@ public class Projectile extends Entity
 	protected Character owner;
 	protected boolean isFlippedHorizontally;
 	protected boolean isFlippedVertically;
+	protected Animation leftAnimation;
+	protected Animation rightAnimation;
+	protected Animation currentAnimation;
+	
 
 	public Projectile(float xSpawnLocation, float ySpawnLocation, Item item, World world){
 		super(xSpawnLocation, ySpawnLocation, item.projectileImageLocation, world);
@@ -24,8 +29,10 @@ public class Projectile extends Entity
 		maxRange = item.projectileRange;
 		this.setDamage(item.damage);
 		setOwner(item.owner);
-		this.image = item.projectileImage;
-		hitbox.setSize(image.getWidth(),image.getHeight());
+		leftAnimation = item.projectileLeftAnimation;
+		rightAnimation = item.projectileRightAnimation;
+		currentAnimation = rightAnimation;
+		hitbox.setSize(item.projectileWidth, item.projectileHeight);
 		getHitbox().setOffsets(item.projectileOffsets);
 	}
 
@@ -36,7 +43,12 @@ public class Projectile extends Entity
 	public void flipImage(boolean horizontal, boolean vertical){
 		isFlippedHorizontally = horizontal;
 		isFlippedVertically = vertical;
-		image = image.getFlippedCopy(horizontal, vertical);
+		if(isFlippedHorizontally){
+			currentAnimation = leftAnimation;
+		}
+		else{
+			currentAnimation = rightAnimation;
+		}
 	}
 
 	public void setXVelocity(float projectileXVelocity){
@@ -74,10 +86,10 @@ public class Projectile extends Entity
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		super.render(gc, g);
-		if(image != null){
-			image.draw(xCoord, yCoord, 1);	
+		currentAnimation.draw(xCoord,yCoord);
+		if(currentAnimation.isStopped()){
+			currentAnimation.restart();
 		}
-
 	}
 
 	public Character getOwner() {

@@ -1,3 +1,4 @@
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -19,7 +20,11 @@ public class Item extends Entity {
 	protected float projectileYVelocity;
 	protected String projectileImageLocation;
 	protected Image projectileImage;
-	protected Hitbox projectileHitBox;
+	protected Animation projectileLeftAnimation;
+	protected Animation projectileRightAnimation;
+	protected int projectileWidth;
+	protected int projectileHeight;
+	protected Hitbox projectileHitbox;
 	protected Rectangle projectileOffsets;
 	protected Character owner;
 	private final int floatRange = 8;
@@ -62,7 +67,7 @@ public class Item extends Entity {
 			world.getProjectiles().add(new Projectile(x, y,this, world));
 		}
 		else{
-			float x = owner.xCoord - projectileImage.getWidth()/2;
+			float x = owner.xCoord - projectileWidth/2;
 			float y = owner.yCoord;
 			Projectile p = new Projectile(x, y, this, world);
 			world.getProjectiles().add(p);

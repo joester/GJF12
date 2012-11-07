@@ -1,5 +1,7 @@
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 
@@ -13,9 +15,18 @@ public class Ice extends Item
 	public Ice(float x, float y, String i, World world){
 		super(x, y, i, world);
 		
-		projectileImageLocation = "assets/Art/Transformations/ice.png";
+		int numFrames = 7;
+		Image sheet;
 		try {
-			projectileImage = new Image(projectileImageLocation);
+			sheet = new Image("assets/Art/Transformations/Animations/ice.png");
+			projectileWidth = sheet.getWidth() / numFrames;
+			projectileHeight = sheet.getHeight();
+			SpriteSheet ss = new SpriteSheet(sheet, projectileWidth, projectileHeight);
+			projectileRightAnimation = new Animation(ss, 100);	
+			projectileRightAnimation.stopAt(projectileRightAnimation.getFrameCount() - 1);
+			ss = new SpriteSheet(ss.getFlippedCopy(true, false), projectileWidth, projectileHeight);
+			projectileLeftAnimation = new Animation(ss , 100);	
+			projectileLeftAnimation.stopAt(projectileLeftAnimation.getFrameCount() - 1);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -41,7 +52,7 @@ public class Ice extends Item
 			world.getProjectiles().add(new IceProjectile(x, y, this, world));
 		}
 		else{
-			x = owner.xCoord - projectileImage.getWidth()/2 - 30;
+			x = owner.xCoord - projectileWidth/2 - 30;
 			y = owner.yCoord + projectileRange;
 			Projectile p = new IceProjectile(x, y, this, world);
 			world.getProjectiles().add(p);
