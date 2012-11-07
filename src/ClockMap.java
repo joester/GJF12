@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class ClockMap extends Map { 
 
-	public ClockMap(GameWorld gW, String backgroundFileLocation, String musicFileLocation) {
-		super(gW, backgroundFileLocation, musicFileLocation);
+	public ClockMap(World world, String backgroundFileLocation, String musicFileLocation) {
+		super(world, backgroundFileLocation, musicFileLocation);
 	}
 
 	public void buildMap()

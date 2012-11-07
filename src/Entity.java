@@ -1,5 +1,6 @@
 import org.lwjgl.Sys;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -7,19 +8,17 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
-public abstract class Entity{
+public class Entity{
 	protected Image image;
-	protected Rectangle hitBox;
+	protected Hitbox hitbox;
 	protected float xCoord, yCoord;
 	//For managing size and position of hitbox relative to the image
 	//x + xposoffset = adjusts placement of hitbox relative to position
 	//y + yposoffset = adjusts placement of hitbox relative to position
 	//h - xoffset = adjusts size of hitbox for offset on both sides
 	//h - yoffset = adjusts size of hitbox for offset on both sides
-	protected float hitBoxXPosOffset, hitBoxYPosOffset;
-	protected float hitBoxXOffset, hitBoxYOffset;
 	protected Animation animation;
-	protected GameWorld gW;
+	protected World world;
 
 	/**
 	 * Sets x,y position and creates a hitbox established at that position
@@ -27,10 +26,10 @@ public abstract class Entity{
 	 * @param Sets x coordinate
 	 * @param Sets y coordinate
 	 * @param imageLocation Path to image
-	 * @param gW 
+	 * @param world 
 	 */
-	public Entity(float x, float y, String imageLocation, GameWorld gW){
-		this(x, y, gW);
+	public Entity(float x, float y, String imageLocation, World world){
+		this(x, y, world);
 		if(imageLocation != null){
 			try{
 				if(this instanceof Character){
@@ -52,13 +51,13 @@ public abstract class Entity{
 	 * Sets x,y position and creates a hitbox established at that position
 	 * @param x	Sets x coordinate
 	 * @param y	Sets y coordinate
-	 * @param gW 
+	 * @param world 
 	 */
-	public Entity(float x, float y, GameWorld gW) {
+	public Entity(float x, float y, World world) {
 		xCoord = x;
 		yCoord = y;
-		this.gW = gW;
-		hitBox = new Rectangle(xCoord,yCoord,0,0);
+		this.world = world;
+		hitbox = new Hitbox(xCoord,yCoord,0,0);
 	}
 
 	//-----------------Methods for managing the hitbox------------------------------//
@@ -69,11 +68,8 @@ public abstract class Entity{
 	 * @param w The new width of hitbox
 	 * @param h The new height of hitbox
 	 */
-	public void setHitBoxBounds(float x, float y, float w, float h){
-		hitBox.setBounds(xCoord + hitBoxXPosOffset, 
-				yCoord + hitBoxYPosOffset, 
-				image.getWidth() - hitBoxXOffset,
-				image.getHeight() - hitBoxYOffset);
+	public void setHitboxBounds(float x, float y, float w, float h){
+		hitbox.setBounds(x, y, w, h);
 	}
 
 	/**
@@ -81,8 +77,8 @@ public abstract class Entity{
 	 * @param x The new x coordinate of the hitbox
 	 * @param y The new y coordinate of hitbox
 	 */
-	public void setHitBoxLocation(float x, float y){
-		hitBox.setLocation(x + hitBoxXPosOffset, y + hitBoxYPosOffset);
+	public void setHitboxLocation(float x, float y){
+		hitbox.setLocation(x, y);
 	}
 
 
@@ -91,34 +87,27 @@ public abstract class Entity{
 	 * @param w The new width of hitbox
 	 * @param h The new height of hitbox
 	 */
-	public void setHitBoxSize(float w, float h) {
-		hitBox.setSize(w - hitBoxXOffset, h - hitBoxYOffset);
+	public void setHitboxSize(float w, float h) {
+		hitbox.setSize(w,h);
 	}
 
 	/**
 	 * 
-	 * @return Rectangle hitBox
+	 * @return Rectangle hitbox
 	 */
-	public Rectangle getHitBox(){
-		return hitBox;
+	public Hitbox getHitbox(){
+		return hitbox;
 	}
 
 	
-	public void setHitBoxOffsets(float hitBoxXPosOffset, float hitBoxYPosOffset, float hitBoxXOffset, float hitBoxYOffset){
-		this.hitBoxXPosOffset = hitBoxXPosOffset;
-		this.hitBoxYPosOffset = hitBoxYPosOffset;
-		this.hitBoxXOffset = hitBoxXOffset;
-		this.hitBoxYOffset = hitBoxYOffset;
-		setHitBoxBounds(xCoord + hitBoxXPosOffset, 
-				yCoord + hitBoxYPosOffset, 
-				image.getWidth() - hitBoxXOffset,
-				image.getHeight() - hitBoxYOffset);
+	public void setHitboxOffsets(Rectangle offsets){
+		hitbox.setOffsets(offsets);
 	}
 	//------------------Methods for managing position of entity---------------------//
 	public void setLocation(float x, float y){
 		xCoord = x;
 		yCoord = y;
-		setHitBoxLocation(x, y);
+		setHitboxLocation(x, y);
 	}
 
 	public float getX(){
@@ -130,10 +119,13 @@ public abstract class Entity{
 	}
 	//------------------------------------------------------------------------------//
 	
-	public abstract void render(GameContainer arg0, Graphics arg1) throws SlickException;
+	public void render(GameContainer gc, Graphics g) throws SlickException{
+		g.setColor(Color.white);
+		g.draw(hitbox);
+	}
 
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException{
-		setHitBoxLocation(xCoord,yCoord);
+		setHitboxLocation(xCoord,yCoord);
 	}
 
 	protected void renderEnt(Image img, int width, int height,int duration) throws SlickException{
@@ -145,7 +137,7 @@ public abstract class Entity{
 		return image;
 	}
 	
-	public GameWorld getGameWorld(){
-		return gW;
+	public World getWorld(){
+		return world;
 	}
 }

@@ -1,7 +1,5 @@
 
 
-import java.io.IOException;
-
 import org.lwjgl.Sys;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -21,14 +19,14 @@ public class HowToState extends BasicGameState
 	ControllerManager controllerManager;
 	int stateID = -1;
 	Image background = null;
-	GameWorld gW;
+	World world;
 	private String message;
 	
 	
-	public HowToState(int stateID, ControllerManager controllerManager, GameWorld gW){
+	public HowToState(int stateID, ControllerManager controllerManager, World world){
 		this.stateID = stateID;
 		this.controllerManager = controllerManager;
-		this.gW = gW;
+		this.world = world;
 		try {
 			background = new Image("assets/Art/howto.png");
 		} catch (SlickException e) {
@@ -55,7 +53,7 @@ public class HowToState extends BasicGameState
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = new Input(delta);
     	if(input.isKeyDown(Input.KEY_SPACE)){
-    		gW.getBGM().loop();
+    		world.getBGM().loop();
     		sbg.enterState(DisplayManager.GAMEPLAYSTATE);
     	}
     	/**for(int i = 0; i < controllerManager.getControllerCount(); i++){

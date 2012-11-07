@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Rectangle;
 
 public abstract class Map {
 	public class Location{
@@ -12,7 +13,7 @@ public abstract class Map {
 			this.y = y;
 		}
 	}
-	GameWorld gW;
+	World world;
 	protected ArrayList<Location> spawnList;
 	protected ArrayList<Location> crateList; 
 	private String backgroundFileLocation;
@@ -20,10 +21,10 @@ public abstract class Map {
 	private Sound BGM;
 	private Image background;
 	protected ArrayList<Block> blockList;
-	public Map(GameWorld gW,String backgroundFileLocation, String musicFileLocation)
+	public Map(World world,String backgroundFileLocation, String musicFileLocation)
 	{
 		blockList = new ArrayList<Block>();
-		this.gW = gW;
+		this.world = world;
 		this.backgroundFileLocation = backgroundFileLocation;
 		this.musicFileLocation = musicFileLocation;
 		try {
@@ -37,15 +38,24 @@ public abstract class Map {
 	
 	public void addBlock(int xCoordinate, int yCoordinate, String fileLocation, BlockType blockType, int xOffSet, int yOffSet, int sizeXOff,int sizeYOff)	
 	{
-		
-		gW.addBlock(new Block(	xCoordinate, 	
+		Rectangle offsets = new Rectangle(xOffSet,
+								yOffSet,
+								sizeXOff,
+								sizeYOff);
+		world.addBlock(new Block(xCoordinate, 	
 								yCoordinate, 
 								fileLocation, 
 								blockType, 
-								xOffSet,
-								yOffSet,
-								sizeXOff,
-								sizeYOff));
+								offsets));
+	}
+	
+	public void addBlock(int xCoordinate, int yCoordinate, String fileLocation, BlockType blockType, Rectangle offsets)	
+	{
+		world.addBlock(new Block(xCoordinate, 	
+								yCoordinate, 
+								fileLocation, 
+								blockType, 
+								offsets));
 	}
 	
 	public abstract void buildMap();

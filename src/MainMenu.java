@@ -21,14 +21,14 @@ public class MainMenu extends BasicGameState
 	ControllerManager controllerManager;
 	int stateID = -1;
 	Image background = null;
-	GameWorld gW;
+	World world;
 	private String message;
 	
 	
-	public MainMenu(int stateID, ControllerManager controllerManager, GameWorld gW){
+	public MainMenu(int stateID, ControllerManager controllerManager, World world){
 		this.stateID = stateID;
 		this.controllerManager = controllerManager;
-		this.gW = gW;
+		this.world = world;
 		message = "";
 		try {
 			background = new Image("assets/Art/opening_screen3.jpg");
@@ -58,21 +58,21 @@ public class MainMenu extends BasicGameState
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = new Input(delta);
     	if(input.isKeyDown(Input.KEY_2)){
-    		gW.setNumberOfPlayers(2);
+    		world.setNumberOfPlayers(2);
     		message = "Number of Players Set to 2"; 
     	}
     	if(input.isKeyDown(Input.KEY_3)){
-        	gW.setNumberOfPlayers(3);
+        	world.setNumberOfPlayers(3);
         	message = "Number of Players Set to 3"; 
     	}
         if(input.isKeyDown(Input.KEY_4)){
-           	gW.setNumberOfPlayers(4);
+           	world.setNumberOfPlayers(4);
            	message = "Number of Players Set to 4"; 
 
     	}
     	if(input.isKeyDown(Input.KEY_ENTER)){
     		try {
-				gW.init();
+				world.init();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				Sys.alert("Something went wrong!", e.getMessage());

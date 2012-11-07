@@ -1,10 +1,5 @@
-import java.util.ArrayList;
-
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
-import org.newdawn.slick.geom.Rectangle;
 
 
 public class IceProjectile extends Projectile {
@@ -12,8 +7,8 @@ public class IceProjectile extends Projectile {
 	private int lingerDuration;
 	private int cycles;
 
-	public IceProjectile(float xSpawnLocation, float ySpawnLocation, Item item, GameWorld gW) {
-		super(xSpawnLocation, ySpawnLocation, item, gW);
+	public IceProjectile(float xSpawnLocation, float ySpawnLocation, Item item, World world) {
+		super(xSpawnLocation, ySpawnLocation, item, world);
 		delayDuration = 250;
 		lingerDuration = 125;
 		cycles = 3;
@@ -21,31 +16,31 @@ public class IceProjectile extends Projectile {
 
 	@Override
 	public void checkCollisions(){
-		for (Character c : gW.getListOfCharacters())
+		for (Character c : world.getCharacters())
 		{
 			if(owner != c){
-				if (getHitBox().intersects(c.getHitBox()))
+				if (getHitbox().intersects(c.getHitbox()))
 				{			
 					c.modifyHealth(getDamage());
-					gW.removeProjectile(this);
-					gW.punchHit.get((int) (3 * Math.random())).play();
+					world.removeProjectile(this);
+					world.punchHit.get((int) (3 * Math.random())).play();
 				}
 			}
 		}
-		for (Projectile p : gW.getListOfProjectiles())
+		for (Projectile p : world.getProjectiles())
 		{
 			if(p != this && p.getOwner() != owner){
-				if (getHitBox().intersects(p.getHitBox()))
+				if (getHitbox().intersects(p.getHitbox()))
 				{			
-					gW.removeProjectile(p);
+					world.removeProjectile(p);
 				}
 			}
 		}
-		for(Block b: gW.getListOfBlocks()){
-			if(getHitBox().intersects(b.getHitBox()) && b.blockType == BlockType.Crate){
-				gW.spawnItem(b);
-				gW.removeCrate(b);
-				gW.playRandomSound(gW.punchHit);
+		for(Block b: world.getBlocks()){
+			if(getHitbox().intersects(b.getHitbox()) && b.blockType == BlockType.Crate){
+				world.spawnItem(b);
+				world.removeCrate(b);
+				world.playRandomSound(world.punchHit);
 			}
 		}
 	}
@@ -60,13 +55,13 @@ public class IceProjectile extends Projectile {
 				{
 					if(lingerDuration <= 0){
 						if(!isFlippedHorizontally){
-							xSpawnLocation = xCoord = xSpawnLocation + hitBox.getWidth();
+							xSpawnLocation = xCoord = xSpawnLocation + hitbox.getWidth();
 						}
 						else{
-							xSpawnLocation = xCoord = xSpawnLocation - hitBox.getWidth();							
+							xSpawnLocation = xCoord = xSpawnLocation - hitbox.getWidth();							
 						}
-						ySpawnLocation = yCoord = ySpawnLocation - hitBox.getHeight()/2;
-						maxRange -= hitBox.getHeight()/2;	
+						ySpawnLocation = yCoord = ySpawnLocation - hitbox.getHeight()/2;
+						maxRange -= hitbox.getHeight()/2;	
 						lingerDuration = 250;
 						delayDuration = 125;
 						cycles--;
@@ -88,13 +83,13 @@ public class IceProjectile extends Projectile {
 			{
 				if(lingerDuration <= 0){
 					if(!isFlippedHorizontally){
-						xSpawnLocation = xCoord = xSpawnLocation + hitBox.getWidth();
+						xSpawnLocation = xCoord = xSpawnLocation + hitbox.getWidth();
 					}
 					else{
-						xSpawnLocation = xCoord = xSpawnLocation - hitBox.getWidth();							
+						xSpawnLocation = xCoord = xSpawnLocation - hitbox.getWidth();							
 					}
-					ySpawnLocation = yCoord = ySpawnLocation - hitBox.getHeight()/2;
-					maxRange -= hitBox.getHeight()/2;	
+					ySpawnLocation = yCoord = ySpawnLocation - hitbox.getHeight()/2;
+					maxRange -= hitbox.getHeight()/2;	
 					lingerDuration = 250;
 					cycles--;
 				}
@@ -109,7 +104,7 @@ public class IceProjectile extends Projectile {
 		else{
 			if (getDistanceTravelled() >= maxRange)	{
 				if(lingerDuration <= 0){
-					gW.removeProjectile(this);
+					world.removeProjectile(this);
 				}
 				else
 					lingerDuration -= delta;
@@ -120,6 +115,6 @@ public class IceProjectile extends Projectile {
 			}
 		}
 		//keeps rectangle in line with sprite
-		setHitBoxLocation(xCoord,yCoord);
+		setHitboxLocation(xCoord,yCoord);
 	}
 }

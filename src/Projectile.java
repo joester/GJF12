@@ -1,9 +1,6 @@
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
-import org.newdawn.slick.geom.Rectangle;
 
 
 public class Projectile extends Entity
@@ -18,8 +15,8 @@ public class Projectile extends Entity
 	protected boolean isFlippedHorizontally;
 	protected boolean isFlippedVertically;
 
-	public Projectile(float xSpawnLocation, float ySpawnLocation, Item item, GameWorld gW){
-		super(xSpawnLocation, ySpawnLocation, item.projectileImageLocation, gW);
+	public Projectile(float xSpawnLocation, float ySpawnLocation, Item item, World world){
+		super(xSpawnLocation, ySpawnLocation, item.projectileImageLocation, world);
 		this.xSpawnLocation = xSpawnLocation;
 		this.ySpawnLocation = ySpawnLocation;
 		xVelocity = item.projectileXVelocity;
@@ -28,11 +25,12 @@ public class Projectile extends Entity
 		this.setDamage(item.damage);
 		setOwner(item.owner);
 		this.image = item.projectileImage;
-		setHitBoxOffsets(item.pXPosOffset, item.pYPosOffset, item.pXOffset, item.pYOffset);
+		hitbox.setSize(image.getWidth(),image.getHeight());
+		getHitbox().setOffsets(item.projectileOffsets);
 	}
 
-	public Projectile(float xSpawnLocation, float ySpawnLocation, GameWorld gW){
-		super(xSpawnLocation, ySpawnLocation, gW);
+	public Projectile(float xSpawnLocation, float ySpawnLocation, World world){
+		super(xSpawnLocation, ySpawnLocation, world);
 	}
 
 	public void flipImage(boolean horizontal, boolean vertical){
@@ -58,7 +56,7 @@ public class Projectile extends Entity
 
 		if (getDistanceTravelled() >= maxRange)
 		{
-			gW.removeProjectile(this);
+			world.removeProjectile(this);
 		}
 
 		//keeps rectangle in line with sprite
@@ -73,9 +71,9 @@ public class Projectile extends Entity
 	}
 
 	@Override
-	public void render(GameContainer gc, Graphics g)
+	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		g.draw(hitBox);
+		super.render(gc, g);
 		if(image != null){
 			image.draw(xCoord, yCoord, 1);	
 		}
@@ -99,26 +97,26 @@ public class Projectile extends Entity
 	}
 
 	public void checkCollisions() {
-		for (Character c : gW.getListOfCharacters())
+		for (Character c : world.getCharacters())
 		{
 			if(owner != c){
-				if (getHitBox().intersects(c.getHitBox()))
+				if (getHitbox().intersects(c.getHitbox()))
 				{			
 					c.modifyHealth(damage);
-					gW.removeProjectile(this);
-					gW.punchHit.get((int) (3 * Math.random())).play();
+					world.removeProjectile(this);
+					world.punchHit.get((int) (3 * Math.random())).play();
 				}
 			}
 		}
-		for(Block b: gW.getListOfBlocks()){
-			if(getHitBox().intersects(b.getHitBox())){
+		for(Block b: world.getBlocks()){
+			if(getHitbox().intersects(b.getHitbox())){
 				if(b.blockType == BlockType.Impassable){		
-					gW.removeProjectile(this);
+					world.removeProjectile(this);
 				}
 				else if(b.blockType == BlockType.Crate){
-					gW.spawnItem(b);
-					gW.playRandomSound(gW.punchHit);
-					gW.removeProjectile(this);
+					world.spawnItem(b);
+					world.playRandomSound(world.punchHit);
+					world.removeProjectile(this);
 				}
 			}
 		}

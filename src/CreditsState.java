@@ -1,5 +1,3 @@
-import java.util.List;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,11 +14,11 @@ public class CreditsState extends BasicGameState{
 	private int stateID;
 	private Sound BGM;
 	private Image background;
-	private GameWorld gW;
-	public CreditsState(int stateID, ControllerManager controllerManager, GameWorld gW) {
+	private World world;
+	public CreditsState(int stateID, ControllerManager controllerManager, World world) {
 		this.controllerManager = controllerManager;
 		this.stateID  = stateID;
-		this.gW = gW;
+		this.world = world;
 	}
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)

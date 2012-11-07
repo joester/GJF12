@@ -19,19 +19,18 @@ public class Item extends Entity {
 	protected float projectileYVelocity;
 	protected String projectileImageLocation;
 	protected Image projectileImage;
-	protected Rectangle projectileHitBox;
-	protected float pXPosOffset, pYPosOffset;
-	protected float pXOffset, pYOffset;
+	protected Hitbox projectileHitBox;
+	protected Rectangle projectileOffsets;
 	protected Character owner;
 	private final int floatRange = 8;
 	private float ySpawnLocation;
 
 	
-	public Item (float x, float y, String fileLocation,GameWorld gW)
+	public Item (float x, float y, String fileLocation,World world)
 	{	 
-		super(x, y, fileLocation, gW);
+		super(x, y, fileLocation, world);
 		//Sets the hit box
-		setHitBoxSize(45, 45);	
+		setHitboxSize(45, 45);	
 		ySpawnLocation = yCoord;
 		yVelocity = .25f;
 	}
@@ -39,7 +38,7 @@ public class Item extends Entity {
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		//g.draw(hitBox);
+		super.render(gc, g);
 		image.draw(xCoord, yCoord);
 	}
 
@@ -56,18 +55,18 @@ public class Item extends Entity {
 
 
 
-	public void use(GameWorld gW)
+	public void use(World world)
 	{		
 		if(owner.isFacingRight){
-			float x = owner.xCoord+owner.getHitBox().getWidth()/2;
+			float x = owner.xCoord+owner.getHitbox().getWidth()/2;
 			float y = owner.yCoord;
-			gW.getListOfProjectiles().add(new Projectile(x, y,this, gW));
+			world.getProjectiles().add(new Projectile(x, y,this, world));
 		}
 		else{
 			float x = owner.xCoord - projectileImage.getWidth()/2;
 			float y = owner.yCoord;
-			Projectile p = new Projectile(x, y, this, gW);
-			gW.getListOfProjectiles().add(p);
+			Projectile p = new Projectile(x, y, this, world);
+			world.getProjectiles().add(p);
 			p.flipImage(true, false);
 			p.setXVelocity(-projectileXVelocity);
 		}

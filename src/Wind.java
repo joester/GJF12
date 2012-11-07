@@ -1,5 +1,6 @@
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 
 
@@ -11,8 +12,8 @@ public class Wind extends Item
  */
 	private int push = 5;
 	
-	public Wind(float x, float y, String i, GameWorld gW){
-		super(x, y, i, gW);
+	public Wind(float x, float y, String i, World world){
+		super(x, y, i, world);
 		
 		projectileImageLocation = "assets/Art/Transformations/wind.png";
 		try {
@@ -27,9 +28,6 @@ public class Wind extends Item
 		dropChance = true;
 		startUpTime = .01;
 		reloadTime = 1000;
-		pXPosOffset = 10;
-		pYPosOffset = 20;
-		pXOffset = 20;
-		pYOffset = 40;
+		projectileOffsets = new Rectangle(10,20,20,40);
 	}
 }

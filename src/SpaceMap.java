@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class SpaceMap extends Map
 {
-	public SpaceMap(GameWorld gW, String backgroundFileLocation, String musicFileLocation) {
-		super(gW, backgroundFileLocation, musicFileLocation);
+	public SpaceMap(World world, String backgroundFileLocation, String musicFileLocation) {
+		super(world, backgroundFileLocation, musicFileLocation);
 	}
 
 	public void buildMap()

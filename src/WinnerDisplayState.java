@@ -17,18 +17,18 @@ public class WinnerDisplayState extends BasicGameState{
 	private List<Character> players;
 	private Image background;
 	private Character winningPlayer;
-	private GameWorld gW;
+	private World world;
 	public WinnerDisplayState(int stateID,
-			ControllerManager controllerManager, GameWorld gW) {
+			ControllerManager controllerManager, World world) {
 		this.controllerManager = controllerManager;
 		this.stateID  = stateID;
-		this.gW = gW;
+		this.world = world;
 	}
 
 	public void setWinner(int winnerID){
 		this.winner = winnerID;
 		winningPlayer = players.get(winner);
-		gW = winningPlayer.gW;
+		world = winningPlayer.world;
 	}
 	public void setPlayerList(List<Character> players){
 		this.players = players;
@@ -44,7 +44,7 @@ public class WinnerDisplayState extends BasicGameState{
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {		
-		if(gW.getMap() instanceof IceMap)
+		if(world.getMap() instanceof IceMap)
 			g.setColor(Color.black);
 		else
 			g.setColor(Color.white);
@@ -52,7 +52,7 @@ public class WinnerDisplayState extends BasicGameState{
 			getBackground().draw();
 
 		if(winningPlayer != null){
-			if(winningPlayer.wins >= gW.winsNeeded){
+			if(winningPlayer.wins >= world.winsNeeded){
 				g.drawString("Player " + (winner + 1) + " Won!", gc.getWidth()/2 - 75, gc.getHeight()/2 - 100);
 				g.drawString("Press Enter to Continue", gc.getWidth()/2 - 125, gc.getHeight()/2 + 100);
 			}
@@ -69,8 +69,8 @@ public class WinnerDisplayState extends BasicGameState{
 		Input input = new Input(delta);
 
 		if(input.isKeyDown(Input.KEY_ENTER)){
-			if(winningPlayer.wins >= winningPlayer.gW.winsNeeded){
-				winningPlayer.gW.getBGM().stop();
+			if(winningPlayer.wins >= winningPlayer.world.winsNeeded){
+				winningPlayer.world.getBGM().stop();
 				sbg.enterState(DisplayManager.CREDITS);
 			}
 			else{

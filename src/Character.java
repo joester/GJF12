@@ -47,9 +47,9 @@ public class Character extends Entity{
 	//Set<Body> bodies = new HashSet<Body>();
 
 
-	public Character(int x, int y, String player, GameWorld gW)
+	public Character(int x, int y, String player, World world)
 	{
-		super(x * Block.BLOCKSIZE,y * Block.BLOCKSIZE, player, gW);
+		super(x * Block.BLOCKSIZE,y * Block.BLOCKSIZE, player, world);
 		name = player;
 		hasAuxItem = false;
 		hasItem = false;
@@ -59,7 +59,7 @@ public class Character extends Entity{
 		HP = 100;
 		baseDamage = 1;
 		wins = 0;  
-		setHitBoxSize(42,80);
+		setHitboxSize(42,80);
 		item = null;
 
 		HP = maxHealth;
@@ -69,11 +69,6 @@ public class Character extends Entity{
 		auxName = null;
 		jumpAvailable = true;
 	}
-
-	public void setControls(int[] set){
-		controls = set;
-	}
-
 
 
 	//public Animation getAnimation(){
@@ -148,23 +143,23 @@ public class Character extends Entity{
 			isPunching = true;
 			if (hasItem)
 			{
-				item.use(gW);
+				item.use(world);
 				attackCoolDown = item.reloadTime;
 			}
 			else{
 				if(isFacingRight){
-					punchProjectile = new PunchProjectile(getX() + hitBox.getWidth(), getY(), this, gW);
-					punchProjectile.setLocation(getX() + hitBox.getWidth(),getY());
+					punchProjectile = new PunchProjectile(getX() + hitbox.getWidth(), getY(), this, world);
+					punchProjectile.setLocation(getX() + hitbox.getWidth(),getY());
 				}
 				else{
-					punchProjectile = new PunchProjectile(getX(), getY()+ hitBox.getWidth(), this, gW);
-					punchProjectile.setLocation(getX() - punchProjectile.getHitBox().getWidth(),getY());
+					punchProjectile = new PunchProjectile(getX(), getY()+ hitbox.getWidth(), this, world);
+					punchProjectile.setLocation(getX() - punchProjectile.getHitbox().getWidth(),getY());
 				}
-				gW.getListOfProjectiles().add(punchProjectile);	
-				for (Block b : gW.getListOfBlocks())
+				world.getProjectiles().add(punchProjectile);	
+				for (Block b : world.getBlocks())
 				{
-					
-					gW.removeProjectile(punchProjectile);
+
+					world.removeProjectile(punchProjectile);
 				}
 				attackCoolDown = baseAttackCoolDown;
 			}
@@ -311,17 +306,16 @@ public class Character extends Entity{
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		g.draw(hitBox);
 		currentAnimation.draw(xCoord, yCoord);
 		if(currentAnimation.isStopped()){
 			currentAnimation.restart();
 		}
+		super.render(gc,g);
 	}
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
-		hit = false;
 		if(xVelocity < 0){
 			if(canMoveLeft){
 				xCoord += xVelocity;
@@ -342,7 +336,7 @@ public class Character extends Entity{
 				yCoord += yVelocity;
 			}
 		}
-		
+
 		isJumping = (canMoveDown && isMovingDown) || (isMovingUp && canMoveUp) || (isMovingUp && canMoveDown) || (!isMovingUp && canMoveDown);
 
 		jumpAvailable = !canMoveDown;
@@ -356,11 +350,11 @@ public class Character extends Entity{
 			isFacingRight = false;
 		}
 		selectAnimation();
-		setHitBoxLocation(xCoord, yCoord);
-
+		setLocation(xCoord, yCoord);
+		//super.update(gc, delta);
 
 		xVelocity = 0;
-	
+
 		attackCoolDown -= delta;
 		if(attackCoolDown < 0){
 			attackCoolDown = 0;
@@ -442,7 +436,7 @@ public class Character extends Entity{
 		isMovingUp = isMovingRight = isMovingLeft = isMovingDown = false;;
 		canMoveUp = canMoveRight = canMoveLeft =  canMoveDown = false;
 		isJumpingLeft = isJumpingRight = movingLeft = movingRight = punchLeft = punchRight = false;
-		
+
 		hasAuxItem = false;
 		hasItem = false;
 		attackCoolDown = 0;
@@ -453,7 +447,104 @@ public class Character extends Entity{
 
 		itemName = null;
 		auxName = null;
-		jumpAvailable = true;
-		
+		jumpAvailable = true;	
+	}
+
+	public void checkCollisions(GameContainer gc){
+		Rectangle r = new Rectangle(getHitbox().getX() + xVelocity, getHitbox().getY() + yVelocity, getHitbox().getWidth(), getHitbox().getHeight());
+		for (Block b : getWorld().getBlocks()){
+			if (r.intersects(b.getHitbox())){	
+				if (b.getBlockType() == BlockType.Lethal){
+					modifyHealth(getHP());
+				}
+				determineDirection();
+				if (isMovingLeft && b.getBlockType() != BlockType.Passable){
+					if(getHitbox().getX() >= b.getHitbox().getX() + b.getHitbox().getWidth())
+						if(getHitbox().getY() + getHitbox().getHeight() > b.getY()){
+							canMoveLeft = false;
+						}	
+					if (isMovingUp && b.getBlockType() != BlockType.Passable){
+						if(getHitbox().getY() >= b.getHitbox().getY() + b.getHitbox().getHeight()){
+							yVelocity = 0;
+							setLocation(getX(),b.getHitbox().getY() + b.getHitbox().getHeight());
+							jumpAvailable = false;
+							canMoveUp = false;
+						}
+					}
+					else if (isMovingDown){
+						jumpAvailable = false;
+						if(getHitbox().getY() + getHitbox().getHeight() <= b.getHitbox().getY()){
+							yVelocity = 0;
+							setLocation(getX(), b.getHitbox().getY() - getHitbox().getHeight());
+							canMoveDown = false;
+							jumpAvailable = true;
+						}
+					}
+
+				}
+				else if(isMovingRight && b.getBlockType() != BlockType.Passable){
+					//xVelocity = 0;
+					if(getHitbox().getX() + getHitbox().getWidth() <= b.getHitbox().getX())
+						if(getHitbox().getY() + getHitbox().getHeight() > b.getY()){
+							canMoveRight = false;
+						}
+					if (isMovingUp && b.getBlockType() != BlockType.Passable){
+						if(getHitbox().getY() >= b.getHitbox().getY() + b.getHitbox().getHeight()){
+							yVelocity = 0;
+							setLocation(getX(),b.getHitbox().getY() + b.getHitbox().getHeight());
+							jumpAvailable = false;
+							canMoveUp = false;
+						}
+					}
+					else if (isMovingDown){
+						jumpAvailable = false;
+						if(getHitbox().getY() + getHitbox().getHeight() <= b.getHitbox().getY()){
+							yVelocity = 0;
+							setLocation(getX(), b.getHitbox().getY()  - getHitbox().getHeight());
+							canMoveDown = false;
+							jumpAvailable = true;
+						}
+					}
+				}
+				else{
+					if (isMovingUp && b.getBlockType() != BlockType.Passable){
+						yVelocity = 0;
+						setLocation(getX(),b.getHitbox().getY() + b.getHitbox().getHeight());
+						jumpAvailable = false;
+						canMoveUp = false;
+					}
+					else if (isMovingDown){
+						jumpAvailable = false;
+						if(getHitbox().getY() + getHitbox().getHeight() <= b.getHitbox().getY()){
+							yVelocity = 0;
+							setLocation(getX(), b.getHitbox().getY() - hitbox.getHeight());
+							canMoveDown = false;
+							jumpAvailable = true;
+						}
+					}
+				}
+			}
+			if(r.getX() <= 0){
+				canMoveLeft = false;
+			}
+			if(r.getX() + r.getWidth() >= gc.getWidth()){
+				canMoveRight = false;
+			}
+			if(r.getY() <= 0){
+				canMoveUp = false;
+				yVelocity = 0;
+			}
+			if(r.getY() > gc.getHeight()){
+				modifyHealth(getHP());
+			}
+		}
+		for (Item i : getWorld().getItemsOnMap())
+		{
+			if (getHitbox().intersects(i.getHitbox()) && !hasItem)
+			{
+				pickUpItem(i);
+				getWorld().removeItem(i);
+			}
+		}
 	}
 }

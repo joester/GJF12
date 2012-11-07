@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class SpaceMap2 extends Map
 {
-	public SpaceMap2(GameWorld gW, String backgroundFileLocation, String musicFileLocation) {
-		super(gW, backgroundFileLocation, musicFileLocation);
+	public SpaceMap2(World world, String backgroundFileLocation, String musicFileLocation) {
+		super(world, backgroundFileLocation, musicFileLocation);
 		// TODO Auto-generated constructor stub
 	}
 

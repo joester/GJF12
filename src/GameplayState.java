@@ -17,7 +17,7 @@ public class GameplayState extends BasicGameState {
 	
 	Character player = null;
 	Character player2 = null;
-	GameWorld gW;
+	World world;
 	Image[] uiImages = new Image[4];
 	int inLine;
 	int uiIntervals;
@@ -25,14 +25,14 @@ public class GameplayState extends BasicGameState {
 	private ControllerManager controllerManager;
 	
 	
-	public GameplayState(int stateID, ControllerManager controllerManager, GameWorld gW){
+	public GameplayState(int stateID, ControllerManager controllerManager, World world){
 		this.stateID = stateID;
 		this.controllerManager = controllerManager;
-		this.gW = gW;
+		this.world = world;
 	}
 
-	public GameWorld getGameWorld(){
-		return gW;
+	public World getGameWorld(){
+		return world;
 	}
 	
 	@Override
@@ -52,22 +52,22 @@ public class GameplayState extends BasicGameState {
 		throws SlickException
 	{
 		
-		gW.render(gc, g);
+		world.render(gc, g);
 		
 		g.setColor(Color.white);
 		int dist = gc.getWidth() / 8;
 		uiIntervals = dist * 2;
 		
-		for(int i = 0; i < gW.getNumberOfPlayers(); i ++){
+		for(int i = 0; i < world.getNumberOfPlayers(); i ++){
 			uiImages[i].draw(dist - 84, inLine, (float).75);
-			Character c = gW.getListOfPlayers().get(i);
+			Character c = world.getPlayers().get(i);
 			c.currentAnimation.getCurrentFrame().draw(dist - 84, inLine, (float).75);
 			if(c.hasItem){
 				c.item.image.draw(dist - 45, inLine + 4, (float) .9);
 			}
 			g.drawString((String)c.displayHP(),
 				dist + (uiImages[i].getWidth() * 3 / 4) - 84, inLine + 16);
-			g.drawString(c.wins + "/" +gW.winsNeeded,
+			g.drawString(c.wins + "/" +world.winsNeeded,
 					dist - (uiImages[i].getWidth() * 3 / 4), inLine + 16);
 			dist += uiIntervals;
 		}
@@ -83,28 +83,28 @@ public class GameplayState extends BasicGameState {
 		
 		try
 		{
-			gW.update(gc, delta);
+			world.update(gc, delta);
 		}
 		catch (InterruptedException e)
 		{
 			Sys.alert("Something went wrong!", e.getMessage());
 		}
-		if(gW.checkIsRoundOver()){
+		if(world.checkIsRoundOver()){
 			WinnerDisplayState wds = (WinnerDisplayState) sbg.getState(DisplayManager.WINNERDISPLAYSTATE);
-			if(!gW.getListOfCharacters().isEmpty()){
-				Character c = gW.getListOfCharacters().get(0);
+			if(!world.getCharacters().isEmpty()){
+				Character c = world.getCharacters().get(0);
 				c.wins++;
-				wds.setPlayerList(gW.getListOfPlayers());
+				wds.setPlayerList(world.getPlayers());
 				wds.setWinner(c.playerID);
 			}
 			try {
-				gW.setNextRound();
+				world.setNextRound();
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				Sys.alert("Something went wrong!", e.getMessage());
 			}
-			wds.setBackground(gW.getBackground().copy());
+			wds.setBackground(world.getBackground().copy());
 			sbg.enterState(DisplayManager.WINNERDISPLAYSTATE);
 		}
 	}

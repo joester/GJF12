@@ -17,7 +17,7 @@ public class DisplayManager extends StateBasedGame
 	public static final int CREDITS = 5;
 	
 	private ControllerManager controllerManager;
-	private GameWorld gW;
+	private World world;
 	
 	//Builds the actual display for the game.
 
@@ -47,13 +47,13 @@ public class DisplayManager extends StateBasedGame
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException
 	{
-		gW = new GameWorld(controllerManager);
-		this.addState(new MainMenu(DisplayManager.MAINMENUSTATE, controllerManager, gW));
-		this.addState(new HowToState(DisplayManager.HOWTOSTATE, controllerManager, gW));
-		this.addState(new GameplayState(DisplayManager.GAMEPLAYSTATE, controllerManager, gW));
-		this.addState(new PauseState(DisplayManager.PAUSESTATE, controllerManager, gW));
-		this.addState(new WinnerDisplayState(DisplayManager.WINNERDISPLAYSTATE, controllerManager, gW));
-		this.addState(new CreditsState(DisplayManager.CREDITS, controllerManager, gW));
+		world = new World(controllerManager);
+		this.addState(new MainMenu(DisplayManager.MAINMENUSTATE, controllerManager, world));
+		this.addState(new HowToState(DisplayManager.HOWTOSTATE, controllerManager, world));
+		this.addState(new GameplayState(DisplayManager.GAMEPLAYSTATE, controllerManager, world));
+		this.addState(new PauseState(DisplayManager.PAUSESTATE, controllerManager, world));
+		this.addState(new WinnerDisplayState(DisplayManager.WINNERDISPLAYSTATE, controllerManager, world));
+		this.addState(new CreditsState(DisplayManager.CREDITS, controllerManager, world));
 	}
 	
 	

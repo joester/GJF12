@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class IceMap extends Map
 {
-	public IceMap(GameWorld gW, String backgroundFileLocation, String musicFileLocation) {
-		super(gW, backgroundFileLocation, musicFileLocation);
+	public IceMap(World world, String backgroundFileLocation, String musicFileLocation) {
+		super(world, backgroundFileLocation, musicFileLocation);
 		// TODO Auto-generated constructor stub
 	}
 	public void buildMap()
