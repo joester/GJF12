@@ -33,6 +33,8 @@ public class Character extends Entity{
 	private boolean isJumping;
 	private boolean isIdle;
 	private boolean isRunning;
+	private boolean isKnockedBack;
+	private float KBDistance;
 	boolean hit, isHit;
 
 	Projectile punchProjectile; 
@@ -295,7 +297,7 @@ public class Character extends Entity{
 
 			}
 
-			count += 1;
+			count++;
 
 			animation.stopAt(animation.getFrameCount() - 1);
 			animationSet.add(animation);
@@ -316,6 +318,7 @@ public class Character extends Entity{
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
+		
 		if(xVelocity < 0){
 			if(canMoveLeft){
 				xCoord += xVelocity;
@@ -336,24 +339,29 @@ public class Character extends Entity{
 				yCoord += yVelocity;
 			}
 		}
-
-		isJumping = (canMoveDown && isMovingDown) || (isMovingUp && canMoveUp) || (isMovingUp && canMoveDown) || (!isMovingUp && canMoveDown);
-
-		jumpAvailable = !canMoveDown;
-		isRunning = !isJumping && xVelocity != 0;
-		isIdle = !isJumping && !isRunning;
-
-		if(isMovingRight){
-			isFacingRight = true;
+		if(isKnockedBack && KBDistance > 0 ){
+			KBDistance -= Math.abs(xVelocity);
 		}
-		else if(isMovingLeft){
-			isFacingRight = false;
+		else{
+			if(isMovingRight){
+				isFacingRight = true;
+			}
+			else if(isMovingLeft){
+				isFacingRight = false;
+			}
+			isKnockedBack = false;
+			isJumping = (canMoveDown && isMovingDown) || (isMovingUp && canMoveUp) || (isMovingUp && canMoveDown) || (!isMovingUp && canMoveDown);
+			jumpAvailable = !canMoveDown;
+			isRunning = !isJumping && xVelocity != 0;
+			isIdle = !isJumping && !isRunning;
+			xVelocity = 0;
 		}
+
 		selectAnimation();
 		setLocation(xCoord, yCoord);
 		//super.update(gc, delta);
+	
 
-		xVelocity = 0;
 
 		attackCoolDown -= delta;
 		if(attackCoolDown < 0){
@@ -385,11 +393,12 @@ public class Character extends Entity{
 					currentAnimation = animationSet.get(3);
 				}
 			}
-			else if(isHit){
+			else if(isHit  || isKnockedBack){
 				if(currentAnimation != animationSet.get(4)){
 					currentAnimation = animationSet.get(4);
 				}
 			}
+
 		}
 		else{
 			if(isJumping && !jumpAvailable){
@@ -410,7 +419,7 @@ public class Character extends Entity{
 					currentAnimation = animationSet.get(8);
 				}
 			}
-			else if(isHit){
+			else if(isHit || isKnockedBack){
 				if(currentAnimation != animationSet.get(9)){
 					currentAnimation = animationSet.get(9);
 				}
@@ -421,6 +430,7 @@ public class Character extends Entity{
 		isIdle = false;
 		isRunning = false;
 		isMovingRight = false;
+		isHit = false;
 	}
 
 	public void setPlayerID(int playerID){
@@ -433,10 +443,13 @@ public class Character extends Entity{
 		isIdle = false;
 		isRunning = false;
 		isMovingRight = false;
-		isMovingUp = isMovingRight = isMovingLeft = isMovingDown = false;;
+		isMovingUp = isMovingRight = isMovingLeft = isMovingDown = false;
+		isKnockedBack = false;
+		KBDistance = 0;
 		canMoveUp = canMoveRight = canMoveLeft =  canMoveDown = false;
 		isJumpingLeft = isJumpingRight = movingLeft = movingRight = punchLeft = punchRight = false;
-
+		xVelocity = 0;
+		yVelocity = 0;
 		hasAuxItem = false;
 		hasItem = false;
 		attackCoolDown = 0;
@@ -462,6 +475,7 @@ public class Character extends Entity{
 					if(getHitbox().getX() >= b.getHitbox().getX() + b.getHitbox().getWidth())
 						if(getHitbox().getY() + getHitbox().getHeight() > b.getY()){
 							canMoveLeft = false;
+							isKnockedBack = false;
 						}	
 					if (isMovingUp && b.getBlockType() != BlockType.Passable){
 						if(getHitbox().getY() >= b.getHitbox().getY() + b.getHitbox().getHeight()){
@@ -487,6 +501,7 @@ public class Character extends Entity{
 					if(getHitbox().getX() + getHitbox().getWidth() <= b.getHitbox().getX())
 						if(getHitbox().getY() + getHitbox().getHeight() > b.getY()){
 							canMoveRight = false;
+							isKnockedBack = false;
 						}
 					if (isMovingUp && b.getBlockType() != BlockType.Passable){
 						if(getHitbox().getY() >= b.getHitbox().getY() + b.getHitbox().getHeight()){
@@ -526,9 +541,11 @@ public class Character extends Entity{
 			}
 			if(r.getX() <= 0){
 				canMoveLeft = false;
+				isKnockedBack = false;
 			}
 			if(r.getX() + r.getWidth() >= gc.getWidth()){
 				canMoveRight = false;
+				isKnockedBack = false;
 			}
 			if(r.getY() <= 0){
 				canMoveUp = false;
@@ -546,5 +563,80 @@ public class Character extends Entity{
 				getWorld().removeItem(i);
 			}
 		}
+	}
+
+	public void handleInput(Input input){
+		if(!isKnockedBack){
+			if(playerID == 0){
+				if(input.isKeyDown(Input.KEY_A)){
+					xVelocity = -3;
+					canMoveLeft = true;
+				}
+				if(input.isKeyDown(Input.KEY_W)){
+					if(jumpAvailable){
+						yVelocity = -7.5f;
+						jumpAvailable = false;
+						canMoveUp = true;
+					}
+				}
+
+				if(input.isKeyDown(Input.KEY_SPACE))
+					attack();
+
+				if(input.isKeyDown(Input.KEY_Q)){
+					for (Item i : getWorld().getItemsOnMap())
+					{
+						if (getHitbox().intersects(i.getHitbox()))
+						{
+							dropItem();
+							pickUpItem(i);
+							getWorld().removeItem(i);
+						}
+					}
+				}
+				if(input.isKeyDown(Input.KEY_D)){
+					xVelocity = 3;
+					canMoveRight = true;
+				}
+			}
+			else if(playerID == 1){
+				if(input.isKeyDown(Input.KEY_J) || input.isKeyDown(Input.KEY_NUMPAD4)){ 
+					xVelocity = -3;
+					canMoveLeft = true;
+				}
+				if(input.isKeyDown(Input.KEY_I) || input.isKeyDown(Input.KEY_NUMPAD8)){ //KEY_NUMPAD8
+					if(jumpAvailable){
+						yVelocity = -7.5f;
+						jumpAvailable = false;
+						canMoveUp = true;
+					}
+				}
+				if(input.isKeyDown(Input.KEY_O) || input.isKeyDown(Input.KEY_NUMPAD7)){//KEY_NUMPAD7
+					for (Item i : getWorld().getItemsOnMap())
+					{
+						if (getHitbox().intersects(i.getHitbox()))
+						{
+							dropItem();
+							pickUpItem(i);
+							getWorld().removeItem(i);
+						}
+					}
+				}
+				if(input.isKeyDown(Input.KEY_L) || input.isKeyDown(Input.KEY_NUMPAD6)){//NUMPAD6
+					xVelocity = 3;
+					canMoveRight = true;
+				}
+				if(input.isKeyDown(Input.KEY_U) || input.isKeyDown(Input.KEY_NUMPAD0)){//NUMPAD0
+					attack();
+				}
+			}
+		}
+	}
+	
+	public void knockBack(float distance, float velocity){
+		System.out.println("D");
+		KBDistance = distance;
+		xVelocity = velocity;
+		isKnockedBack = true;
 	}
 }
