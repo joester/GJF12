@@ -34,8 +34,9 @@ public class Character extends Entity{
 	private boolean isRunning;
 	private boolean isKnockedBack;
 	private float KBDistance;
-	boolean hit, isHit;
-	boolean canMove = true;
+	private boolean hit, isHit;
+	private boolean canMove = true;
+	private int currentTimeElapsed;
 
 	Projectile punchProjectile; 
 
@@ -45,10 +46,8 @@ public class Character extends Entity{
 	private double attackCoolDown;
 	public int playerID;
 	long timer;
-	float timePassed = 1.0f;
+	int timePassed;
 
-	//GameWorld gameWorld = new GameWorld();
-	//Set<Body> bodies = new HashSet<Body>();
 
 
 	public Character(int x, int y, String player, World world)
@@ -93,6 +92,7 @@ public class Character extends Entity{
 	{
 		HP -= deltaHealth;	
 		isHit = true;
+		knockBack(100f, 10f);
 	}
 
 	public int getDamage()
@@ -123,7 +123,6 @@ public class Character extends Entity{
 
 	public void attack()
 	{
-		timer = System.nanoTime();
 		if(attackCoolDown <= 0){
 			isPunching = true;
 			if (hasItem)
@@ -292,31 +291,41 @@ public class Character extends Entity{
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		if(timePassed <= 30 && timer != 0 && isPunching){
+		if(isPunching){
 			canMove = false;
-			timePassed += (System.nanoTime() - timer) / 10000000;
-			System.out.println(timePassed);
-			timer = System.nanoTime();
-			if(timePassed > 30){
+			timePassed += currentTimeElapsed;
+
+			if(timePassed > 300){
 				canMove = true;
+				
 				isPunching = false;
 				currentAnimation.stop();
 				currentAnimation.restart();
 				timePassed = 0;
+
+			}
+			currentAnimation.draw(xCoord, yCoord);
+			if(currentAnimation.isStopped()){
+				currentAnimation.restart();
 			}
 		}
-		currentAnimation.draw(xCoord, yCoord);
+		if(!currentAnimation.equals(animationSet.get(1))&&!currentAnimation.equals(animationSet.get(6))){
+			currentAnimation.draw(xCoord, yCoord);
+			if(currentAnimation.isStopped()){
+				currentAnimation.restart();
+			}
+		}
 
 		super.render(gc,g);
 	}
 	
-	public void stopMovement(){
+	private void stopMovement(){
 		if(!canMove){
 			xVelocity = yVelocity = 0;
 		}
 	}
 	
-	public void setMovement(){
+	private void setMovement(){
 		
 		if(xVelocity < 0){
 			if(canMoveLeft){
@@ -338,17 +347,28 @@ public class Character extends Entity{
 				yCoord += yVelocity;
 			}
 		}
-		if(isKnockedBack && KBDistance > 0 ){
-			KBDistance -= Math.abs(xVelocity);
+		
 	}
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
+		determineDirection();
+		currentTimeElapsed = delta;
+		
 		if(canMove){
 			setMovement();
+			
 		}
-
+		else{
+			stopMovement();
+		}
+	
+		
+		if(isKnockedBack && KBDistance > 0 ){
+			KBDistance -= Math.abs(xVelocity);
+		}
+		
 		isJumping = (canMoveDown && isMovingDown) || (isMovingUp && canMoveUp) || (isMovingUp && canMoveDown) || (!isMovingUp && canMoveDown);
 
 		jumpAvailable = !canMoveDown;
@@ -372,32 +392,32 @@ public class Character extends Entity{
 			isIdle = !isJumping && !isRunning;
 			xVelocity = 0;
 		}
-		if(timePassed == 0){
-			selectAnimation();
-		}
 		
-		setLocation(xCoord, yCoord);
-		//super.update(gc, delta);
-	
+		if(canMove){
+			selectAnimation(delta);
+		}
 
+		setLocation(xCoord, yCoord);
+		super.update(gc, delta);	
 
 		attackCoolDown -= delta;
 		if(attackCoolDown < 0){
 			attackCoolDown = 0;
-		}
+		}		
+		
 		canMoveUp = true;
 		canMoveDown = true;
 		canMoveRight = true;
 		canMoveLeft = true;
 	}	
 
-	private void selectAnimation(){
+	private void selectAnimation(int delta){
 		if(isFacingRight){
 			if(isJumping && !jumpAvailable){
 				if(currentAnimation != animationSet.get(0))
 					currentAnimation = animationSet.get(0);
 			}
-			else if(isPunching){
+			else if(isPunching && !isJumping){
 				if(currentAnimation != animationSet.get(1))
 					currentAnimation = animationSet.get(1);
 			}
@@ -414,6 +434,12 @@ public class Character extends Entity{
 			else if(isHit  || isKnockedBack){
 				if(currentAnimation != animationSet.get(4)){
 					currentAnimation = animationSet.get(4);
+				}
+			}
+			else if(isPunching && isJumping){
+				//Replace with midair attack animation by index.
+				if(currentAnimation != animationSet.get(1)){
+					currentAnimation = animationSet.get(1);
 				}
 			}
 
@@ -442,8 +468,16 @@ public class Character extends Entity{
 					currentAnimation = animationSet.get(9);
 				}
 			}
+			else if(isPunching && isJumping){
+				//Replace with flipped midair attack animation by index.
+				if(currentAnimation != animationSet.get(6)){
+					currentAnimation = animationSet.get(6);
+				}
+			}
 		}
-		isJumping = false;
+		
+		
+		//isJumping = false;
 		//isPunching = false;
 		isIdle = false;
 		isRunning = false;
@@ -514,7 +548,7 @@ public class Character extends Entity{
 
 				}
 				else if(isMovingRight && b.getBlockType() != BlockType.Passable){
-					//xVelocity = 0;
+					xVelocity = 0;
 					if(getHitbox().getX() + getHitbox().getWidth() <= b.getHitbox().getX())
 						if(getHitbox().getY() + getHitbox().getHeight() > b.getY()){
 							canMoveRight = false;
