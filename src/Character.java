@@ -292,10 +292,14 @@ public class Character extends Entity{
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		if(isPunching){
+			
 			canMove = false;
+			if(isJumping){
+				canMove = true;
+			}
 			timePassed += currentTimeElapsed;
 
-			if(timePassed > 300){
+			if(timePassed > 400){
 				canMove = true;
 				
 				isPunching = false;
@@ -309,21 +313,22 @@ public class Character extends Entity{
 				currentAnimation.restart();
 			}
 		}
-		if(!currentAnimation.equals(animationSet.get(1))&&!currentAnimation.equals(animationSet.get(6))){
+		if(isKnockedBack){
+			
+		}
+		
+		if(!currentAnimation.equals(animationSet.get(1))||!currentAnimation.equals(animationSet.get(6))
+	||currentAnimation.equals(animationSet.get(4))||currentAnimation.equals(animationSet.get(9))){
 			currentAnimation.draw(xCoord, yCoord);
 			if(currentAnimation.isStopped()){
 				currentAnimation.restart();
 			}
 		}
+		
 
 		super.render(gc,g);
 	}
-	
-	private void stopMovement(){
-		if(!canMove){
-			xVelocity = yVelocity = 0;
-		}
-	}
+
 	
 	private void setMovement(){
 		
@@ -356,12 +361,11 @@ public class Character extends Entity{
 		determineDirection();
 		currentTimeElapsed = delta;
 		
-		if(canMove){
-			setMovement();
-			
+		if(!canMove){
+			xVelocity = yVelocity = 0;
 		}
 		else{
-			stopMovement();
+			setMovement();
 		}
 	
 		
@@ -407,8 +411,8 @@ public class Character extends Entity{
 		
 		canMoveUp = true;
 		canMoveDown = true;
-		canMoveRight = true;
-		canMoveLeft = true;
+		canMoveRight = false;
+		canMoveLeft = false;
 	}	
 
 	private void selectAnimation(int delta){
@@ -436,7 +440,7 @@ public class Character extends Entity{
 					currentAnimation = animationSet.get(4);
 				}
 			}
-			else if(isPunching && isJumping){
+			if(isPunching && isJumping){
 				//Replace with midair attack animation by index.
 				if(currentAnimation != animationSet.get(1)){
 					currentAnimation = animationSet.get(1);
@@ -468,7 +472,7 @@ public class Character extends Entity{
 					currentAnimation = animationSet.get(9);
 				}
 			}
-			else if(isPunching && isJumping){
+			if(isPunching && isJumping){
 				//Replace with flipped midair attack animation by index.
 				if(currentAnimation != animationSet.get(6)){
 					currentAnimation = animationSet.get(6);
@@ -548,9 +552,10 @@ public class Character extends Entity{
 
 				}
 				else if(isMovingRight && b.getBlockType() != BlockType.Passable){
-					xVelocity = 0;
+					//xVelocity = 0;
 					if(getHitbox().getX() + getHitbox().getWidth() <= b.getHitbox().getX())
 						if(getHitbox().getY() + getHitbox().getHeight() > b.getY()){
+							
 							canMoveRight = false;
 							isKnockedBack = false;
 						}
