@@ -334,7 +334,7 @@ public class Character extends Entity{
 				canMove = false;
 				xVelocity = yVelocity = 0;
 			}
-			channelingTime += delta;
+			channelingTime -= delta;
 
 			if(channelingTime <= 0){
 				canMove = true;
@@ -342,7 +342,7 @@ public class Character extends Entity{
 			}
 		}
 		if(isHit){	
-			hitAnimationTime += delta;
+			hitAnimationTime -= delta;
 			if(hitAnimationTime <= 0){
 				isHit = false;
 				hitAnimationTime = 0;
