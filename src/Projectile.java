@@ -17,7 +17,7 @@ public class Projectile extends Entity
 	protected boolean isFlippedVertically;
 	protected Animation leftAnimation;
 	protected Animation rightAnimation;
-	protected Animation currentAnimation;
+	protected Animation currentAnimation;//
 	
 
 	public Projectile(float xSpawnLocation, float ySpawnLocation, Item item, World world){
