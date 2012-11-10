@@ -3,27 +3,32 @@ import org.newdawn.slick.SlickException;
 
 
 public class IceProjectile extends Projectile {
-	private int delayDuration;
+	//private int delayDuration;
 	private int lingerDuration;
-	private int cycles;
+	private boolean[] hasHit;
+	//private int cycles;
 
 	public IceProjectile(float xSpawnLocation, float ySpawnLocation, Item item, World world) {
 		super(xSpawnLocation, ySpawnLocation, item, world);
-		delayDuration = 250;
-		lingerDuration = 125;
-		cycles = 3;
+		//delayDuration = 250;
+		lingerDuration = 1050;
+		hasHit = new boolean[world.getNumberOfPlayers()];
+		//cycles = 3;
 	}
 
 	@Override
 	public void checkCollisions(){
 		for (Character c : world.getCharacters())
 		{
-			if(owner != c){
-				if (getHitbox().intersects(c.getHitbox()))
-				{			
-					c.modifyHealth(getDamage());
-					world.removeProjectile(this);
-					world.punchHit.get((int) (3 * Math.random())).play();
+			if(!hasHit[c.playerID]){
+				if(owner != c){
+					if (getHitbox().intersects(c.getHitbox()))
+					{			
+						c.modifyHealth(getDamage());
+						hasHit[c.playerID] = true;
+						//world.removeProjectile(this);
+						world.punchHit.get((int) (3 * Math.random())).play();
+					}
 				}
 			}
 		}
@@ -49,6 +54,12 @@ public class IceProjectile extends Projectile {
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
 		//update projectile's location
+		if(lingerDuration <= 0){
+			world.removeProjectile(this);
+		}
+		else
+			lingerDuration -= delta;
+		/**
 		if(cycles - 1 == 2){
 			if(delayDuration <= 0){
 				if (getDistanceTravelled() >= maxRange)
@@ -114,6 +125,7 @@ public class IceProjectile extends Projectile {
 				yCoord += yVelocity;
 			}
 		}
+		 **/
 		//keeps rectangle in line with sprite
 		setHitboxLocation(xCoord,yCoord);
 	}

@@ -22,22 +22,22 @@ public class Ice extends Item
 			projectileWidth = sheet.getWidth() / numFrames;
 			projectileHeight = sheet.getHeight();
 			SpriteSheet ss = new SpriteSheet(sheet, projectileWidth, projectileHeight);
-			projectileRightAnimation = new Animation(ss, 100);	
+			projectileRightAnimation = new Animation(ss, 150);	
 			projectileRightAnimation.stopAt(projectileRightAnimation.getFrameCount() - 1);
 			ss = new SpriteSheet(ss.getFlippedCopy(true, false), projectileWidth, projectileHeight);
-			projectileLeftAnimation = new Animation(ss , 100);	
+			projectileLeftAnimation = new Animation(ss , 150);	
 			projectileLeftAnimation.stopAt(projectileLeftAnimation.getFrameCount() - 1);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 		
 		damage = 4;
-		projectileRange = 200;
-		projectileXVelocity = 0;
-		projectileYVelocity = -7;
+		//projectileRange = 200;
+		//projectileXVelocity = 0;
+		//projectileYVelocity = -7;
 		dropChance = false;
 		startUpTime = .25;
-		reloadTime = 1000;
+		reloadTime = 2000;
 		projectileOffsets = new Rectangle(10,10,20,0);
 	}
 	
@@ -48,12 +48,12 @@ public class Ice extends Item
 		projectileRange = 2 * owner.getHitbox().getHeight();
 		if(owner.isFacingRight){
 			x = owner.xCoord+owner.getHitbox().getWidth()/2 + 30;
-			y = owner.yCoord + projectileRange;
+			y = owner.yCoord; //+ projectileRange;
 			world.getProjectiles().add(new IceProjectile(x, y, this, world));
 		}
 		else{
 			x = owner.xCoord - projectileWidth/2 - 30;
-			y = owner.yCoord + projectileRange;
+			y = owner.yCoord; //+ projectileRange;
 			Projectile p = new IceProjectile(x, y, this, world);
 			world.getProjectiles().add(p);
 			p.flipImage(true, false);
