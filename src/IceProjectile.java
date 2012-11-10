@@ -6,12 +6,13 @@ public class IceProjectile extends Projectile {
 	//private int delayDuration;
 	private int lingerDuration;
 	private boolean[] hasHit;
+	private float KBDistance;
 	//private int cycles;
 
 	public IceProjectile(float xSpawnLocation, float ySpawnLocation, Item item, World world) {
 		super(xSpawnLocation, ySpawnLocation, item, world);
 		//delayDuration = 250;
-		lingerDuration = 1050;
+		lingerDuration = 700;
 		hasHit = new boolean[world.getNumberOfPlayers()];
 		//cycles = 3;
 	}
@@ -26,6 +27,15 @@ public class IceProjectile extends Projectile {
 					{			
 						c.modifyHealth(getDamage());
 						hasHit[c.playerID] = true;
+						if(isFlippedHorizontally){
+							KBDistance = 42 - (getHitbox().getX() - c.getHitbox().getX());
+							c.knockBack(KBDistance, -3);
+						}
+						else{
+							KBDistance = 42 - (getHitbox().getRight() - c.getHitbox().getX());
+							c.knockBack(KBDistance, 3);
+						}
+						
 						//world.removeProjectile(this);
 						world.punchHit.get((int) (3 * Math.random())).play();
 					}
@@ -37,7 +47,16 @@ public class IceProjectile extends Projectile {
 			if(p != this && p.getOwner() != owner){
 				if (getHitbox().intersects(p.getHitbox()))
 				{			
-					world.removeProjectile(p);
+					if(p instanceof FireProjectile || p instanceof WindProjectile ){
+						p.owner  = this.owner;
+						p.xVelocity *= -1;
+						p.xSpawnLocation = p.xCoord;
+						p.ySpawnLocation = p.yCoord;
+						p.flip();
+					}
+					else{
+						world.removeProjectile(p);
+					}
 				}
 			}
 		}

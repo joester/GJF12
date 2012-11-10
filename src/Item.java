@@ -71,7 +71,7 @@ public class Item extends Entity {
 			float y = owner.yCoord;
 			Projectile p = new Projectile(x, y, this, world);
 			world.getProjectiles().add(p);
-			p.flipImage(true, false);
+			p.flip();
 			p.setXVelocity(-projectileXVelocity);
 		}
 	}

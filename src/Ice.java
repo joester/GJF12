@@ -12,6 +12,7 @@ public class Ice extends Item
  * Damage Range Animation Speed Drop Startup, 
  * 2 		1	 0.01			 No 0.25, 0.01 
  */
+	
 	public Ice(float x, float y, String i, World world){
 		super(x, y, i, world);
 		
@@ -22,10 +23,10 @@ public class Ice extends Item
 			projectileWidth = sheet.getWidth() / numFrames;
 			projectileHeight = sheet.getHeight();
 			SpriteSheet ss = new SpriteSheet(sheet, projectileWidth, projectileHeight);
-			projectileRightAnimation = new Animation(ss, 150);	
+			projectileRightAnimation = new Animation(ss, 100);	
 			projectileRightAnimation.stopAt(projectileRightAnimation.getFrameCount() - 1);
 			ss = new SpriteSheet(ss.getFlippedCopy(true, false), projectileWidth, projectileHeight);
-			projectileLeftAnimation = new Animation(ss , 150);	
+			projectileLeftAnimation = new Animation(ss , 100);	
 			projectileLeftAnimation.stopAt(projectileLeftAnimation.getFrameCount() - 1);
 		} catch (SlickException e) {
 			e.printStackTrace();
@@ -56,7 +57,7 @@ public class Ice extends Item
 			y = owner.yCoord; //+ projectileRange;
 			Projectile p = new IceProjectile(x, y, this, world);
 			world.getProjectiles().add(p);
-			p.flipImage(true, false);
+			p.flip();
 		}
 	}
 }

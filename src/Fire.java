@@ -40,4 +40,23 @@ public class Fire extends Item
 		reloadTime = 600;
 		projectileOffsets = new Rectangle(5,30,10,50);
 	}
+	
+	@Override
+	public void use(World world)
+	{		
+		if(owner.isFacingRight){
+			float x = owner.xCoord+owner.getHitbox().getWidth()/2;
+			float y = owner.yCoord;
+			world.getProjectiles().add(new FireProjectile(x, y,this, world));
+		}
+		else{
+			float x = owner.xCoord - projectileWidth/2;
+			float y = owner.yCoord;
+			Projectile p = new FireProjectile(x, y, this, world);
+			world.getProjectiles().add(p);
+			p.flip();
+			p.setXVelocity(-projectileXVelocity);
+		}
+	}
+
 }

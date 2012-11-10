@@ -341,7 +341,7 @@ public class Character extends Entity{
 				isPunching = false;
 			}
 		}
-		if(isHit){	
+		if(isHit && !isKnockedBack){	
 			hitAnimationTime -= delta;
 			if(hitAnimationTime <= 0){
 				isHit = false;
@@ -669,6 +669,9 @@ public class Character extends Entity{
 	}
 	
 	public void knockBack(float distance, float velocity){
+		isPunching = false;
+		canMove = true;
+		channelingTime = 0;
 		KBDistance = distance;
 		xVelocity = velocity;
 		isKnockedBack = true;

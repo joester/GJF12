@@ -40,14 +40,14 @@ public class Projectile extends Entity
 		super(xSpawnLocation, ySpawnLocation, world);
 	}
 
-	public void flipImage(boolean horizontal, boolean vertical){
-		isFlippedHorizontally = horizontal;
-		isFlippedVertically = vertical;
+	public void flip(){
 		if(isFlippedHorizontally){
-			currentAnimation = leftAnimation;
+			currentAnimation = rightAnimation;
+			isFlippedHorizontally = false;
 		}
 		else{
-			currentAnimation = rightAnimation;
+			currentAnimation = leftAnimation;
+			isFlippedHorizontally = true;
 		}
 	}
 
