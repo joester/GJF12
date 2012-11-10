@@ -20,6 +20,8 @@ public class Item extends Entity {
 	protected float projectileYVelocity;
 	protected String projectileImageLocation;
 	protected Image projectileImage;
+	protected Image projectileLeftImage;
+	protected Image projectileRightImage;
 	protected Animation projectileLeftAnimation;
 	protected Animation projectileRightAnimation;
 	protected int projectileWidth;
