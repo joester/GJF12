@@ -56,7 +56,7 @@ public class Wind extends Item
 			float y = owner.yCoord;
 			Projectile p = new WindProjectile(x, y, this, world);
 			world.getProjectiles().add(p);
-			p.flipImage(true, false);
+			p.flip();
 			p.setXVelocity(-projectileXVelocity);
 		}
 	}

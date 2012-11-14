@@ -16,29 +16,35 @@ EARTH  5  1(3 if above) 1 Yes 0.05, 0.01
 	 */	
 	public Earth(float x, float y, String i, World world){
 		super(x, y, i, world);
-		
-		int numFrames = 1;
-		Image sheet;
+
 		try {
-			sheet = new Image("assets/Art/Transformations/Animations/earthsingle.png");
-			projectileWidth = sheet.getWidth() / numFrames;
-			projectileHeight = sheet.getHeight();
-			SpriteSheet ss = new SpriteSheet(sheet, projectileWidth, projectileHeight);
-			projectileRightAnimation = new Animation(ss, 100);	
-			projectileRightAnimation.stopAt(projectileRightAnimation.getFrameCount() - 1);
-			ss = new SpriteSheet(ss.getFlippedCopy(true, false), projectileWidth, projectileHeight);
-			projectileLeftAnimation = new Animation(ss , 100);	
-			projectileLeftAnimation.stopAt(projectileLeftAnimation.getFrameCount() - 1);
+			projectileRightImage = new Image("assets/Art/Transformations/Animations/earthsingle.png");
+			projectileLeftImage = projectileRightImage.getFlippedCopy(true, false);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		
+		projectileWidth = projectileRightImage.getWidth();
+		projectileHeight = projectileRightImage.getHeight();
 		damage = 5;
-		projectileRange = 150;
-		projectileXVelocity = 3; 
+		//projectileRange = 150;
+		//projectileXVelocity = 3; 
 		dropChance = true;
 		startUpTime = .05;
 		reloadTime = 1500;	
 		projectileOffsets = new Rectangle(10,10,20,20);
+	}
+	
+	@Override
+	public void use(World world){
+		float x = owner.getHitbox().getCenterX();
+		float y = owner.getHitbox().getCenterY() - 84;
+		if(owner.isFacingRight){
+			world.getProjectiles().add(new EarthProjectile(x, y, this, world));
+		}
+		else{
+			Projectile p = new EarthProjectile(x, y, this, world);
+			world.getProjectiles().add(p);
+			p.flip();
+		}
 	}
 }

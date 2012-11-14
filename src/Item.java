@@ -20,6 +20,8 @@ public class Item extends Entity {
 	protected float projectileYVelocity;
 	protected String projectileImageLocation;
 	protected Image projectileImage;
+	protected Image projectileLeftImage;
+	protected Image projectileRightImage;
 	protected Animation projectileLeftAnimation;
 	protected Animation projectileRightAnimation;
 	protected int projectileWidth;
@@ -71,7 +73,7 @@ public class Item extends Entity {
 			float y = owner.yCoord;
 			Projectile p = new Projectile(x, y, this, world);
 			world.getProjectiles().add(p);
-			p.flipImage(true, false);
+			p.flip();
 			p.setXVelocity(-projectileXVelocity);
 		}
 	}

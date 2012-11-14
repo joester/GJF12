@@ -12,6 +12,7 @@ public class Ice extends Item
  * Damage Range Animation Speed Drop Startup, 
  * 2 		1	 0.01			 No 0.25, 0.01 
  */
+	
 	public Ice(float x, float y, String i, World world){
 		super(x, y, i, world);
 		
@@ -32,12 +33,12 @@ public class Ice extends Item
 		}
 		
 		damage = 4;
-		projectileRange = 200;
-		projectileXVelocity = 0;
-		projectileYVelocity = -7;
+		//projectileRange = 200;
+		//projectileXVelocity = 0;
+		//projectileYVelocity = -7;
 		dropChance = false;
 		startUpTime = .25;
-		reloadTime = 1000;
+		reloadTime = 2000;
 		projectileOffsets = new Rectangle(10,10,20,0);
 	}
 	
@@ -48,15 +49,15 @@ public class Ice extends Item
 		projectileRange = 2 * owner.getHitbox().getHeight();
 		if(owner.isFacingRight){
 			x = owner.xCoord+owner.getHitbox().getWidth()/2 + 30;
-			y = owner.yCoord + projectileRange;
+			y = owner.yCoord; //+ projectileRange;
 			world.getProjectiles().add(new IceProjectile(x, y, this, world));
 		}
 		else{
 			x = owner.xCoord - projectileWidth/2 - 30;
-			y = owner.yCoord + projectileRange;
+			y = owner.yCoord; //+ projectileRange;
 			Projectile p = new IceProjectile(x, y, this, world);
 			world.getProjectiles().add(p);
-			p.flipImage(true, false);
+			p.flip();
 		}
 	}
 }
