@@ -630,7 +630,7 @@ public class Character extends Entity{
 				}
 				if(input.isKeyDown(Input.KEY_W)){
 					if(jumpAvailable){
-						yVelocity = -7.5f;
+						yVelocity = -13.0f;
 						jumpAvailable = false;
 						canMoveUp = true;
 					}
@@ -662,7 +662,7 @@ public class Character extends Entity{
 				}
 				if(input.isKeyDown(Input.KEY_I) || input.isKeyDown(Input.KEY_NUMPAD8)){ //KEY_NUMPAD8
 					if(jumpAvailable){
-						yVelocity = -7.5f;
+						yVelocity = -13.0f;
 						jumpAvailable = false;
 						canMoveUp = true;
 					}

@@ -128,7 +128,7 @@ public class World
 		for (Character c : characters)
 		{
 			c.handleInput(input);
-			c.yVelocity += .15;
+			c.yVelocity += .45;
 		}
 		checkForCollisions(gc);
 
