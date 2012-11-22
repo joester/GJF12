@@ -51,7 +51,6 @@ public class GameplayState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 		throws SlickException
 	{
-		
 		world.render(gc, g);
 		
 		g.setColor(Color.white);
@@ -76,6 +75,8 @@ public class GameplayState extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{
+		
+		
 		Input input = new Input(delta);
 		if(input.isKeyDown(Input.KEY_P)){
 			sbg.enterState(DisplayManager.PAUSESTATE);

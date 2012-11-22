@@ -1,6 +1,10 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.Timer;
 
 import org.lwjgl.input.Controller;
 import org.newdawn.slick.GameContainer;
@@ -62,6 +66,9 @@ public class World
 		loadSounds();
 		setBackgroundImage();
 		loadChars();
+		//map.startTime();
+		
+		
 	}
 
 	public void loadChars() throws SlickException{
@@ -125,6 +132,8 @@ public class World
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException
 	{
 		Input input = gc.getInput();
+		if(map.numberOfCrates == 0)
+			map.startTime();
 		for (Character c : characters)
 		{
 			c.handleInput(input);
@@ -163,6 +172,11 @@ public class World
 
 	public void render(GameContainer gc, Graphics g) throws SlickException{
 		getBackground().draw();
+		
+		
+		
+
+
 		for(Item i : itemsOnMap)
 		{
 			i.render(gc, g);
@@ -171,7 +185,6 @@ public class World
 		for(Block b: blocks){
 			try{
 				b.render(gc, g);
-
 			}
 			catch(NullPointerException ex){
 				blocks.remove(b);
@@ -198,8 +211,9 @@ public class World
 		for (Item i : itemsToRemove)
 			itemsOnMap.remove(i);	
 		itemsToRemove.clear();
-		for (Block b :cratesToRemove)
-			blocks.remove(b);
+		for (Block b :cratesToRemove){
+			map.numberOfCrates--;
+			blocks.remove(b);}
 		cratesToRemove.clear();
 		for (Projectile p : projectilesToRemoved)
 			projectiles.remove(p);
@@ -271,6 +285,7 @@ public class World
 	}
 
 	public void removeCrate(Block crate){
+		map.numberOfCrates--;
 		cratesToRemove.add(crate);
 	}
 
@@ -301,14 +316,24 @@ public class World
 
 	//Setting Up Rounds
 	public void setNextRound() throws IOException, SlickException {
-
+		
+		try{
+			if(map.timer.isRunning())
+				map.stopTime();
+		}
+		catch(NullPointerException e){}
+		
 		blocks = new ArrayList<Block>();
 		platforms = new ArrayList<Platform>();
 		projectiles = new ArrayList<Projectile>();
 		itemsOnMap = new ArrayList<Item>();
 		map = getNextMap();
+		map.crateList = new ArrayList<Map.Location>();
 		map.buildMap();
-
+		
+		
+		
+		
 		for(int i = 0; i < getNumberOfPlayers(); i++){
 			Character c = getPlayers().get(i);
 			c.reset();

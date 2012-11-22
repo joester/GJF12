@@ -1,4 +1,8 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.Timer;
 
 public class SpaceMap extends Map
 {
@@ -8,21 +12,10 @@ public class SpaceMap extends Map
 
 	public void buildMap()
 	{
-		//addBlock( X-Coordinate, Y-Coordinate, blockFileLocation, blockType );
-		//"arg" is a placeholder fileLocation
-		//addBlock(0,3, "arg", BlockType.Impassable);
-		/*
-		 * addSpawn(0,2,"arg", BlockType.CrateSpawn);
-		 * addSpawn(15,2, "arg", BlockType.CrateSpawn);
-		 * etc
-		 */
 		
 		
-		//addBlock(0,0,"assets/Art/Stages/Space/block.png", BlockType.Impassable); 
-		//addBlock(0,0,"assets/Art/Stages/Space/laser.png",BlockType.Lethal);
-		//addBlock(0,0,"assets/Art/Stages/Space/platform.png",BlockType.Passable);
-		//addBlock(0,0,"assets/Art/Stages/Space/crate.png",BlockType.Crate);
 		
+	
 		addBlock(0,0,"assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,8); 
 		addBlock(0,1,"assets/Art/Stages/Space/laser-vert.png",BlockType.Lethal,15,0,30,0);
 		addBlock(0,2,"assets/Art/Stages/Space/laser-vert.png",BlockType.Lethal,15,0,30,0);
@@ -46,7 +39,6 @@ public class SpaceMap extends Map
 		addBlock(4,7,"assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,8);
 		
 		addBlock(5,0,"assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,8);
-		addBlock(5,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
 		addBlock(5,4,"assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,8);
 		addBlock(5,7,"assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
 		
@@ -62,7 +54,6 @@ public class SpaceMap extends Map
 		addBlock(8,7,"assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
 		
 		addBlock(9,0,"assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,8);
-		addBlock(9,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
 		addBlock(9,4,"assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,8);
 		addBlock(9,7,"assets/Art/Stages/Space/laser-hori.png",BlockType.Lethal,0,15,0,30);
 		
@@ -87,8 +78,17 @@ public class SpaceMap extends Map
 		addBlock(14,5,"assets/Art/Stages/Space/laser-vert.png",BlockType.Lethal,15,0,30,0);
 		addBlock(14,6,"assets/Art/Stages/Space/laser-vert.png",BlockType.Lethal,15,0,30,0);
 		addBlock(14,7,"assets/Art/Stages/Space/block.png", BlockType.Impassable,0,0,0,8); 
+		
+		addBlock(4,6,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
+		addBlock(10,6,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
+		addBlock(5,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate ,0,21,0,21);
+		addBlock(9,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
 		setCharacterSpawns();
 		setCrateSpawnPoints();
+		
+		
+
+		
 	}
 	protected void setCharacterSpawns() {
 		spawnList = new ArrayList<Location>();
@@ -99,9 +99,9 @@ public class SpaceMap extends Map
 	}
 	protected void setCrateSpawnPoints(){
 		crateList = new ArrayList<Location>();
+		crateList.add(new Location(4,6));
 		crateList.add(new Location(5,3));
 		crateList.add(new Location(9,3));
-		crateList.add(new Location(4,6));
 		crateList.add(new Location(10,6));
 	}
 }

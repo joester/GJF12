@@ -1,4 +1,9 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.Timer;
+
 
 public class IceMap extends Map
 {
@@ -16,6 +21,7 @@ public class IceMap extends Map
 		 * addSpawn(15,2, "arg", BlockType.CrateSpawn);
 		 * etc
 		 */
+		
 		addBlock(0,7,"assets/Art/Stages/Volcano/icerightedge.png", BlockType.Impassable,0,0,0,8);
 		addBlock(0,2,"assets/Art/Stages/Volcano/icerightedge.png", BlockType.Impassable,0,0,0,8);
 		addBlock(1,7,"assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal,0,21,0,21);
@@ -28,18 +34,8 @@ public class IceMap extends Map
 		addBlock(5,7,"assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable,0,0,0,8);
 		addBlock(6,7,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,8);
 		addBlock(7,7,"assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal,0,21,0,21);
-		addBlock(4,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
 		addBlock(4,4,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,8);
 		addBlock(5,4,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,8);
-		//addBlock(5,0,"assets/Art/Stages/Volcano/icicles-left.png",BlockType.Lethal);
-		//in ice map the stalactites are gone?
-		/**
-		addBlock(6,0,"stalactites.png",BlockType.Lethal);
-		addBlock(7,0,"stalactites.png",BlockType.Lethal);
-		addBlock(8,0,"stalactites.png",BlockType.Lethal);
-		addBlock(9,0,"stalactites.png",BlockType.Lethal);
-		addBlock(10,0,"stalactites.png",BlockType.Lethal);
-		**/
 		
 		//addBlock(11,0,"assets/Art/Stages/Volcano/icicles-right.png",BlockType.Lethal);
 		addBlock(6,3,"assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable,0,0,0,63);
@@ -47,7 +43,6 @@ public class IceMap extends Map
 		addBlock(8,3,"assets/Art/Stages/Volcano/iceplatform.png",BlockType.Passable,0,0,0,63);
 		addBlock(9,4,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,8);
 		addBlock(10,4,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,8);
-		addBlock(10,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
 		addBlock(8,7,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,8);
 		addBlock(9,7,"assets/Art/Stages/Volcano/iceblock.png",BlockType.Impassable,0,0,0,8);
 		addBlock(10,7,"assets/Art/Stages/Volcano/icerightedge.png",BlockType.Impassable,0,0,0,8);
@@ -58,9 +53,16 @@ public class IceMap extends Map
 		addBlock(13,7,"assets/Art/Stages/Volcano/icicles.png",BlockType.Lethal,0,21,0,21);
 		addBlock(14,7,"assets/Art/Stages/Volcano/iceleftedge.png",BlockType.Impassable,0,0,0,8);
 		addBlock(12, 6, "assets/Art/Stages/Volcano/iceplatform.png", BlockType.Passable,0,0,0,63);
+		
+		addBlock(5,6,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
+		addBlock(9,6,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
+		addBlock(4,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
+		addBlock(10,3,"assets/Art/Stages/genericcrate.png",BlockType.Crate,0,21,0,21);
 
 		setCharacterSpawns();
-		setCrateSpawnPoints();
+		setCrateSpawnPoints();	
+		
+	
 	}
 
 	@Override
@@ -69,15 +71,15 @@ public class IceMap extends Map
 		spawnList.add(new Location(0,1));
 		spawnList.add(new Location(14,1));
 		spawnList.add(new Location(0,6));
-		spawnList.add(new Location(14,6));
-	}
+		spawnList.add(new Location(14,6));}
+	
 	protected void setCrateSpawnPoints() {
 		crateList = new ArrayList<Location>();
-		crateList.add(new Location(6,13));
-		
-		crateList.add(new Location(7,2));
-		crateList.add(new Location(8,13));
 		crateList.add(new Location(4,3));
+		crateList.add(new Location(9, 6));
+		crateList.add(new Location(5,6));
 		crateList.add(new Location(10,3));
 	}
+
+		
 }

@@ -8,11 +8,14 @@ import org.newdawn.slick.geom.Rectangle;
 public class Block extends Entity {	
 	public static final int BLOCKSIZE = 84;
 	protected BlockType blockType;
+
+	
 	public Block(int x, int y, String imageLocation, BlockType blockType, Rectangle offsets) {
 		super(x * BLOCKSIZE, y * BLOCKSIZE,imageLocation, null);		
 		this.blockType = blockType;	
 		hitbox.setSize(BLOCKSIZE, BLOCKSIZE);
 		hitbox.setOffsets(offsets);
+	
 	}
 
 	//Only use when block is Destructible
@@ -26,7 +29,7 @@ public class Block extends Entity {
 	{
 		return blockType;
 	}
-
+	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
