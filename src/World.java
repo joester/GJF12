@@ -35,12 +35,10 @@ public class World
 
 	public ArrayList<Sound> punchHit;
 	public ArrayList<Sound> punchMiss;
-	private ArrayList<Block> cratesToRemove;
-	private ArrayList<Item> itemsToRemove;
-	private ArrayList<Projectile> projectilesToRemoved;
 	private int numberOfPlayers;
 	private List<Character> players;
 	private Sound BGM;
+	private List<Entity> entitiesToRemove;
 
 	public World(ControllerManager cm){
 		controllerManager = cm;
@@ -54,9 +52,7 @@ public class World
 		platforms = new ArrayList<Platform>();
 		projectiles = new ArrayList<Projectile>();
 		characters = new ArrayList<Character>();
-		projectilesToRemoved =  new ArrayList<Projectile>();
-		itemsToRemove = new ArrayList<Item>();
-		cratesToRemove = new ArrayList<Block>();
+		entitiesToRemove =  new ArrayList<Entity>();
 		items = new ArrayList<Item>();
 		itemsOnMap = new ArrayList<Item>();
 		maps = new ArrayList<Map>();
@@ -141,29 +137,21 @@ public class World
 		}
 		checkForCollisions(gc);
 
-		ArrayList<Character> charactersToBeRemoved = new ArrayList<Character>();
 		for (Character c: characters)
 		{
 			try{
 				c.update(gc, delta);
 				if(c.getHP() <= 0){
-					charactersToBeRemoved.add(c);
+					remove(c);
 				}
 			}catch(Exception e){
 
 			}			
 		}
-		for(Character c: charactersToBeRemoved){
-			characters.remove(c);
-		}
-
-		projectilesToRemoved.clear();
 		for (Projectile p : projectiles)
 		{
 			p.update(gc, delta);	
 		}
-		for (Projectile p : projectilesToRemoved)
-			projectiles.remove(p);
 		for (Item i : itemsOnMap)
 		{
 			i.update(gc, delta);
@@ -208,16 +196,7 @@ public class World
 		for(Projectile p : projectiles){
 			p.checkCollisions();
 		}
-		for (Item i : itemsToRemove)
-			itemsOnMap.remove(i);	
-		itemsToRemove.clear();
-		for (Block b :cratesToRemove){
-			map.numberOfCrates--;
-			blocks.remove(b);}
-		cratesToRemove.clear();
-		for (Projectile p : projectilesToRemoved)
-			projectiles.remove(p);
-		projectilesToRemoved.clear();
+		removeEntities();
 	}
 /**
 	public void assignActionToPlayer(GameContainer gc, int characterIndex,int delta){
@@ -271,9 +250,30 @@ public class World
 	public void addBlock(Block block){
 		blocks.add(block);
 	}
-
-	public void removeProjectile(Projectile projectileToRemove){
-		projectilesToRemoved.add(projectileToRemove);
+	
+	public void remove(Entity entity){
+		entitiesToRemove.add(entity);
+	}
+	
+	private void removeEntities(){
+		for(Entity e: entitiesToRemove){
+			if(e instanceof Projectile){
+				projectiles.remove(e);
+			}
+			else if(e instanceof Character){
+				characters.remove(e);
+			}
+			else if(e instanceof Block){
+				Block b = (Block) e;
+				if(b.getBlockType() == BlockType.Crate)
+					map.numberOfCrates--;
+				blocks.remove(e);
+			}
+			else if(e instanceof Item){
+				itemsOnMap.remove(e);
+			}
+		}
+		entitiesToRemove.clear();
 	}
 
 	public void setNumberOfPlayers(int numberOfPlayers) {
@@ -282,11 +282,6 @@ public class World
 
 	public void setBGM(Sound BGM) {
 		this.BGM = BGM;
-	}
-
-	public void removeCrate(Block crate){
-		map.numberOfCrates--;
-		cratesToRemove.add(crate);
 	}
 
 	public Item chooseRandomItem()	{
@@ -307,11 +302,7 @@ public class World
 				b.getY() + (b.getImage().getHeight() - item.getImage().getHeight())/2);
 		item.setYSpawnLocation(item.getY());
 		itemsOnMap.add(item);
-		cratesToRemove.add(b);
-	}
-
-	public void removeItem(Item i) {
-		itemsToRemove.add(i);
+		remove(b);
 	}
 
 	//Setting Up Rounds

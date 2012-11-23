@@ -34,7 +34,7 @@ public class EarthProjectile extends Projectile {
 				if (getHitbox().intersects(c.getHitbox()))
 				{			
 					c.modifyHealth(damage);
-					world.removeProjectile(this);
+					world.remove(this);
 					world.punchHit.get((int) (3 * Math.random())).play();
 				}
 			}
@@ -84,7 +84,7 @@ public class EarthProjectile extends Projectile {
 		angle += angularVelocity;
 		//Remove when angle = PI,0
 		if(angle <= 0 || angle > 180){ 
-			world.removeProjectile(this);
+			world.remove(this);
 		}
 		setHitboxLocation(xCoord,yCoord);
 	}

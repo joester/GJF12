@@ -20,7 +20,7 @@ public class WindProjectile extends Projectile {
 						c.knockBack(KBDistance, 3);
 					else
 						c.knockBack(KBDistance, -3);
-					world.removeProjectile(this);
+					world.remove(this);
 					world.punchHit.get((int) (3 * Math.random())).play();
 				}
 			}
@@ -28,12 +28,12 @@ public class WindProjectile extends Projectile {
 		for(Block b: world.getBlocks()){
 			if(getHitbox().intersects(b.getHitbox())){
 				if(b.blockType == BlockType.Impassable){		
-					world.removeProjectile(this);
+					world.remove(this);
 				}
 				else if(b.blockType == BlockType.Crate){
 					world.spawnItem(b);
 					world.playRandomSound(world.punchHit);
-					world.removeProjectile(this);
+					world.remove(this);
 				}
 			}
 		}

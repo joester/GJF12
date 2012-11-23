@@ -144,7 +144,7 @@ public class Character extends Entity{
 				for (Block b : world.getBlocks())
 				{
 
-					world.removeProjectile(punchProjectile);
+					world.remove(punchProjectile);
 				}
 				attackCoolDown = baseAttackCoolDown;
 			}
@@ -595,7 +595,7 @@ public class Character extends Entity{
 			if (getHitbox().intersects(i.getHitbox()) && !hasItem)
 			{
 				pickUpItem(i);
-				getWorld().removeItem(i);
+				getWorld().remove(i);
 			}
 		}
 	}
@@ -625,7 +625,7 @@ public class Character extends Entity{
 						{
 							dropItem();
 							pickUpItem(i);
-							getWorld().removeItem(i);
+							getWorld().remove(i);
 						}
 					}
 				}
@@ -653,7 +653,7 @@ public class Character extends Entity{
 						{
 							dropItem();
 							pickUpItem(i);
-							getWorld().removeItem(i);
+							getWorld().remove(i);
 						}
 					}
 				}

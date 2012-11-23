@@ -36,7 +36,7 @@ public class IceProjectile extends Projectile {
 							c.knockBack(KBDistance, 3);
 						}
 						
-						//world.removeProjectile(this);
+						//world.remove(this);
 						world.punchHit.get((int) (3 * Math.random())).play();
 					}
 				}
@@ -55,7 +55,7 @@ public class IceProjectile extends Projectile {
 						p.flip();
 					}
 					else{
-						world.removeProjectile(p);
+						world.remove(p);
 					}
 				}
 			}
@@ -63,7 +63,7 @@ public class IceProjectile extends Projectile {
 		for(Block b: world.getBlocks()){
 			if(getHitbox().intersects(b.getHitbox()) && b.blockType == BlockType.Crate){
 				world.spawnItem(b);
-				world.removeCrate(b);
+				world.remove(b);
 				world.playRandomSound(world.punchHit);
 			}
 		}
@@ -74,7 +74,7 @@ public class IceProjectile extends Projectile {
 	{
 		//update projectile's location
 		if(lingerDuration <= 0){
-			world.removeProjectile(this);
+			world.remove(this);
 		}
 		else
 			lingerDuration -= delta;
@@ -134,7 +134,7 @@ public class IceProjectile extends Projectile {
 		else{
 			if (getDistanceTravelled() >= maxRange)	{
 				if(lingerDuration <= 0){
-					world.removeProjectile(this);
+					world.remove(this);
 				}
 				else
 					lingerDuration -= delta;

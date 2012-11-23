@@ -68,7 +68,7 @@ public class Projectile extends Entity
 
 		if (getDistanceTravelled() >= maxRange)
 		{
-			world.removeProjectile(this);
+			world.remove(this);
 		}
 
 		//keeps rectangle in line with sprite
@@ -115,7 +115,7 @@ public class Projectile extends Entity
 				if (getHitbox().intersects(c.getHitbox()))
 				{			
 					c.modifyHealth(damage);
-					world.removeProjectile(this);
+					world.remove(this);
 					world.punchHit.get((int) (3 * Math.random())).play();
 				}
 			}
@@ -123,12 +123,12 @@ public class Projectile extends Entity
 		for(Block b: world.getBlocks()){
 			if(getHitbox().intersects(b.getHitbox())){
 				if(b.blockType == BlockType.Impassable){		
-					world.removeProjectile(this);
+					world.remove(this);
 				}
 				else if(b.blockType == BlockType.Crate){
 					world.spawnItem(b);
 					world.playRandomSound(world.punchHit);
-					world.removeProjectile(this);
+					world.remove(this);
 				}
 			}
 		}
