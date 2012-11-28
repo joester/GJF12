@@ -62,7 +62,7 @@ public class EarthProjectile extends Projectile {
 		spinAngle += spinAngularVelocity;
 		currentImage.setRotation(spinAngle);
 		currentImage.draw(xCoord, yCoord);
-		g.draw(getHitbox());
+		//g.draw(getHitbox());
 	}
 	
 	@Override
