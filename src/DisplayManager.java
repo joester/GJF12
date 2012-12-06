@@ -11,10 +11,12 @@ public class DisplayManager extends StateBasedGame
 	
 	public static final int MAINMENUSTATE = 0;
 	public static final int HOWTOSTATE = 1;
-	public static final int GAMEPLAYSTATE = 2;
-	public static final int PAUSESTATE = 3;
-	public static final int WINNERDISPLAYSTATE = 4;
-	public static final int CREDITS = 5;
+	public static final int CHARACTERSELECTSTATE = 2;
+	public static final int GAMEPLAYSTATE = 3;
+	public static final int PAUSESTATE = 4;
+	public static final int WINNERDISPLAYSTATE = 5;
+	public static final int CREDITS = 6;
+	
 	
 	private ControllerManager controllerManager;
 	private World world;
@@ -50,10 +52,12 @@ public class DisplayManager extends StateBasedGame
 		world = new World(controllerManager);
 		this.addState(new MainMenu(DisplayManager.MAINMENUSTATE, controllerManager, world));
 		this.addState(new HowToState(DisplayManager.HOWTOSTATE, controllerManager, world));
+		this.addState(new CharacterSelectState(DisplayManager.CHARACTERSELECTSTATE, controllerManager, world));
 		this.addState(new GameplayState(DisplayManager.GAMEPLAYSTATE, controllerManager, world));
 		this.addState(new PauseState(DisplayManager.PAUSESTATE, controllerManager, world));
 		this.addState(new WinnerDisplayState(DisplayManager.WINNERDISPLAYSTATE, controllerManager, world));
 		this.addState(new CreditsState(DisplayManager.CREDITS, controllerManager, world));
+		
 	}
 	
 	

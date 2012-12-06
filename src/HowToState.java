@@ -54,7 +54,7 @@ public class HowToState extends BasicGameState
     	Input input = new Input(delta);
     	if(input.isKeyDown(Input.KEY_SPACE)){
     		world.getBGM().loop();
-    		sbg.enterState(DisplayManager.GAMEPLAYSTATE);
+    		sbg.enterState(DisplayManager.CHARACTERSELECTSTATE);
     	}
     	/**for(int i = 0; i < controllerManager.getControllerCount(); i++){
     		if(controllerManager.getController(i).isButtonPressed(Button.A.buttonID)){

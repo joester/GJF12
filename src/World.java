@@ -20,6 +20,9 @@ public class World
 	private List<Item> itemsOnMap;
 	private List<Map> maps;
 	private Map map;
+	
+	//Character sprite locations passed in through the character select state.
+	private ArrayList<String> charLocs;
 
 	private IceMap iceMap = new IceMap(this,"assets/Art/Background/bg_ice.jpg", "assets/SFX/music/Ice.wav");
 	private LavaMap lavaMap = new LavaMap(this,"assets/Art/Background/bg_volcano.jpg", "assets/SFX/music/Volcano.wav");
@@ -51,15 +54,18 @@ public class World
 		items = new ArrayList<Item>();
 		itemsOnMap = new ArrayList<Item>();
 		maps = new ArrayList<Map>();
+		charLocs = new ArrayList<String>();
 
 		iceMap.buildMap();
 		map = iceMap;
 		loadSounds();
 		setBackgroundImage();
-		loadChars();
-		//map.startTime();
-		
-		
+		//loadChars();
+		//map.startTime();	
+	}
+	
+	public void setDirectories(ArrayList<String> locs){
+		charLocs = locs;
 	}
 
 	public void loadChars() throws SlickException{
@@ -68,12 +74,14 @@ public class World
 		for(int i = 0; i < getNumberOfPlayers() ; i++){
 			int j = i+1;
 			Map.Location loc = characterSpawns.get(i);
-			Character c = new Character(loc.x, loc.y, "player" + j, this);
+			
+			Character c = new Character(loc.x, loc.y, charLocs.get(i), this);
 			c.setPlayerID(i);
 			c.loadAnimations();
 			c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight(),300);
 			getPlayers().add(c);
 			characters.add(c);
+					
 		}
 	}
 
