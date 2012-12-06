@@ -30,6 +30,14 @@ public class LightningProjectile extends Projectile {
 				}
 			}
 		}
+		for(Block b: world.getBlocks()){
+			if(getHitbox().intersects(b.getHitbox())){
+				if(b.blockType == BlockType.Crate){
+					world.spawnItem(b);
+					world.playRandomSound(world.punchHit);
+				}
+			}
+		}
 	}
 
 	@Override
