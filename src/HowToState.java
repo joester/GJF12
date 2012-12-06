@@ -53,7 +53,7 @@ public class HowToState extends BasicGameState
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = new Input(delta);
     	if(input.isKeyDown(Input.KEY_SPACE)){
-    		world.getBGM().loop();
+    		
     		sbg.enterState(DisplayManager.CHARACTERSELECTSTATE);
     	}
     	/**for(int i = 0; i < controllerManager.getControllerCount(); i++){
