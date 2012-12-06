@@ -64,13 +64,13 @@ public class Item extends Entity {
 	public void use(World world)
 	{		
 		if(owner.isFacingRight){
-			float x = owner.xCoord+owner.getHitbox().getWidth()/2;
-			float y = owner.yCoord;
+			float x = owner.getHitbox().getCenterX();
+			float y = owner.getHitbox().getY();
 			world.getProjectiles().add(new Projectile(x, y,this, world));
 		}
 		else{
-			float x = owner.xCoord - projectileWidth/2;
-			float y = owner.yCoord;
+			float x = owner.getHitbox().getCenterX() - projectileWidth;
+			float y = owner.getHitbox().getY();
 			Projectile p = new Projectile(x, y, this, world);
 			world.getProjectiles().add(p);
 			p.flip();

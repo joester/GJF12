@@ -1,12 +1,7 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Timer;
-
-import org.lwjgl.input.Controller;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -75,7 +70,7 @@ public class World
 			Map.Location loc = characterSpawns.get(i);
 			Character c = new Character(loc.x, loc.y, "player" + j, this);
 			c.setPlayerID(i);
-			c.init();
+			c.loadAnimations();
 			c.renderEnt(c.image, c.image.getWidth() / 3, c.image.getHeight(),300);
 			getPlayers().add(c);
 			characters.add(c);

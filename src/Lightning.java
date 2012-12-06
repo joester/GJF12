@@ -8,14 +8,14 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Lightning extends Item
 {
-/*
- *	Damage Range Animation Speed Drop Startup, Reload  
- *	2 		1		 0.1 		No		 0.01, 0.01 
- */
-	
+	/*
+	 *	Damage Range Animation Speed Drop Startup, Reload  
+	 *	2 		1		 0.1 		No		 0.01, 0.01 
+	 */
+	public int maxProjectiles = 3;
+	public int currProjectiles;
 	public Lightning(float x, float y, String i, World world){
 		super(x, y, i, world);
-		
 		int numFrames = 4;
 		Image sheet;
 		try {
@@ -31,7 +31,7 @@ public class Lightning extends Item
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		
+
 		damage = 3;
 		projectileRange = 600;
 		projectileXVelocity = 3;
@@ -40,4 +40,26 @@ public class Lightning extends Item
 		reloadTime = 800;
 		projectileOffsets = new Rectangle(10,10,20,20);
 	}	
+
+	@Override
+	public void use(World world)
+	{		
+		if(currProjectiles < maxProjectiles){
+			if(owner.isFacingRight){
+				float x = owner.getHitbox().getCenterX();
+				float y = owner.getHitbox().getY();
+				world.getProjectiles().add(new LightningProjectile(x, y,this, world));
+			}
+			else{
+				float x = owner.getHitbox().getCenterX() - projectileWidth;
+				float y = owner.getHitbox().getY();
+				Projectile p = new LightningProjectile(x, y, this, world);
+				world.getProjectiles().add(p);
+				p.flip();
+				p.setXVelocity(-projectileXVelocity);
+			}
+			currProjectiles++;
+		}
+	}
 }
+

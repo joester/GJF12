@@ -18,7 +18,6 @@ public class Projectile extends Entity
 	protected Animation leftAnimation;
 	protected Animation rightAnimation;
 	protected Animation currentAnimation;//
-	
 
 	public Projectile(float xSpawnLocation, float ySpawnLocation, Item item, World world){
 		super(xSpawnLocation, ySpawnLocation, item.projectileImageLocation, world);

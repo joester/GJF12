@@ -48,13 +48,13 @@ public class Ice extends Item
 		float y;
 		projectileRange = 2 * owner.getHitbox().getHeight();
 		if(owner.isFacingRight){
-			x = owner.xCoord+owner.getHitbox().getWidth()/2 + 30;
-			y = owner.yCoord; //+ projectileRange;
+			x = owner.getHitbox().getCenterX() + 30;
+			y = owner.getHitbox().getY(); //+ projectileRange;
 			world.getProjectiles().add(new IceProjectile(x, y, this, world));
 		}
 		else{
-			x = owner.xCoord - projectileWidth/2 - 30;
-			y = owner.yCoord; //+ projectileRange;
+			x = owner.getHitbox().getCenterX() - projectileWidth - 30;
+			y = owner.getHitbox().getY(); //+ projectileRange;
 			Projectile p = new IceProjectile(x, y, this, world);
 			world.getProjectiles().add(p);
 			p.flip();
