@@ -17,7 +17,7 @@ public class Block extends Entity {
 		this.blockType = blockType;	
 		hitbox.setSize(BLOCKSIZE, BLOCKSIZE);
 		hitbox.setOffsets(offsets);
-		maxCrateHealth = 5;
+		maxCrateHealth = 3;
 		currentCrateHealth = maxCrateHealth;
 	
 	}
