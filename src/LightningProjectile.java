@@ -25,7 +25,7 @@ public class LightningProjectile extends Projectile {
 				{			
 					c.modifyHealth(getDamage());					
 					world.remove(this);
-					caster.currProjectiles--;
+					caster.remove(this);
 					world.punchHit.get((int) (3 * Math.random())).play();
 				}
 			}
@@ -34,6 +34,9 @@ public class LightningProjectile extends Projectile {
 			if(getHitbox().intersects(b.getHitbox())){
 				if(b.blockType == BlockType.Crate){
 					world.spawnItem(b);
+					world.remove(b);
+					world.remove(this);
+					caster.remove(this);
 					world.playRandomSound(world.punchHit);
 				}
 			}
@@ -46,7 +49,7 @@ public class LightningProjectile extends Projectile {
 		//update projectile's location
 		if(lingerDuration <= 0){
 			world.remove(this);
-			caster.currProjectiles--;
+			caster.remove(this);
 		}
 		else
 			lingerDuration -= delta;

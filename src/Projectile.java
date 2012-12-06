@@ -125,10 +125,10 @@ public class Projectile extends Entity
 					world.remove(this);
 				}
 				else if(b.blockType == BlockType.Crate){
-					b.currentCrateHealth--;
+					b.currentCrateHealth -= damage;
 					world.remove(this);
 					world.playRandomSound(world.punchHit);
-					if (b.currentCrateHealth == 0)
+					if (b.currentCrateHealth <= 0)
 					{
 						world.spawnItem(b);						
 						world.remove(this);

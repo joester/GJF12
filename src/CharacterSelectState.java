@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -383,6 +384,12 @@ public class CharacterSelectState extends BasicGameState
 			ArrayList<String> dirs = new ArrayList<String>();
 			for(Pointer p : pointers){
 				dirs.add(p.dir);
+			}
+			try {
+				world.init();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			world.setDirectories(dirs);
 			world.loadChars();

@@ -9,7 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class DisplayManager extends StateBasedGame
 {
 	
-	public static final int MAINMENUSTATE = 0;
+	public static final int TITLESTATE = 0;
 	public static final int HOWTOSTATE = 1;
 	public static final int CHARACTERSELECTSTATE = 2;
 	public static final int GAMEPLAYSTATE = 3;
@@ -50,7 +50,7 @@ public class DisplayManager extends StateBasedGame
 	public void initStatesList(GameContainer gc) throws SlickException
 	{
 		world = new World(controllerManager);
-		this.addState(new MainMenu(DisplayManager.MAINMENUSTATE, controllerManager, world));
+		this.addState(new TitleState(DisplayManager.TITLESTATE, controllerManager, world));
 		this.addState(new HowToState(DisplayManager.HOWTOSTATE, controllerManager, world));
 		this.addState(new CharacterSelectState(DisplayManager.CHARACTERSELECTSTATE, controllerManager, world));
 		this.addState(new GameplayState(DisplayManager.GAMEPLAYSTATE, controllerManager, world));

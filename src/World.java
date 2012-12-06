@@ -24,9 +24,9 @@ public class World
 	//Character sprite locations passed in through the character select state.
 	private ArrayList<String> charLocs;
 
-	private IceMap iceMap = new IceMap(this,"assets/Art/Background/bg_ice.jpg", "assets/SFX/music/Ice.wav");
-	private LavaMap lavaMap = new LavaMap(this,"assets/Art/Background/bg_volcano.jpg", "assets/SFX/music/Volcano.wav");
-	private SpaceMap spaceMap = new SpaceMap(this,"assets/Art/Background/bg_space.jpg", "assets/SFX/music/Space.wav");
+	private IceMap iceMap = new IceMap(this,"assets/Art/Backgrounds/bg_ice.png", "assets/SFX/music/Ice.wav");
+	private LavaMap lavaMap = new LavaMap(this,"assets/Art/Backgrounds/bg_lava.png", "assets/SFX/music/Volcano.wav");
+	private SpaceMap spaceMap = new SpaceMap(this,"assets/Art/Backgrounds/bg_space.png", "assets/SFX/music/Space.wav");
 	//ClockMap clockMap = new ClockMap(this,"assets/Art/Background/bg_space.jpg","assets/SFX/music/Ice.wav");
 	private ControllerManager controllerManager;
 	private Image background;
@@ -164,22 +164,13 @@ public class World
 	public void render(GameContainer gc, Graphics g) throws SlickException{
 		getBackground().draw();
 		
-		
-		
-
-
 		for(Item i : itemsOnMap)
 		{
 			i.render(gc, g);
 		}
 
 		for(Block b: blocks){
-			try{
-				b.render(gc, g);
-			}
-			catch(NullPointerException ex){
-				blocks.remove(b);
-			}
+			b.render(gc, g);
 		}
 		for(Projectile p : projectiles){
 			p.render(gc, g);

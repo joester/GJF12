@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -13,7 +15,7 @@ public class Lightning extends Item
 	 *	2 		1		 0.1 		No		 0.01, 0.01 
 	 */
 	public int maxProjectiles = 3;
-	public int currProjectiles;
+	public ArrayList<LightningProjectile> projectiles = new ArrayList<LightningProjectile>(); 
 	public Lightning(float x, float y, String i, World world){
 		super(x, y, i, world);
 		int numFrames = 4;
@@ -44,22 +46,34 @@ public class Lightning extends Item
 	@Override
 	public void use(World world)
 	{		
-		if(currProjectiles < maxProjectiles){
-			if(owner.isFacingRight){
-				float x = owner.getHitbox().getCenterX();
-				float y = owner.getHitbox().getY();
-				world.getProjectiles().add(new LightningProjectile(x, y,this, world));
+
+		if(owner.isFacingRight){
+			float x = owner.getHitbox().getCenterX();
+			float y = owner.getHitbox().getY();
+			LightningProjectile p = new LightningProjectile(x,y,this,world);
+			world.getProjectiles().add(p);
+			if(projectiles.size() == maxProjectiles){
+				world.getProjectiles().remove(projectiles.remove(0));
 			}
-			else{
-				float x = owner.getHitbox().getCenterX() - projectileWidth;
-				float y = owner.getHitbox().getY();
-				Projectile p = new LightningProjectile(x, y, this, world);
-				world.getProjectiles().add(p);
-				p.flip();
-				p.setXVelocity(-projectileXVelocity);
-			}
-			currProjectiles++;
+			projectiles.add(p);
+
 		}
+		else{
+			float x = owner.getHitbox().getCenterX() - projectileWidth;
+			float y = owner.getHitbox().getY();
+			LightningProjectile p = new LightningProjectile(x, y, this, world);
+			world.getProjectiles().add(p);
+			if(projectiles.size() == maxProjectiles){
+				world.getProjectiles().remove(projectiles.remove(0));
+			}
+			projectiles.add(p);
+			p.flip();
+			p.setXVelocity(-projectileXVelocity);
+		}
+	}
+
+	public void remove(Projectile p){
+		projectiles.remove(p);
 	}
 }
 
