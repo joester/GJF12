@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Rectangle;
 public class Entity{
 	protected Image image;
 	protected Hitbox hitbox;
+
 	protected float xCoord, yCoord;
 	//For managing size and position of hitbox relative to the image
 	//x + xposoffset = adjusts placement of hitbox relative to position

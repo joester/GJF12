@@ -8,6 +8,8 @@ import org.newdawn.slick.geom.Rectangle;
 public class Block extends Entity {	
 	public static final int BLOCKSIZE = 84;
 	protected BlockType blockType;
+	protected int maxCrateHealth;
+	protected int currentCrateHealth;
 
 	
 	public Block(int x, int y, String imageLocation, BlockType blockType, Rectangle offsets) {
@@ -15,6 +17,8 @@ public class Block extends Entity {
 		this.blockType = blockType;	
 		hitbox.setSize(BLOCKSIZE, BLOCKSIZE);
 		hitbox.setOffsets(offsets);
+		maxCrateHealth = 5;
+		currentCrateHealth = maxCrateHealth;
 	
 	}
 
