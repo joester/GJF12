@@ -498,7 +498,7 @@ public class Character extends Entity{
 				if (isMovingLeft && b.getBlockType() != BlockType.Passable){
 					if(getHitbox().getLeft() >= b.getHitbox().getRight())
 						if(getHitbox().getBottom() > b.getHitbox().getTop()){
-							xCoord = b.getHitbox().getRight() + getHitbox().getWidth()/2;
+							//xCoord = b.getHitbox().getRight() + getHitbox().getWidth()/2;
 							canMoveLeft = false;
 							isKnockedBack = false;
 						}	
@@ -524,7 +524,7 @@ public class Character extends Entity{
 				else if(isMovingRight && b.getBlockType() != BlockType.Passable){
 					if(getHitbox().getRight() <= b.getHitbox().getLeft())
 						if(getHitbox().getBottom() > b.getHitbox().getTop()){
-							xCoord = b.getHitbox().getLeft() - getHitbox().getWidth()/2;
+							//xCoord = b.getHitbox().getLeft() - getHitbox().getWidth()/2;
 							canMoveRight = false;
 							isKnockedBack = false;
 						}

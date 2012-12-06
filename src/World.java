@@ -324,8 +324,8 @@ public class World
 			Character c = getPlayers().get(i);
 			c.reset();
 			Map.Location loc = map.getCharacterSpawns().get(i);
-			c.setLocation(loc.x * MapEntity.BLOCKSIZE, loc.y * MapEntity.BLOCKSIZE);
-			c.setHitboxLocation(c.xCoord, c.yCoord);
+			c.setLocation(loc.x * MapEntity.BLOCKSIZE + MapEntity.BLOCKSIZE/2, loc.y * MapEntity.BLOCKSIZE + MapEntity.BLOCKSIZE/2);
+			c.setHitboxLocation(c.xCoord - c.hitbox.getWidth()/2,c.yCoord - c.hitbox.getHeight());
 		}
 		characters = new ArrayList<Character>(getPlayers());
 		setBackgroundImage();
