@@ -121,8 +121,8 @@ public class Entity{
 	//------------------------------------------------------------------------------//
 	
 	public void render(GameContainer gc, Graphics g) throws SlickException{
-		g.setColor(Color.white);
-		g.draw(hitbox);
+		//g.setColor(Color.white);
+		//g.draw(hitbox);
 	}
 
 	public void update(GameContainer gc, int delta) throws SlickException, InterruptedException{

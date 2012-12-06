@@ -131,19 +131,12 @@ public class Character extends Entity{
 			}
 			else{
 				if(isFacingRight){
-					punchProjectile = new PunchProjectile(getX() + hitbox.getWidth(), getY(), this, world);
-					punchProjectile.setLocation(getX() + hitbox.getWidth(),getY());
+					punchProjectile = new PunchProjectile(hitbox.getCenterX(), hitbox.getY() + 20, this, world);
 				}
 				else{
-					punchProjectile = new PunchProjectile(getX(), getY()+ hitbox.getWidth(), this, world);
-					punchProjectile.setLocation(getX() - punchProjectile.getHitbox().getWidth(),getY());
+					punchProjectile = new PunchProjectile(hitbox.getCenterX() - 40, hitbox.getY()+ 20, this, world);
 				}
 				world.getProjectiles().add(punchProjectile);	
-				for (Block b : world.getBlocks())
-				{
-
-					world.remove(punchProjectile);
-				}
 				attackCoolDown = baseAttackCoolDown;
 			}
 

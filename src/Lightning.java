@@ -37,7 +37,7 @@ public class Lightning extends Item
 		projectileXVelocity = 3;
 		dropChance = false;
 		startUpTime = .01;
-		reloadTime = 800;
+		reloadTime = 2000;
 		projectileOffsets = new Rectangle(10,10,20,20);
 	}	
 
