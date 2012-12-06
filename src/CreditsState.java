@@ -15,6 +15,7 @@ public class CreditsState extends BasicGameState{
 	private Sound BGM;
 	private Image background;
 	private World world;
+	
 	public CreditsState(int stateID, ControllerManager controllerManager, World world) {
 		this.controllerManager = controllerManager;
 		this.stateID  = stateID;
