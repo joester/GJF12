@@ -255,8 +255,13 @@ public class Character extends Entity{
 			Image[] imagelist = new Image[cols[count]];
 			int imageListTrack = 0;
 
-			if(img.equals(i[3]) || img.equals(i[8]))
+			if(img.equals(i[3]) || img.equals(i[8])){
+				if(name.substring(0,5).equals("sable")){
+					cols[count] = 7;
+				}
 				renderEnt(img, img.getWidth() / cols[count], img.getHeight(),100);
+			}
+				
 			else
 				renderEnt(img, img.getWidth() / cols[count], img.getHeight(),300);
 			if(toFlipped){
