@@ -54,6 +54,7 @@ public class Entity{
 	 * @param y	Sets y coordinate
 	 * @param world 
 	 */
+	
 	public Entity(float x, float y, World world) {
 		xCoord = x;
 		yCoord = y;

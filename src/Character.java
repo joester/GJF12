@@ -285,7 +285,7 @@ public class Character extends Entity{
 		if(currentAnimation.isStopped()){
 			currentAnimation.restart();
 		}
-		g.draw(hitbox);
+		//g.draw(hitbox);
 		super.render(gc,g);
 	}
 
@@ -584,7 +584,6 @@ public class Character extends Entity{
 		{
 			if (getHitbox().intersects(i.getHitbox()) && !hasItem)
 			{
-				System.out.println("tr");
 				pickUpItem(i);
 				getWorld().remove(i);
 			}
