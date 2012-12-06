@@ -1,0 +1,27 @@
+Player 1
+
+A, D : Select between characters
+Q : Confirm character choice
+
+W, S: Select between colors
+Q : Confirm color choice
+Q again : Deselect color choice
+
+E : Revert all choices.
+
+Each time you press Q, your choice is locked in, except in colors, where
+each second time you press deselects the color chosen
+
+Player 2
+
+J, L : Select between characters
+U : Confirm character choice
+
+I, K : Select between colors
+U : See player one
+U again : Again, see player one
+
+O : Same as player one's E
+
+If a player is hovering over a character color, the other player will not 
+be able to hover over that player color, nor select it.
