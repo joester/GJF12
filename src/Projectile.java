@@ -126,6 +126,7 @@ public class Projectile extends Entity
 				}
 				else if(b.blockType == BlockType.Crate){
 					b.currentCrateHealth--;
+					world.remove(this);
 					world.playRandomSound(world.punchHit);
 					if (b.currentCrateHealth == 0)
 					{
