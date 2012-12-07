@@ -54,20 +54,25 @@ public class GameplayState extends BasicGameState {
 		world.render(gc, g);
 		
 		g.setColor(Color.white);
-		int dist = gc.getWidth() / 8;
+		int dist = gc.getWidth() / 4;
 		uiIntervals = dist * 2;
 		
 		for(int i = 0; i < world.getNumberOfPlayers(); i ++){
+			uiImages[i].draw(dist - 168, inLine, (float).75);
 			uiImages[i].draw(dist - 84, inLine, (float).75);
+			uiImages[i].draw(dist, inLine, (float).75);
 			Character c = world.getPlayers().get(i);
-			c.currentAnimation.getCurrentFrame().draw(dist - 84, inLine, (float).75);
+			if(c.name.substring(0, 5).equals("sable"))
+				c.currentAnimation.getCurrentFrame().draw(dist - 84, inLine - 20, (float).75);
+			else
+				c.currentAnimation.getCurrentFrame().draw(dist - 84, inLine, (float).75);
 			if(c.hasItem){
 				c.item.image.draw(dist - 45, inLine + 4, (float) .9);
 			}
 			g.drawString((String)c.displayHP(),
-				dist + (uiImages[i].getWidth() * 3 / 4) - 84, inLine + 16);
+				dist + (uiImages[i].getWidth() * 3 / 4) - 64, inLine + 16);
 			g.drawString(c.wins + "/" +world.winsNeeded,
-					dist - (uiImages[i].getWidth() * 3 / 4), inLine + 16);
+					dist - (uiImages[i].getWidth()), inLine + 16);
 			dist += uiIntervals;
 		}
 	}
