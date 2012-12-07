@@ -53,11 +53,13 @@ public class WinnerDisplayState extends BasicGameState{
 
 		if(winningPlayer != null){
 			if(winningPlayer.wins >= world.winsNeeded){
-				g.drawString("Player " + (winner + 1) + " Won!", gc.getWidth()/2 - 75, gc.getHeight()/2 - 100);
+				Image victoryMessage = new Image("assets/Art/p" + (winner + 1) + "wins.png");
+				victoryMessage.draw(gc.getWidth()/2 - victoryMessage.getWidth()/2, gc.getHeight()/2 - 100);
 				g.drawString("Press Enter to Continue", gc.getWidth()/2 - 125, gc.getHeight()/2 + 100);
 			}
 			else{
-				g.drawString("Player " + (winner + 1)  + " wins!", gc.getWidth()/2 - 75, gc.getHeight()/2 - 100);
+				Image victoryMessage = new Image("assets/Art/p" + (winner + 1) + "wins.png");
+				victoryMessage.draw(gc.getWidth()/2 - victoryMessage.getWidth()/2, gc.getHeight()/2 - 100);
 				g.drawString("Press Enter to Start Next Round", gc.getWidth()/2 - 125, gc.getHeight()/2 + 100);
 			}
 		}
