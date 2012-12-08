@@ -152,8 +152,9 @@ public class CharacterSelectState extends BasicGameState
 	{
 		background.draw(0, 0);
 		g.setColor(Color.black);
-		g.drawString("So here's the story. You don't like the other person. You want to beat the crap", 200, 10);
-		g.drawString("out of them. Why? I don't know, they stole your sweet roll or something.", 200, 30);
+		/*
+		//g.drawString("So here's the story. You don't like the other person. You want to beat the crap", 200, 10);
+		//g.drawString("out of them. Why? I don't know, they stole your sweet roll or something.", 200, 30);
 		g.drawString("For player one, use A and D to choose between the many character options we have.", 200, 50);
 		g.drawString("When you've found your soul mate, press Q to confirm.", 200, 70);
 		g.drawString("Now, you get to choose from our many color options, which pop out to the side, by using W and S.", 200, 90);
@@ -163,6 +164,14 @@ public class CharacterSelectState extends BasicGameState
 		g.drawString("Then press Q. E-Z P-Z. Reselect your color, and if you want a different character, press E.", 200, 170);
 		g.drawString("For player two, I and K correspond to W and S, J and L correspond to A and D, Q and E correspond to U and O.", 200, 190);
 		g.drawString("Now if you'll excuse me, I need to go wonder where I lost control of my life. Have fun.", 200, 210);
+		*/
+		
+		g.drawString("A and D to navigate between chararacters, Q to select character", 200, 10);
+		g.drawString("W and S to navigate between colors, Q again to select the color.", 200, 30);
+		g.drawString("Q again to deselect the color if you've picked one, E to deselect your character", 200, 50);
+		g.drawString("For Player 2, J and L act as A and D for Player 1.", 200, 70);
+		g.drawString("U acts as Q for Player One, and O acts as E for Player One", 200, 90);
+		
 		for(Thumbnail nail : chars){
 			nail.draw(nail.xPos, nail.yPos, nail.scale);
 			if(nail.isSelected){
